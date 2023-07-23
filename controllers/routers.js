@@ -1,13 +1,29 @@
 const { response } = require('express');
- 
+const pool = require('../database');
+
 
 const homeGet = (req, res = response) => {
-    console.logo('get home')
+    res.json('home')
 }
 const loginGet = (req, res = response) => {
-    console.log('get login')
+    res.json('login')
 }
+const ping = async (req, res = response) => {
+
+    try {
+        const query = `SELECT * FROM usuarios`;
+        const res = await pool.query(query);
+        console.log(res);
+        return true;
+    } catch (err) {
+        console.error(err);
+    }
+
+}
+
 module.exports = {
     homeGet,
     loginGet,
+    ping
+    
 }

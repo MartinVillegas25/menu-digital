@@ -1,12 +1,14 @@
 const { Router} = require('express');
-const { homeGet, loginGet, ping, add } = require('../controllers/routers');
+const { homeGet, loginGet, loginUsuario } = require('../controllers/routers');
+const suscribirse = require('../controllers/pago');
 const router = Router();
 
 
 
 router.get('/', homeGet);
 router.get('/login', loginGet);
-router.get('/ping', ping);
+router.post('/login', loginUsuario);
+router.post('/suscribirse', suscribirse)
 
 
 module.exports = router;

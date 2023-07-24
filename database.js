@@ -5,10 +5,10 @@ const mysql = require('mysql2/promise');
 
 
 const config = {
-    host: 'localhost',
-    user: 'root',
-    password: 'Brenda1310!!',
-    database: 'menudb',
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
 }
 
 const pool = mysql.createPool(config);

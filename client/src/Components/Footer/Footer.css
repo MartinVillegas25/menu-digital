@@ -1,0 +1,41 @@
+.footer {
+	margin-top: 50px;
+	display: flex;
+	justify-content: center;
+}
+
+.line {
+	border-top: 1px solid white;
+	height: 2px;
+	max-width: 800px;
+	padding: 0;
+	margin: 20px auto 0 auto;
+	margin-top: 50px;
+}
+
+.footer-container {
+	display: flex;
+}
+
+.footer-links a {
+	margin: 10px;
+	color: white;
+}
+
+.footer-links h3 {
+	font-size: 20px;
+	font-weight: 400;
+}
+
+.footer-socials a {
+	font-size: 40px;
+	color: white;
+	margin-left: 40px;
+}
+
+.footer-links a:hover {
+	color: orange;
+}
+.footer-socials a :hover {
+	color: orange;
+}

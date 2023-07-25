@@ -1,9 +1,19 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import './NavBar.css';
+import LoginModal from '../LoginModal/LoginModal';
+
 //barra de navegacion en la parte superior de la web
 export default function NavBar() {
 	//manejo de estado de la barra de navegacion
 	const [navbar, setNavbar] = useState(false);
+	const [loginOpen, setLoginOpen] = useState(false);
+	const handleOpenLogin = () => {
+		setLoginOpen(true);
+	};
+	const handleCloseLogin = () => {
+		setLoginOpen(false);
+	};
 
 	return (
 		<nav className="navbar">
@@ -11,8 +21,9 @@ export default function NavBar() {
 				<div>
 					<div className="navbar-brand">
 						<div className="navbar-title">
-							<h2>Nombre </h2>
-							<h2>compañia</h2>
+							<h2>
+								Nombre <span>compañia</span>{' '}
+							</h2>
 						</div>
 
 						<div className="navbar-toggle">
@@ -72,12 +83,23 @@ export default function NavBar() {
 							</li>
 						</ul>
 						<div className="navbar-btns">
-							<button className="navbar-btn">Iniciar sesión</button>
+							<button className="navbar-btn" onClick={handleOpenLogin}>
+								Iniciar sesión
+							</button>
 							<button className="navbar-btn">Registrarse</button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<article
+				className={
+					loginOpen === true ? `modal modal-is-open` : `modal modal-is-close`
+				}
+			>
+				<div className="modal-container">
+					<LoginModal handleCloseLogin={handleCloseLogin} />
+				</div>
+			</article>
 		</nav>
 	);
 }

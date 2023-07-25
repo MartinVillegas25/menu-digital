@@ -5,8 +5,8 @@ export default function Subscription() {
 	return (
 		<div className="subscription">
 			<h2>
-				Suscribete ahora y potencia tu negocio con nuestra innovadora plataforma
-				gastronomica
+				Suscribete ahora y <span>potencia tu negocio</span> con nuestra
+				innovadora plataforma gastronomica
 			</h2>
 			<div className="subscription-img">
 				<IoRestaurantSharp className="icon" />

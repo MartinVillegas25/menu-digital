@@ -9,7 +9,10 @@ export default function AboutUs() {
 			<div className="about-container1">
 				<div className="about-text1">
 					<div className="about-title1">
-						<h2>Un equipo apasionado para impulsar tu exito gastronómico</h2>
+						<h2>
+							Un equipo apasionado para impulsar tu{' '}
+							<span>exito gastronómico</span>
+						</h2>
 					</div>
 					<p>
 						En NombreSistema, nos enorgullecemos de ofrecerte la solución
@@ -29,7 +32,9 @@ export default function AboutUs() {
 				</div>
 				<div className="about-text2">
 					<div className="about-title2">
-						<h2>¿Qué nos hace únicos?</h2>
+						<h2>
+							¿Qué nos hace<span>únicos?</span>
+						</h2>
 					</div>
 					<p>
 						La creación de un menu digital didáctico, diseñado para simplificar

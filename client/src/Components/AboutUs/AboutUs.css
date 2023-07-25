@@ -27,6 +27,9 @@
 .about-title1 {
 	font-size: 25px;
 	margin: 0;
+	color: white;
+}
+span {
 	color: orange;
 }
 .about-text1 p {
@@ -40,9 +43,8 @@
 }
 
 .about-title2 {
-	display: flex;
 	font-size: 25px;
-	color: orange;
+	color: white;
 }
 
 .about-text2 {
@@ -73,10 +75,9 @@
 
 .about-img2 {
 	position: absolute;
-	z-index: 10;
+	z-index: -1;
 }
 .about-img3 {
 	margin-left: 150px;
 	margin-top: 150px;
-	z-index: 30;
 }

@@ -18,6 +18,11 @@
 html {
 	scroll-behavior: smooth;
 }
+
+input {
+	background-color: rgb(210, 207, 207);
+	border: solid 1px orange;
+}
 /*
 a {
 	font-weight: 500;

@@ -61,3 +61,28 @@
 	transition-property: box-shadow;
 	transition-duration: 1s;
 }
+
+.modalSubs {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-height: 100vh;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.modalSubs-is-open {
+	display: flex;
+	z-index: 900;
+}
+
+.modalSubs-container {
+	min-width: 320px;
+	max-width: 600px;
+	min-height: 200px;
+	max-height: 600px;
+	z-index: 900;
+}

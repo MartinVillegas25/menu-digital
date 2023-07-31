@@ -26,7 +26,7 @@ export default function LoginModal({ handleCloseLogin }) {
 						<div>
 							<input type="checkbox" /> <h3>Recordarme</h3>
 						</div>
-						<a href="">Olvidaste la contrseña?</a>
+						<a href="">Olvidaste la contraseña?</a>
 					</div>
 					<button className="login-btn">Iniciar sesión</button>
 					<div className="login-to-register">

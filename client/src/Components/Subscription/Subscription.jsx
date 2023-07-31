@@ -1,7 +1,18 @@
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
+import SubsbribeModal from '../SubscibeModal/SubscribeModal.jsx';
 import './Subscription.css';
 import { IoRestaurantSharp } from 'react-icons/io5';
 //Vista de imagen para comenzar la suscripcion al servicio
 export default function Subscription() {
+	const [subscribeOpen, setSubscribeOpen] = useState(false);
+	const handleOpenSubscribe = () => {
+		setSubscribeOpen(true);
+	};
+	const handleCloseSubscribe = () => {
+		setSubscribeOpen(false);
+	};
+
 	return (
 		<div className="subscription">
 			<h2>
@@ -20,10 +31,22 @@ export default function Subscription() {
 					<li>5. Soporte tecnico personalizado</li>
 					<li>6. Experiencia culinaria mejorada</li>
 				</ul>
-				<a href="">
-					<button className="subs-btn">Comprar ahora</button>
-				</a>
+
+				<button className="subs-btn" onClick={handleOpenSubscribe}>
+					Comprar ahora
+				</button>
 			</div>
+			<article
+				className={
+					subscribeOpen === true
+						? `modalSubs modalSubs-is-open`
+						: `modalSubs modalSubs-is-close`
+				}
+			>
+				<div className="modalSubs-container">
+					<SubsbribeModal handleCloseSuscribe={handleCloseSubscribe} />
+				</div>
+			</article>
 		</div>
 	);
 }

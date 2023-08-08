@@ -7,9 +7,9 @@ class Server {
 
     constructor(){
         this.app = express();
+        this.middelewares();
         this.router();
         this.port = process.env.PORT ;
-        this.middelewares();
     }
 
     router(){
@@ -24,13 +24,13 @@ class Server {
     }
     middelewares(){
 
-       
+        //para obtener datos del front en json
+        this.app.use(express.json());
+        
         //directorio static
         this.app.use(express.static('public'));
         this.app.use(cors());
 
-        //para obtener datos del front en json
-        this.app.use(express.json());
     }
 
     

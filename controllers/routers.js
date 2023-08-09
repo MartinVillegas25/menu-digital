@@ -22,14 +22,23 @@ const loginUsuario = async (req, res = response) => {
     const { email, password } = req.body;
     
 
-    const query = 'SELECT * FROM usuarios WHERE email = email';
+    const query = 'SELECT * FROM usuarios WHERE email = ?';
    
     try {
-        const result = await pool.query(query);
-            if (result.length === 0){
+        const result = await pool.query(query, [email]);
+        console.log(result[0].length)
+            if (result[0].length === 0){
                 return res.status(404).json({ message: 'Usuario no encontrado' });
             }
         const user = result[0][0];
+        console.log(user)
+
+         //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
+         if(user.status === 0){
+            res.status(404).send({
+                message: 'El usuario a sido suspendido por falta de pago, por favor regularice su situacion y contancte al administrador'
+            })
+        }
 
         //validad clave
         const validPassword = bcrypt.compareSync(password, user.password);
@@ -71,7 +80,7 @@ const postUsuario = async(req, res = response) => {
         }
 
 
-       let {   img, name, storeName, email, password, address, cp, basic, standard, premium, date } = req.body
+       let { img, name, storeName, email, password, address, cp, plan, date } = req.body
       
 
        //verificar si el correo existe 
@@ -94,10 +103,30 @@ const postUsuario = async(req, res = response) => {
         date = `${dia}/ ${mes}/ ${year}`;
        //guardar en base de datos
 
-       const query = `INSERT INTO usuarios (img, name, storeName, email, password, address, cp, basic, standard, premium, date ) VALUES (?, ?, ?, ?, ? , ? , ? , ?, ?, ?, ?)`;
+       const query = `INSERT INTO usuarios (img, name, storeName, email, password, address, cp, plan, date ) VALUES (?, ?, ?, ?, ? , ? , ? , ?, ?)`;
+       const queryresult = 'SELECT * FROM usuarios WHERE email = ? AND storeName = ?';
        try {
-             const result = await pool.query(query, [ img, name, storeName, email, password, address, cp, basic, standard, premium, date]);
-             res.json('usuario creado');
+             const result = await pool.query(query, [ img, name, storeName, email, password, address, cp, plan , date]);
+             const resultResult = await pool.query(queryresult, [ email, storeName])
+             console.log(resultResult);
+             const planElegido = resultResult[0][0].plan
+             console.log(planElegido);
+
+             switch (planElegido) {
+                case "basic":
+                    res.send('usuario creado, pagar plan basic')
+                    break;
+                case "standard":
+                     res.send('usuario creado, pagar plan standard')
+                    break;
+                case "premium":
+                    res.send('usuario creado, pagar plan premium')
+                    break;   
+             
+                default:
+                    break;
+             }
+            
              
              return;
        } catch (error) {
@@ -143,11 +172,96 @@ const dashboardLocal = async(req, res) => {
     }
 }
 
+//ruta para suspender cuenta en dashboard del admin
+
+const suspenderCuenta = async(req,res)=>{
+    const {storeName} =  req.body;
+
+    const query = 'UPDATE usuarios SET status = false WHERE storeName = ?';
+
+    try {
+        const result = await pool.query(query, [storeName]);
+
+        if (result.length === 0){
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        else{
+
+            
+            res.send(`el cliente ${storeName} a sido suspendido`);
+        }
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('error en la suspencion de cuenta')
+    }
+}
+
+//ruta para activar cuenta en dashboard del admin
+
+const activarCuenta = async(req,res)=>{
+    const {storeName} =  req.body;
+
+    const query = 'UPDATE usuarios SET status = true WHERE storeName = ?';
+
+    try {
+        const result = await pool.query(query, [storeName]);
+
+        if (result.length === 0){
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        else{
+
+            
+            res.send(`el cliente ${storeName} a sido activado`);
+        }
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('error en la suspencion de cuenta')
+    }
+}
+
+//actualizar clave
+
+const newPassword = async (req, res)=>{
+    const {email, password} = req.body;
+
+    const query = 'UPDATE usuarios SET password = ? WHERE email = ?';
+
+    try {
+        const result = await pool.query(query, [email, password]);
+
+        if (result.length === 0){
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        else{
+
+            
+            res.send(`la clave del usuario ${result[0][0].storeName} a sido actualizada`);
+        }
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('error en la suspencion de cuenta')
+    }
+
+}
+
 module.exports = {
-    homeGet,
-    loginUsuario,
-    dashboardLocal,
-    postUsuario,
-    mostrar
-    
+homeGet,
+loginUsuario,
+dashboardLocal,
+postUsuario,
+mostrar,
+suspenderCuenta,
+activarCuenta,
+newPassword
+
 }

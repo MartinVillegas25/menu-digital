@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 const { google } = require("googleapis");
+const pool = require('../database');
+const { response } = require('express');
 
 
 
@@ -48,28 +50,24 @@ const sendTestEmail = async (email) => {
 
 
 
-  const recuperarClave = async (req, res) => {
+  const recuperarClave = async (req, res = response) => {
     const { email } = req.body;
-    const query = 'SELECT * FROM users WHERE email = ?';
-    connection.query(query, [email], (err, results) => {
-      if (err) {
-        console.log('Error al buscar el correo en la base de datos:', err);
-        return res.status(500).json({ message: 'Error al buscar el correo en la base de datos.' });
-      }
-  
-      if (results.length === 0) {
-       
-        return res.status(404).json({ message: 'Correo electrónico no encontrado.' });
-      }
-      if(results.length > 0) {
-        try {
-          sendTestEmail(email);
-        } catch (error) {
-          console.log(error);
-          res.sent('error al mandar mail')
-        }
-      }
-    });
+    const query = 'SELECT * FROM usuarios WHERE email = ?';
+
+    try {
+        const emailRecuperar = await pool.query(query, [email]);
+        console.log(emailRecuperar)
+
+        const mail = emailRecuperar[0][0];
+      if (emailRecuperar.length === 0) {    
+            return res.status(404).json({ message: 'Correo electrónico no encontrado.' });
+            }
+        sendTestEmail(mail); 
+    } catch (error) {
+      console.log(error);
+          res.status(500).json('error al mandar mail')
+    }
+
   }
 
   module.exports = recuperarClave;

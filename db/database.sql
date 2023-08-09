@@ -6,16 +6,15 @@ USE menudb;
 
 CREATE TABLE usuarios (
   id INT(11) NOT NULL AUTO_INCREMENT,
-  img VARCHAR(100),
+  img VARCHAR(100) NULL,
   name VARCHAR(100) NOT NULL,
   storeName VARCHAR(100) NOT NULL,
   email VARCHAR(40) NOT NULL,
   password VARCHAR(200) NOT NULL,
   address VARCHAR(50) NOT NULL,
   cp INT(7) NOT NULL,
-  basic boolean,
-  standard boolean,
-  premium boolean,
+  plan VARCHAR(15) NOT NULL,
+  status boolean DEFAULT TRUE NULL,
   date VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
 );

@@ -1,6 +1,6 @@
 
 const { Router} = require('express');
-const { homeGet, loginUsuario, postSubcripcion, postUsuario, mostrar, dashboardLocal } = require('../controllers/routers');
+const { homeGet, loginUsuario, postSubcripcion, postUsuario, mostrar, dashboardLocal, suspenderCuenta, activarCuenta, newPassword } = require('../controllers/routers');
 const suscribirse = require('../controllers/pago');
 const { check } = require('express-validator');
 const recuperarClave = require('../controllers/nodemailer');
@@ -9,8 +9,8 @@ const router = Router();
 
 //rutas get
 router.get('/', homeGet);
-router.get('/mostrar', mostrar); //Mostrar usuarios formato Json
 router.get('/dashboard/:storeName', dashboardLocal);
+
 
 
 //rutas post
@@ -25,7 +25,17 @@ router.post('/subcripcion',[
     check('name', 'el nombre es obligatorio').not().isEmpty(),
     check('storeName', 'el nombre de la tienda es obligatorio').not().isEmpty(),
 ] ,postUsuario)
-router.post('save-password', recuperarClave); 
+router.post('/save-password', recuperarClave); 
+
+//ruta actualizacion clave
+router.put('/new-password', newPassword);
+
+//rotas dashboard adminstrador
+
+router.put('/suspender', suspenderCuenta);
+router.put('/activar', activarCuenta)
+router.get('/mostrar', mostrar); //Mostrar usuarios formato Json
+
 
 
 module.exports = router;

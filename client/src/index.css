@@ -21,7 +21,7 @@ html {
 
 input {
 	background-color: rgb(210, 207, 207);
-	border: solid 1px orange;
+	border: none;
 }
 /*
 a {

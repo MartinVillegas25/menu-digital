@@ -1,0 +1,61 @@
+.admin-side-menu {
+	height: auto;
+	background-color: orange;
+	border-radius: 0px 50px 0 0px;
+	color: #000;
+}
+
+.admin-side-menu h1 {
+	margin-top: 20px;
+	margin-bottom: 40px;
+	font-size: 25px;
+	font-weight: bolder;
+}
+.admin-side-link {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	margin-top: 40px;
+}
+
+.admin-side-link a:hover {
+	color: white;
+}
+
+.admin-side-link a {
+	font-size: 25px;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+	margin-right: 30px;
+}
+
+.admin-side-link :nth-child(1) {
+	font-size: 30px;
+	color: white;
+	margin-right: 10px;
+}
+
+.admin-side-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: start;
+	font-size: 20px;
+	padding-left: 20px;
+}
+
+.admin-side-img img {
+	border: black 2px solid;
+	width: 160px;
+	height: 160px;
+	border-radius: 100%;
+}
+
+.admin-side-img {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}

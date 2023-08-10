@@ -1,0 +1,123 @@
+.admin-clients-table {
+	max-height: 850px;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+}
+
+.admin-clients-table-clients h2 {
+	font-size: 20px;
+	letter-spacing: 3px;
+	margin-bottom: 20px;
+}
+.admin-clients-table-clients h1 {
+	font-size: 50px;
+	letter-spacing: 10px;
+	margin-bottom: 0;
+}
+.clients-table {
+	min-width: 600px;
+	width: 100%;
+	text-align: center;
+}
+.clients-table th {
+	font-size: 20px;
+	padding-bottom: 30px;
+	margin: 30px;
+	color: orange;
+}
+
+.clients-table thead {
+	position: sticky;
+	top: 0;
+	background-color: black;
+}
+
+.clients-table-body td {
+	padding-bottom: 20px;
+}
+
+.table-top {
+	width: 600px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.table-top h3 {
+	font-size: 25px;
+}
+
+.clients-table-container {
+	overflow-y: scroll;
+}
+
+.check-icon {
+	font-size: 25px;
+	color: rgb(7, 204, 7);
+}
+.X-icon {
+	font-size: 25px;
+	color: red;
+}
+
+.state-reference {
+	display: flex;
+	justify-content: space-between;
+}
+
+.state-reference :nth-child(1) {
+	display: flex;
+	align-items: center;
+}
+
+.state-reference :nth-child(2) {
+	display: flex;
+	align-items: center;
+	margin-right: 80px;
+}
+.mail-icon {
+	font-size: 25px;
+}
+
+.mail-icon:hover {
+	color: orange;
+	scale: 1.2;
+}
+
+/* Firefox */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #d9a700 #8b9192;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+	width: 4px;
+	width: 4px;
+}
+*::-webkit-scrollbar-track {
+	border-radius: 11px;
+	background-color: #8b9192;
+}
+
+*::-webkit-scrollbar-track:hover {
+	background-color: #8b9192;
+}
+
+*::-webkit-scrollbar-track:active {
+	background-color: #8b9192;
+}
+
+*::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	background-color: #d9a700;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background-color: #d9a700;
+}
+
+*::-webkit-scrollbar-thumb:active {
+	background-color: #d9a700;
+}

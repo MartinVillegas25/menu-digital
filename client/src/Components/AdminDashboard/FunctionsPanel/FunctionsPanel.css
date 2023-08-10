@@ -1,0 +1,33 @@
+.admin-functions-panel {
+	border: orange solid 2px;
+	background-color: orange;
+	color: #000;
+	margin-top: 200px;
+	width: 250px;
+	height: 500px;
+	border-radius: 20px;
+}
+
+.admin-functions-panel-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.admin-functions-btn {
+	width: 150px;
+	height: 50px;
+	background-color: rgb(238, 197, 121);
+	color: #000;
+	font-weight: bold;
+	font-size: 11px;
+	border: none;
+	border-radius: 20px;
+	margin-top: 40px;
+}
+
+.admin-functions-btn:hover {
+	background-color: white;
+	cursor: pointer;
+}

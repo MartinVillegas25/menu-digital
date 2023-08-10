@@ -1,46 +1,22 @@
 import './App.css';
-
-import NavBar from './Components/NavBar/NavBar';
-import FirstView from './Components/FirstView/FirstView';
-import AboutUs from './Components/AboutUs/AboutUs';
-import AppDetails from './Components/AppDetails/AppDetails';
-import Testimonials from './Components/Testimonials/Testimonials';
-import Subscription from './Components/Subscription/Subscription';
-import Footer from './Components/Footer/Footer';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import MainPage from './Components/MainPage';
+import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 
 function App() {
 	return (
-		<div className="App">
-			<NavBar />
+		<BrowserRouter>
+			<div>
+				<Routes>
+					{/* Ruta de pagina principal  */}
+					<Route path="/" element={<MainPage />} />
+					{/* Rutas del panel de administrador */}
 
-			<section>
-				<FirstView />
-			</section>
-			<section id="nosotros">
-				<AboutUs />
-			</section>
-			<section>
-				<AppDetails />
-			</section>
-			<section id="testimonios">
-				<Testimonials />
-			</section>
-			<section id="suscripcion">
-				<Subscription />
-			</section>
-			<section>
-				<Footer />
-			</section>
-		</div>
+					<Route path="/admin/panel" element={<AdminDashboard />} />
+				</Routes>
+			</div>
+		</BrowserRouter>
 	);
 }
-
-/* <NavBar />
-			<FirstView />
-			<AboutUs />
-			<AppDetails />
-			<Testimonials />
-			<Subscription />
-			<Footer /> */
 
 export default App;

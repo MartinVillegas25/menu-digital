@@ -1,15 +1,28 @@
 
 const { Router} = require('express');
-const { homeGet, loginUsuario, postSubcripcion, postUsuario, mostrar, dashboardLocal, suspenderCuenta, activarCuenta, newPassword } = require('../controllers/routers');
+const { homeGet, 
+    loginUsuario, 
+    postSubcripcion, 
+    postUsuario, 
+    mostrar, 
+    dashboardLocal, 
+    suspenderCuenta, 
+    activarCuenta, 
+    newPassword,
+    actualizarDatos,
+    sesionEnd} = require('../controllers/routers');
 const suscribirse = require('../controllers/pago');
 const { check } = require('express-validator');
 const recuperarClave = require('../controllers/nodemailer');
+const validarJWT = require('../middlerwares/validar-jwt');
 const router = Router();
 
 
 //rutas get
 router.get('/', homeGet);
-router.get('/dashboard/:storeName', dashboardLocal);
+router.get('/dashboard/:storeName',[
+    validarJWT
+], dashboardLocal);
 
 
 
@@ -29,6 +42,12 @@ router.post('/save-password', recuperarClave);
 
 //ruta actualizacion clave
 router.put('/new-password', newPassword);
+//actualizacion de datos
+router.put('/actualizar',[
+    validarJWT
+], actualizarDatos)
+
+
 
 //rotas dashboard adminstrador
 

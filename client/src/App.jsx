@@ -1,7 +1,9 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MainPage from './Components/MainPage';
-import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
+import AdminDashboardHome from './Components/AdminDashboard/AdminDashboardHome';
+import AdminDashboardClients from './Components/AdminDashboard/AdminDashboardClients';
+import AdminDashboardConfig from './Components/AdminDashboard/AdminDashboardConfig';
 
 function App() {
 	return (
@@ -12,7 +14,12 @@ function App() {
 					<Route path="/" element={<MainPage />} />
 					{/* Rutas del panel de administrador */}
 
-					<Route path="/admin/panel" element={<AdminDashboard />} />
+					<Route path="/admin/panel" element={<AdminDashboardHome />} />
+					<Route path="/admin/clientes" element={<AdminDashboardClients />} />
+					<Route
+						path="/admin/configuracion"
+						element={<AdminDashboardConfig />}
+					/>
 				</Routes>
 			</div>
 		</BrowserRouter>

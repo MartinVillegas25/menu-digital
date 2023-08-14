@@ -1,7 +1,8 @@
-import { LOG_USER } from './actions';
+import { LOG_USER, GET_ALL_CLIENTS } from './actions';
 
 let initialState = {
-	actualUser: {}
+	actualUser: {},
+	allUsers: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -10,6 +11,11 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				actualUser: action.payload
+			};
+		case GET_ALL_CLIENTS:
+			return {
+				...state,
+				allUsers: action.payload
 			};
 		default:
 			return state;

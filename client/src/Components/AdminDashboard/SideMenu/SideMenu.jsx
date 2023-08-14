@@ -16,23 +16,23 @@ export default function SideMenu() {
 				</div>
 				<div className="admin-side-link">
 					<FaMoneyBillWave />
-					<a href="">Ganancias</a>
+					<a href="/admin/ganancias">Ganancias</a>
 				</div>
 				<div className="admin-side-link">
 					<BsFillPersonFill />
-					<a href="">Clientes</a>
+					<a href="/admin/clientes">Clientes</a>
 				</div>
 				<div className="admin-side-link">
 					<IoMdSettings />
-					<a href="">Configuracion</a>
+					<a href="/admin/configuracion">Configuracion</a>
 				</div>
 				<div className="admin-side-link">
 					<VscSignOut />
-					<button>Salir</button>
+					<a href="">Salir</a>
 				</div>
 				<div className="admin-side-img">
 					<img src={CEO} alt="" />
-					<button>Cambiar foto</button>
+					<p>Cambiar foto</p>
 				</div>
 			</div>
 		</aside>

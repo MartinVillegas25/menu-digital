@@ -37,3 +37,17 @@
 	grid-auto-flow: column;
 	grid-template-columns: max-content;
 }
+.admin-menu-title {
+	position: absolute;
+	height: 52px;
+	flex-shrink: 0;
+	left: 387px;
+	top: 3%;
+	color: #fff;
+	text-align: center;
+	font-family: Outfit;
+	font-size: 32px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}

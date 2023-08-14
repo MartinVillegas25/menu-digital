@@ -4,6 +4,7 @@ import './AdminMenu.css';
 import CEO from '../../../assets/CEO.jpg';
 import { useState } from 'react';
 
+// eslint-disable-next-line react/prop-types
 export default function AdminMenu() {
 	const [open, setOpen] = useState(false);
 
@@ -12,23 +13,25 @@ export default function AdminMenu() {
 	};
 
 	return (
-		<aside className="admin-menu">
+		<nav className="admin-menu">
 			<div className="admin-menu-container">
-				<IoNotifications className="admin-menu-notification" />
-				<img src={CEO} alt="" className="admin-menu-img" />
 				<div className="admin-menu-panel">
+					<IoNotifications className="admin-menu-notification" />
+					<img src={CEO} alt="" className="admin-menu-img" />
 					<div>
-						<h3>Mi cuenta</h3>
-						<button onClick={handleClick}>
-							<RxTriangleDown />
-						</button>
-					</div>
-					<div className={`${open ? 'panel-open' : 'panel-closed'}`}>
-						<a href="">Mi perfil</a>
-						<button>Cerrar sesion</button>
+						<div>
+							<h3>Mi cuenta</h3>
+							<button onClick={handleClick}>
+								<RxTriangleDown />
+							</button>
+						</div>
+						<div className={`${open ? 'panel-open' : 'panel-closed'}`}>
+							<a href="">Mi perfil</a>
+							<button>Cerrar sesion</button>
+						</div>
 					</div>
 				</div>
 			</div>
-		</aside>
+		</nav>
 	);
 }

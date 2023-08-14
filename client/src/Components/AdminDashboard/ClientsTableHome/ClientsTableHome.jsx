@@ -1,22 +1,39 @@
-import './ClientsTable.css';
+import './ClientsTableHome.css';
 import { BsCheckCircle } from 'react-icons/bs';
 import { BsXCircle } from 'react-icons/bs';
 import { VscMail } from 'react-icons/vsc';
-import { clientes } from '../../../assets/clientes.js';
+import vector from '../../../assets/vector-tabla.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getAllClients } from '../../../redux/actions';
 
-export default function ClientsTable() {
+export default function ClientsTableHome() {
+	const dispatch = useDispatch();
+	const allUsers = useSelector((state) => state.allUsers);
+	useEffect(() => {
+		dispatch(getAllClients());
+	}, []);
+
 	return (
 		<main className="admin-clients-table">
 			<div className="admin-clients-table-clients">
-				<h1>{clientes.length}</h1>
-				<h2>Total Clientes</h2>
+				<div>
+					<h1>{allUsers?.length}</h1>
+					<h2>Total Clientes</h2>
+				</div>
+				<div>
+					<img src={vector} alt="" className="table-vector" />
+				</div>
 			</div>
+			<p>
+				<span>+12% </span>que el mes pasado
+			</p>
 
-			<div className="table-top">
-				<h3>Ultimos clientes</h3>
-				<p>Ver todos</p>
-			</div>
 			<div className="clients-table-container">
+				<div className="table-top">
+					<h3>Ultimos clientes</h3>
+					<a href="/admin/clientes">Ver todos</a>
+				</div>
 				<div>
 					<table className="clients-table">
 						<thead className="clients-table-head">
@@ -29,13 +46,13 @@ export default function ClientsTable() {
 							</tr>
 						</thead>
 						<tbody className="clients-table-body">
-							{clientes?.map((c) => {
+							{allUsers?.map((c) => {
 								return (
 									<tr key={c.id}>
-										<td>{c.nombre}</td>
-										<td>{c.fecha_alta}</td>
-										<td>{c.tipo_plan}</td>
-										{c.estado === true ? (
+										<td>{c.storeName}</td>
+										<td>{c.date}</td>
+										<td>{c.plan}</td>
+										{c.status === 1 ? (
 											<td>
 												<BsCheckCircle className="check-icon" />
 											</td>

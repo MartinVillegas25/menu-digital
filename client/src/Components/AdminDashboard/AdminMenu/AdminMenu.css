@@ -1,10 +1,12 @@
 .admin-menu {
 	position: absolute;
-	top: 10px;
-	right: 5px;
+	height: 52px;
+	flex-shrink: 0;
+	right: 5%;
+	top: 5%;
 }
 
-.admin-menu-container {
+.admin-menu-panel {
 	display: flex;
 }
 
@@ -15,7 +17,6 @@
 	font-size: 45px;
 	color: orange;
 	margin-top: 10px;
-	margin-right: 20px;
 }
 
 .admin-menu-img {

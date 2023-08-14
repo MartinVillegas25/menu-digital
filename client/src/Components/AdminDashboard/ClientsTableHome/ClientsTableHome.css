@@ -1,31 +1,59 @@
 .admin-clients-table {
-	max-height: 850px;
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
 	align-items: center;
 }
 
+.admin-clients-table-clients {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .admin-clients-table-clients h2 {
-	font-size: 20px;
-	letter-spacing: 3px;
-	margin-bottom: 20px;
+	color: #fff;
+	text-align: center;
+	font-family: Outfit;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	margin-top: 0;
 }
 .admin-clients-table-clients h1 {
-	font-size: 50px;
-	letter-spacing: 10px;
+	color: #fff;
+	font-family: Outfit;
+	font-size: 100px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
 	margin-bottom: 0;
 }
+
+.table-vector {
+	width: 75%;
+	height: 80.5px;
+}
 .clients-table {
-	min-width: 600px;
 	width: 100%;
-	text-align: center;
+	min-width: 798px;
+
+	flex-shrink: 0;
+}
+.clients-table-container {
+	height: 493px;
+	flex-shrink: 0;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	overflow-wrap: normal;
+	padding-right: 20px;
 }
 .clients-table th {
-	font-size: 20px;
-	padding-bottom: 30px;
-	margin: 30px;
-	color: orange;
+	text-align: center;
+	font-size: 24px;
+	line-height: normal;
+	text-align: center;
 }
 
 .clients-table thead {
@@ -35,21 +63,24 @@
 }
 
 .clients-table-body td {
-	padding-bottom: 20px;
+	color: #fff;
+	font-family: Outfit;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	text-align: center;
+	padding-bottom: 22px;
 }
 
 .table-top {
-	width: 600px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .table-top h3 {
 	font-size: 25px;
-}
-
-.clients-table-container {
-	overflow-y: scroll;
 }
 
 .check-icon {

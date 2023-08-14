@@ -2,6 +2,7 @@
     const bcrypt = require('bcryptjs');
 const pool = require('../database');
 const { validationResult } = require('express-validator');
+const generarJWT = require('../middlerwares/generar-jwt');
 
 //ruta get del home
 const homeGet = (req, res = response) => {
@@ -42,16 +43,24 @@ const loginUsuario = async (req, res = response) => {
 
         //validad clave
         const validPassword = bcrypt.compareSync(password, user.password);
+        const token = await generarJWT(user.storeName);
             
         if (validPassword) {
             switch (user.email) {
                 case 'example@example.com':
-                    return res.json({ message: 'Inicio de sesión exitoso admin' });
-                //redireccion al dashboard del admin
+                    res.redirect(`/dashboard/${user.email}`);
+                    console.log({ 
+                        message: 'Inicio de sesión exitoso admin',
+                        token
+                 });
                     break;
             
                 default:
-                    return res.json({ message: 'Inicio de sesión exitoso local' });
+                    res.redirect(`/dashboard/${user.email}`);
+                    console.log({ 
+                        message: 'Inicio de sesión exitoso local',
+                        token
+                     });
                     //redireccion al dashboard del local
                     break;
             }
@@ -69,6 +78,7 @@ const loginUsuario = async (req, res = response) => {
    
 
 }
+
 
 //ruta para guardar un nuevo usuario
 
@@ -89,6 +99,14 @@ const postUsuario = async(req, res = response) => {
        
        if (result[0][0].count>0){
            return res.status(404).json({ message: `El usuario con el email: ${email} ya esta registrado`  });
+       }
+
+       //verificar si el nombre local existe
+       const searchName = 'SELECT COUNT(*) AS count FROM usuarios WHERE storeName = ?';
+       const result2 = await pool.query(searchName, [storeName]);
+       
+       if (result2[0][0].count>0){
+           return res.status(404).json({ message: `El usuario con el email: ${storeName} ya esta registrado, eliga otro nombre`  });
        }
 
        //encriptar password
@@ -153,16 +171,17 @@ const mostrar = async(req, res) => {
 
 //ruta get para el dashboard local
 const dashboardLocal = async(req, res) => {
-    let storeName = req.params.storeName
+    let email = req.params.storeName
 
-    const query =  'SELECT * FROM usuarios WHERE storeName = storeName';
+
+    const query =  'SELECT * FROM usuarios WHERE storeName = ?';
     try {
-        const result = await pool.query(query);
+        const result = await pool.query(query, [email]);
         if (result.length === 0){
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
         else{
-            res.send(`dashboard de ${storeName}`);
+            res.status(200).send(`dashboard de ${email}`);
         }
 
         
@@ -254,6 +273,44 @@ const newPassword = async (req, res)=>{
 
 }
 
+
+const actualizarDatos =async (req, res)=>{
+    const dataActualizada= req.body;
+    const usuarioActualizado = req.storeName 
+
+    try {
+        let sql = `UPDATE usuarios SET`;
+        let values = [];
+        for (const key in dataActualizada) {
+        if (key !== usuarioActualizado && dataActualizada.hasOwnProperty(key)) {
+            sql += ` ${key} = ?, `;
+            console.log(sql);
+            values.push(dataActualizada[key]);
+            console.log(values);
+        }
+        }
+        sql = sql.slice(0, -2);
+        sql += ` WHERE storeName = ?`; 
+        values.push(usuarioActualizado); 
+
+        const result= await pool.query(sql, values);
+        console.log(result);
+        res.status(200).json({message: 'usuario actualizado'});
+
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'error en la actualizacion de usuario'
+        })
+        
+    }
+
+    
+
+}
+
 module.exports = {
 homeGet,
 loginUsuario,
@@ -262,6 +319,10 @@ postUsuario,
 mostrar,
 suspenderCuenta,
 activarCuenta,
-newPassword
+newPassword,
+actualizarDatos,
+
+
+
 
 }

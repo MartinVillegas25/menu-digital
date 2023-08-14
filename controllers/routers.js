@@ -4,6 +4,14 @@ const pool = require('../database');
 const { validationResult } = require('express-validator');
 const generarJWT = require('../middlerwares/generar-jwt');
 
+
+//controllers y services payments
+//rutas payments
+const PaymentController = require("../controllers/payment");
+const PaymentService = require("../services/paymentServices");
+
+const PaymentInstance = new PaymentController(new PaymentService());
+
 //ruta get del home
 const homeGet = (req, res = response) => {
     res.json('home')
@@ -126,24 +134,8 @@ const postUsuario = async(req, res = response) => {
        try {
              const result = await pool.query(query, [ img, name, storeName, email, password, address, cp, plan , date]);
              const resultResult = await pool.query(queryresult, [ email, storeName])
-             console.log(resultResult);
-             const planElegido = resultResult[0][0].plan
-             console.log(planElegido);
 
-             switch (planElegido) {
-                case "basic":
-                    res.send('usuario creado, pagar plan basic')
-                    break;
-                case "standard":
-                     res.send('usuario creado, pagar plan standard')
-                    break;
-                case "premium":
-                    res.send('usuario creado, pagar plan premium')
-                    break;   
-             
-                default:
-                    break;
-             }
+             PaymentInstance.getSubscriptionLink(req, res);
             
              
              return;

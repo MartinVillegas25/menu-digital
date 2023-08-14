@@ -11,17 +11,13 @@ const { homeGet,
     newPassword,
     actualizarDatos,
     sesionEnd} = require('../controllers/routers');
-const suscribirse = require('../controllers/pago');
+
 const { check } = require('express-validator');
 const recuperarClave = require('../controllers/nodemailer');
 const validarJWT = require('../middlerwares/validar-jwt');
 
 
-//rutas payments
-const PaymentController = require("../controllers/payment");
-const PaymentService = require("../services/paymentServices");
 
-const PaymentInstance = new PaymentController(new PaymentService());
 
 
 
@@ -41,8 +37,7 @@ router.post('/login',[
     check('email', 'correo no valido').isEmail(),
     check('password', 'la clave es obligatoria').not().isEmpty(),
 ] ,loginUsuario); //inicion de sesion
-router.post('/pago', suscribirse);//pago de suscribirse
-router.post('/subcripcion',[
+router.post('/subscription',[
     check('email', 'correo no valido').isEmail(),
     check('password', 'la clave es obligatoria').not().isEmpty(),
     check('name', 'el nombre es obligatorio').not().isEmpty(),
@@ -68,8 +63,11 @@ router.get('/mostrar', mostrar); //Mostrar usuarios formato Json
 
 //rutas de pago
 
-router.get("/subscription", function (req, res, next) {
-    PaymentInstance.getSubscriptionLink(req, res);
-  });
+// router.post("/subscription", function (req, res, next) {
+//     PaymentInstance.getSubscriptionLink(req, res);
+//   });
 
 module.exports = router;
+
+
+

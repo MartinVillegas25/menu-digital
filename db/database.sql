@@ -16,9 +16,28 @@ CREATE TABLE usuarios (
   plan VARCHAR(15) NOT NULL,
   status boolean DEFAULT TRUE NULL,
   date VARCHAR(50) NOT NULL,
+  telefono INT NOT NULL,
+  pais varchar(10) NULL ,
+  localidad varchar(20) NULL,
+  tipo varchar(20) NOT NULL,
+  comentario varchar(200) NULL;
   PRIMARY KEY (id)
 );
 
+
+ALTER TABLE usuarios
+ADD telefono INT NOT NULL,
+ADD pais varchar(10) NULL ,
+ADD localidad varchar(20) NULL,
+ADD tipo varchar(20) NOT NULL,
+ADD comentario varchar(200) NULL;
+
+CREATE TABLE planes (
+  standard INT(6) NOT NULL,
+  premium INT(6) NOT NULL,
+)
+
+DESCRRIBE planes;
 
 DESCRIBE usuarios;
 

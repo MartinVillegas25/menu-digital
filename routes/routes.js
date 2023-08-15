@@ -10,10 +10,14 @@ const { homeGet,
     activarCuenta, 
     newPassword,
     actualizarDatos,
-    sesionEnd} = require('../controllers/routers');
+    sesionEnd,
+    mostrarUsuarioPorEstado,
+    nuevosValores,
+    recuperarClave,
+    mostrarPlanes} = require('../controllers/routers');
 
 const { check } = require('express-validator');
-const recuperarClave = require('../controllers/nodemailer');
+// const recuperarClave = require('../controllers/nodemailer');
 const validarJWT = require('../middlerwares/validar-jwt');
 
 
@@ -26,11 +30,14 @@ const router = Router();
 
 //rutas get
 router.get('/', homeGet);
-router.get('/dashboard/:storeName',[
+router.get('/dashboard/:email',[
     validarJWT
 ], dashboardLocal);
+//mostrar planes get
+router.get('/planes', mostrarPlanes);
 
-
+//mostrar usuarios por estado 
+router.post('/status', mostrarUsuarioPorEstado);
 
 //rutas post
 router.post('/login',[
@@ -61,11 +68,11 @@ router.put('/activar', activarCuenta)
 router.get('/mostrar', mostrar); //Mostrar usuarios formato Json
 
 
-//rutas de pago
+//actualizar valores de planes
 
-// router.post("/subscription", function (req, res, next) {
-//     PaymentInstance.getSubscriptionLink(req, res);
-//   });
+router.put('/valores', nuevosValores);
+
+
 
 module.exports = router;
 

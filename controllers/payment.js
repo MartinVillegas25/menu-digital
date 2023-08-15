@@ -4,10 +4,21 @@ class PaymentController {
     }
   
     async getSubscriptionLink(req, res) {
+
+      const {email, plan} = req.body;
+      let valor = 0;
+        if (plan === 'standard'){
+          valor= 100;
+      }else if( plan==='premium'){
+          valor= 200;
+      }else{
+          valor=0;
+      }
       try {
-        const subscription = await this.subscriptionService.createSubscription();
-  
-        return res.json(subscription);
+        const subscription = await this.subscriptionService.createSubscription(email, valor);
+        
+        console.log(subscription.init_point)
+        return res.redirect(subscription.init_point);
       } catch (error) {
         console.log(error);
   

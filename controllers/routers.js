@@ -3,14 +3,16 @@
 const pool = require('../database');
 const { validationResult } = require('express-validator');
 const generarJWT = require('../middlerwares/generar-jwt');
+const emailer = require('./nodemailer')
 
 
 //controllers y services payments
 //rutas payments
-const PaymentController = require("../controllers/payment");
-const PaymentService = require("../services/paymentServices");
 
-const PaymentInstance = new PaymentController(new PaymentService());
+const PaymentService = require("../services/paymentServices");
+const sendMail = require('./nodemailer');
+
+
 
 //ruta get del home
 const homeGet = (req, res = response) => {
@@ -87,6 +89,47 @@ const loginUsuario = async (req, res = response) => {
 
 }
 
+//payment de  mercado pago
+
+class PaymentController {
+    constructor(subscriptionService) {
+      this.subscriptionService = subscriptionService;
+    }
+  
+    async getSubscriptionLink(req, res) {
+
+      const {email, plan} = req.body;
+      
+      
+      try {
+        const query2 = 'SELECT * FROM planes'
+        const planesActulizados = await pool.query(query2)
+
+        console.log(planesActulizados)
+        let valor = 0;
+          if (plan === 'standard'){
+            valor= planesActulizados[0][0].standard;
+        }else if( plan==='premium'){
+            valor= planesActulizados[0][0].premium;
+        }else{
+            valor=0;
+        }
+
+        const subscription = await this.subscriptionService.createSubscription(email, valor);
+        
+        console.log(subscription.init_point)
+        return res.redirect(subscription.init_point);
+      } catch (error) {
+        console.log(error);
+  
+        return res
+          .status(500)
+          .json({ error: true, msg: "Failed to create subscription" });
+      }
+    }
+  }
+
+  const PaymentInstance = new PaymentController(new PaymentService());
 
 //ruta para guardar un nuevo usuario
 
@@ -98,7 +141,7 @@ const postUsuario = async(req, res = response) => {
         }
 
 
-       let { img, name, storeName, email, password, address, cp, plan, date } = req.body
+       let { img, name, storeName, email, password, address, cp, plan, date, telefono, pais, localidad, tipo, comentario } = req.body
       
 
        //verificar si el correo existe 
@@ -129,10 +172,10 @@ const postUsuario = async(req, res = response) => {
         date = `${dia}/ ${mes}/ ${year}`;
        //guardar en base de datos
 
-       const query = `INSERT INTO usuarios (img, name, storeName, email, password, address, cp, plan, date ) VALUES (?, ?, ?, ?, ? , ? , ? , ?, ?)`;
+       const query = `INSERT INTO usuarios (img, name, storeName, email, password, address, cp, plan, date, telefono, pais, localidad, tipo, comentario ) VALUES (?, ?, ?, ?, ? , ? , ? , ?, ?, ?, ? , ? , ? , ? )`;
        const queryresult = 'SELECT * FROM usuarios WHERE email = ? AND storeName = ?';
        try {
-             const result = await pool.query(query, [ img, name, storeName, email, password, address, cp, plan , date]);
+             const result = await pool.query(query, [ img, name, storeName, email, password, address, cp, plan , date, telefono, pais, localidad, tipo, comentario]);
              const resultResult = await pool.query(queryresult, [ email, storeName])
 
              PaymentInstance.getSubscriptionLink(req, res);
@@ -160,13 +203,31 @@ const mostrar = async(req, res) => {
 
 }
 
+//ruta para mostrar usuario por estado 
+
+const mostrarUsuarioPorEstado = async(req, res) => {
+    let  {status} = req.body;
+    if (status ==="activo"){
+        status = 1
+    }else {
+        status = 0
+    }
+    const query = 'SELECT * FROM usuarios WHERE status =?';
+    try {
+        const result = await pool.query(query, [status]);
+        res.json(result[0]);
+    } catch (error) {
+        console.log(error, "error en obtener datos")
+    }
+
+}
 
 //ruta get para el dashboard local
 const dashboardLocal = async(req, res) => {
-    let email = req.params.storeName
+    let email = req.params.email
 
 
-    const query =  'SELECT * FROM usuarios WHERE storeName = ?';
+    const query =  'SELECT * FROM usuarios WHERE email = ?';
     try {
         const result = await pool.query(query, [email]);
         if (result.length === 0){
@@ -303,6 +364,75 @@ const actualizarDatos =async (req, res)=>{
 
 }
 
+
+//actualizar valores de planes 
+const nuevosValores = async (req, res)=>{
+    const {standard, premium} = req.body;
+
+    const query = 'UPDATE planes SET standard = ?, premium = ?';
+    const query2 = 'SELECT * FROM planes'
+
+    try {
+        const result = await pool.query(query, [standard, premium]);
+        console.log(result);
+        if (result.length === 0){
+            return res.status(404).json({ message: 'planes no encontrados' });
+        }
+        else{
+            const planesActulizados = await pool.query(query2)
+            res.status(200).json(planesActulizados[0][0]);
+            
+        }
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('error en la actualizacion de planes')
+    }
+
+}
+
+
+//Get planes
+const mostrarPlanes = async(req, res) => {
+    const query = 'SELECT * FROM planes';
+    try {
+        const result = await pool.query(query);
+        res.json(result[0][0]);
+    } catch (error) {
+        console.log(error, "error en obtener datos")
+    }
+
+}
+
+
+//mandar mail para recuperar clave
+const recuperarClave = async (req, res) => {
+
+    const { email } = req.body;
+    const query = 'SELECT * FROM usuarios WHERE email = ?';
+    
+     try {
+        const emailRecuperar = await pool.query(query, [email]);
+        const mail = emailRecuperar[0][0];
+        const correo = mail.email;
+        console.log(correo) 
+        if (emailRecuperar.length === 0) {    
+            return res.status(404).json({ message: 'Correo electrónico no encontrado.' });
+        }
+        emailer.sendMail(correo)
+        res.status(200).json({ message: " Se ha enviado una emails con los pasos seguir para actualizar la clave"});
+        } catch (error) {
+          console.log(error);
+              res.status(500).json('error al mandar mail')
+        }      
+    
+}
+
+
+
+
 module.exports = {
 homeGet,
 loginUsuario,
@@ -313,7 +443,11 @@ suspenderCuenta,
 activarCuenta,
 newPassword,
 actualizarDatos,
-
+mostrarUsuarioPorEstado,
+nuevosValores,
+PaymentController,
+recuperarClave,
+mostrarPlanes
 
 
 

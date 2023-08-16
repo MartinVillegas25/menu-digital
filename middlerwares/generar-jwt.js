@@ -6,7 +6,7 @@ const generarJWT = (storeName)=>{
 
     jwt.sign(payload, process.env.SECRETORPUBLIC_KEY, 
         {
-            expiresIn: '1h'
+            expiresIn: '4h'
         },
         (err, token)=>{
             if (err){

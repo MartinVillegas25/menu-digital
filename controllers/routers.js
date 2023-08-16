@@ -53,16 +53,18 @@ const loginUsuario = async (req, res = response) => {
 
         //validad clave
         const validPassword = bcrypt.compareSync(password, user.password);
+
+        //generar token
         const token = await generarJWT(user.storeName);
             
         if (validPassword) {
             switch (user.email) {
                 case 'example@example.com':
-                    res.redirect(`/admin`);
                     console.log({ 
                         message: 'Inicio de sesión exitoso admin',
                         token
                  });
+                    res.redirect('/admin');
                     break;
             
                 default:
@@ -246,7 +248,12 @@ const dashboardLocal = async(req, res) => {
 
 //ruta get admin dashboard 
 const adminGet = (req, res = response) => {
-    res.json('adminGet')
+
+    const UsuarioAdmin = req.storeName 
+
+
+    res.send('admin')
+    
 }
 
 

@@ -19,7 +19,7 @@ export default function Subscription() {
 		<div className="subscription">
 			<h2>
 				Suscribete ahora y <span>potencia tu negocio</span> con nuestra
-				innovadora plataforma gastronomica
+				innovadora plataforma gastronómica
 			</h2>
 			<div className="subscription-container-web">
 				<div className="subscription-img">
@@ -27,11 +27,11 @@ export default function Subscription() {
 					<h3>Gratis </h3>
 					<p>Por mes</p>
 					<ul className="subs-list">
-						<li>1. Menu digital interactivo</li>
+						<li>1. Menú digital interactivo</li>
 						<li>2. División de cuentas automatizada</li>
 						<li>3. Gestión de pedidos eficiente</li>
 						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte tecnico personalizado</li>
+						<li>5. Soporte técnico personalizado</li>
 						<li>6. Experiencia culinaria mejorada</li>
 					</ul>
 
@@ -44,11 +44,11 @@ export default function Subscription() {
 					<h3>$5.000,00 </h3>
 					<p>Por mes</p>
 					<ul className="subs-list">
-						<li>1. Menu digital interactivo</li>
+						<li>1. Menú digital interactivo</li>
 						<li>2. División de cuentas automatizada</li>
 						<li>3. Gestión de pedidos eficiente</li>
 						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte tecnico personalizado</li>
+						<li>5. Soporte técnico personalizado</li>
 						<li>6. Experiencia culinaria mejorada</li>
 					</ul>
 
@@ -61,11 +61,11 @@ export default function Subscription() {
 					<h3>$7.500,00 </h3>
 					<p>Por mes</p>
 					<ul className="subs-list">
-						<li>1. Menu digital interactivo</li>
+						<li>1. Menú digital interactivo</li>
 						<li>2. División de cuentas automatizada</li>
 						<li>3. Gestión de pedidos eficiente</li>
 						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte tecnico personalizado</li>
+						<li>5. Soporte técnico personalizado</li>
 						<li>6. Experiencia culinaria mejorada</li>
 					</ul>
 
@@ -83,11 +83,11 @@ export default function Subscription() {
 					<h3>$7.500,00 </h3>
 					<p>Por mes</p>
 					<ul className="subs-list">
-						<li>1. Menu digital interactivo</li>
+						<li>1. Menú digital interactivo</li>
 						<li>2. División de cuentas automatizada</li>
 						<li>3. Gestión de pedidos eficiente</li>
 						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte tecnico personalizado</li>
+						<li>5. Soporte técnico personalizado</li>
 						<li>6. Experiencia culinaria mejorada</li>
 					</ul>
 
@@ -98,40 +98,6 @@ export default function Subscription() {
 				<div>
 					<BsFillArrowRightCircleFill className="right-arrow" />
 				</div>
-				{/* <div className="subscription-img">
-					<IoRestaurantSharp className="icon" />
-					<h3>$5.000,00 </h3>
-					<p>Por mes</p>
-					<ul className="subs-list">
-						<li>1. Menu digital interactivo</li>
-						<li>2. División de cuentas automatizada</li>
-						<li>3. Gestión de pedidos eficiente</li>
-						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte tecnico personalizado</li>
-						<li>6. Experiencia culinaria mejorada</li>
-					</ul>
-
-					<button className="subs-btn" onClick={handleOpenSubscribe}>
-						Comprar ahora
-					</button>
-				</div>
-				<div className="subscription-img">
-					<IoRestaurantSharp className="icon" />
-					<h3>Gratis </h3>
-					<p>Por mes</p>
-					<ul className="subs-list">
-						<li>1. Menu digital interactivo</li>
-						<li>2. División de cuentas automatizada</li>
-						<li>3. Gestión de pedidos eficiente</li>
-						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte tecnico personalizado</li>
-						<li>6. Experiencia culinaria mejorada</li>
-					</ul>
-
-					<button className="subs-btn" onClick={handleOpenSubscribe}>
-						Comprar ahora
-					</button> */}
-				{/* </div> */}
 			</div>
 			<div className="slide-circles">
 				<div className="slide-circle"></div>

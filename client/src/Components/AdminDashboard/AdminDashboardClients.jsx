@@ -1,5 +1,5 @@
 import AdminMenu from './AdminMenu/AdminMenu';
-import AllClientsTable from '../AllClientsTable/AllClientsTable';
+import AllClientsTable from './AllClientsTable/AllClientsTable';
 import SideMenu from './SideMenu/SideMenu';
 
 export default function AdminDashboardHome() {

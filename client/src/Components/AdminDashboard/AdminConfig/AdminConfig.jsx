@@ -1,6 +1,15 @@
+import { useEffect } from 'react';
 import './AdminConfig.css';
+import { useDispatch } from 'react-redux';
+import { getAllClients } from '../../../redux/actions';
 
 export default function AdminConfig() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getAllClients());
+	}, []);
+
 	return (
 		<main className="admin-config-container">
 			<div>
@@ -20,17 +29,6 @@ export default function AdminConfig() {
 						<h4>maildeprueba@gmail.com</h4>
 					</div>
 				</div>
-				<div className="manage-user">
-					<h1>Activar o suspender usuario</h1>
-					<div className="manage-input">
-						<input type="text" placeholder="Indique nombre del local" />
-						<p>A para activar | S para suspender</p>
-					</div>
-					<div>
-						<button className="activate-btn">A</button>
-						<button className="suspend-btn">S</button>
-					</div>
-				</div>
 			</div>
 			<div className="admin-functions-panel">
 				<div className="admin-functions-panel-container">
@@ -41,11 +39,13 @@ export default function AdminConfig() {
 						<input type="text" placeholder="Telefono" />
 						<input type="text" placeholder="Mail" />
 						<input type="text" placeholder="Contraseña" />
+						<button>Modificar</button>
 					</div>
 					<div className="admin-changedata">
 						<h2>Modificar precio de planes</h2>
 						<input type="text" placeholder="Estandar" />
 						<input type="text" placeholder="Premium" />
+						<button>Modificar</button>
 					</div>
 				</div>
 			</div>

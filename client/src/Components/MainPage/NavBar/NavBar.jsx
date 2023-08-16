@@ -4,6 +4,8 @@ import './NavBar.css';
 import LoginModal from '../LoginModal/LoginModal';
 import SubsbribeModal from '../SubscibeModal/SubscribeModal.jsx';
 import { BsPersonCircle } from 'react-icons/bs';
+import logo1 from '../../../assets/logos/logo1.png';
+import logo2 from '../../../assets/logos/logo2.png';
 
 //barra de navegacion en la parte superior de la web
 export default function NavBar() {
@@ -64,9 +66,7 @@ export default function NavBar() {
 							</button>
 						</div>
 						<div className="navbar-title">
-							<h2>
-								Nombre <span>compañia</span>{' '}
-							</h2>
+							<img src={logo2} alt="" className="nav-logo" />
 						</div>
 						<div className="navBar-icon">
 							<BsPersonCircle className="navBar-icon-child" />

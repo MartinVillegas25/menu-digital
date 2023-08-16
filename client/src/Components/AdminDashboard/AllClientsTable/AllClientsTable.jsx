@@ -2,14 +2,66 @@ import './AllClientsTable.css';
 import { BsCheckCircle } from 'react-icons/bs';
 import { BsXCircle } from 'react-icons/bs';
 import { VscMail } from 'react-icons/vsc';
-import grafico from '../../assets/grTorta.png';
+import grafico from '../../../assets/grTorta.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getAllClients } from '../../redux/actions';
+
+import {
+	activateUser,
+	getAllClients,
+	suspendUser
+} from '../../../redux/actions';
+import swal from 'sweetalert';
 
 export default function AllClientsTable() {
 	const dispatch = useDispatch();
 	const allUsers = useSelector((state) => state.allUsers);
+
+	const handleSubmitSuspend = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Suspender',
+			text: 'Esta seguro que desea suspender el usuario?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(suspendUser({ storeName: e.target.value }));
+				swal({
+					text: `Se ha suspendido el usuario ${e.target.value}`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha suspendido el usuario', icon: 'info' });
+			}
+		});
+	};
+
+	const handleSubmitActivate = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: 'Esta seguro que desea activar el usuario?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(activateUser({ storeName: e.target.value }));
+				swal({
+					text: `Se ha activado el usuario ${e.target.value}`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha activado el usuario', icon: 'info' });
+			}
+		});
+	};
 	useEffect(() => {
 		dispatch(getAllClients());
 	}, []);
@@ -40,6 +92,8 @@ export default function AllClientsTable() {
 							<th>Plan</th>
 							<th>Estado</th>
 							<th>Mensaje</th>
+							<th>Activar</th>
+							<th>Suspender</th>
 						</tr>
 					</thead>
 					<tbody className="act-table-body">
@@ -60,6 +114,16 @@ export default function AllClientsTable() {
 									)}
 									<td>
 										<VscMail className="mail-icon" />
+									</td>
+									<td>
+										<button value={c.storeName} onClick={handleSubmitActivate}>
+											Activar
+										</button>
+									</td>
+									<td>
+										<button value={c.storeName} onClick={handleSubmitSuspend}>
+											Suspender
+										</button>
 									</td>
 								</tr>
 							);

@@ -45,6 +45,7 @@
 .act-table-container {
 	width: 55%;
 	height: fit-content;
+	min-height: 70%;
 	max-height: 878px;
 	flex-shrink: 0;
 	text-align: center;

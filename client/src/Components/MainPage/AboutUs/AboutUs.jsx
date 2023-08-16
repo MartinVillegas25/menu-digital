@@ -11,7 +11,7 @@ export default function AboutUs() {
 					<div className="about-title1">
 						<h2>
 							Un equipo apasionado para impulsar tu{' '}
-							<span>exito gastronómico</span>
+							<span>éxito gastronómico</span>
 						</h2>
 					</div>
 					<div className="about-imgs">
@@ -20,11 +20,11 @@ export default function AboutUs() {
 						<div></div>
 					</div>
 					<p>
-						En NombreSistema, nos enorgullecemos de ofrecerte la solución
-						definitiva para llevar tu negocio de comida al siguiente nivel.
-						Nuestra plataforma revolucionaria nace de una idea simple pero
-						poderosa: mejorar la experiencia tanto para los comercios adheridos
-						como para los comensales.
+						En SiMesero, nos enorgullecemos de ofrecerte la solución definitiva
+						para llevar tu negocio de comida al siguiente nivel. Nuestra
+						plataforma revolucionaria nace de una idea simple pero poderosa:
+						mejorar la experiencia tanto para los comercios adheridos como para
+						los comensales.
 					</p>
 				</div>
 
@@ -47,7 +47,7 @@ export default function AboutUs() {
 						tecnologia avanzada, los clientes podran explorar tu oferta
 						culinaria con facilidad, descubriendo platos y sabores de manera
 						intuitiva y envolvente. Para los comercios, esto significa una
-						gestión eficiente de los pedidos y una atención mas agil y precisa
+						gestión eficiente de los pedidos y una atención mas ágil y precisa
 					</p>
 				</div>
 			</div>

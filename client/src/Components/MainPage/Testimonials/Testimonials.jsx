@@ -10,13 +10,12 @@ export default function Testimonials() {
 			<div className="test-container">
 				<div className="test-testimonial">
 					<p>
-						"Desde que implementamos [NombredelSistema], hemos experimentado un
-						cambio significativo en nuestro negocio. Estamos encantados con el
-						soporte brindado por el equipo y la velocidad para resolver
-						cualquier duda, asegurandose de que todo funcione sin
-						problemas.¡Recomendamos ampliamente a todos los comercios que buscan
-						mejorar su operación y proporcionar una experiencia gastronomica
-						excepcional"
+						"Desde que implementamos SiMesero, hemos experimentado un cambio
+						significativo en nuestro negocio. Estamos encantados con el soporte
+						brindado por el equipo y la velocidad para resolver cualquier duda,
+						asegurandose de que todo funcione sin problemas.¡Recomendamos
+						ampliamente a todos los comercios que buscan mejorar su operación y
+						proporcionar una experiencia gastronomica excepcional"
 					</p>
 					<h4>Hector Amaya</h4>
 					<div className="test-circles">

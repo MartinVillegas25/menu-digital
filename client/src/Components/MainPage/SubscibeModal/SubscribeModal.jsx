@@ -17,7 +17,12 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 		password: '',
 		address: '',
 		cp: 0,
-		plan: ''
+		plan: '',
+		telefono: 0,
+		pais: '',
+		localidad: '',
+		tipo: '',
+		comentario: ''
 	});
 
 	const handleChange = (e) => {
@@ -65,7 +70,12 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 			password: '',
 			address: '',
 			cp: 0,
-			plan: ''
+			plan: '',
+			telefono: 0,
+			pais: '',
+			localidad: '',
+			tipo: '',
+			comentario: ''
 		});
 	};
 
@@ -77,10 +87,10 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 			<div className="subscribe-container">
 				<div className="subscribe-input">
 					<h1>
-						Bienvenido a <span>Nombre compañia</span>
+						Bienvenido a <span>SiMesero</span>
 					</h1>
 					<p>
-						Si ya tenes una cuenta <a href="">Inicia Sesion</a>
+						Si ya tenes una cuenta <a href="">Inicia Sesió n</a>
 					</p>
 
 					<div>
@@ -95,7 +105,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 						/>
 					</div>
 					<div>
-						<p>Ingresa una contraseña para iniciar tu suscripcion:</p>
+						<p>Ingresa una contraseña para iniciar tu suscripción:</p>
 						<input
 							type="password"
 							name="password"
@@ -103,7 +113,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							value={input.password}
 							onChange={handleChange}
 						/>
-						<p>Repeti la contraseña:</p>
+						<p>Repetí la contraseña:</p>
 						<input type="password" id="" />
 					</div>
 					<p>Complete los siguientes datos:</p>
@@ -127,15 +137,15 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							/>
 							<input
 								type="text"
-								placeholder="Direccion"
+								placeholder="Dirección"
 								name="address"
 								className="subs-input"
 								value={input.address}
 								onChange={handleChange}
 							/>
 							<input
-								type="text"
-								placeholder="Codigo Postal"
+								type="number"
+								placeholder="Código Postal"
 								name="cp"
 								className="subs-input"
 								value={input.cp}
@@ -150,12 +160,54 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								value={input.img}
 								onChange={handleChange}
 							/>
+							<input
+								type="number"
+								placeholder="telefono"
+								name="telefono"
+								className="subs-input"
+								value={input.telefono}
+								onChange={handleChange}
+							/>
+							<input
+								type="text"
+								placeholder="pais"
+								name="pais"
+								className="subs-input"
+								value={input.pais}
+								onChange={handleChange}
+							/>
+							<input
+								type="text"
+								placeholder="localidad"
+								name="localidad"
+								className="subs-input"
+								value={input.localidad}
+								onChange={handleChange}
+							/>
+							<input
+								type="text"
+								placeholder="comentario"
+								name="comentario"
+								className="subs-input"
+								value={input.comentario}
+								onChange={handleChange}
+							/>
+							<p>Que tipo de comercio es?:</p>
+							<div className="subs-plan">
+								<select name="tipo" id="" onClick={handleChange}>
+									<option value="">-</option>
+									<option value="cafe">Cafe</option>
+									<option value="restaurant">Restaurant</option>
+									<option value="bar">Bar</option>
+								</select>
+							</div>
 						</div>
 					</div>
 					<p>Selecciona el plan ideal para ti:</p>
 					<div className="subs-plans">
 						<select name="plan" id="" onClick={handleChange}>
-							<option value="basic">Basico</option>
+							<option value="">-</option>
+							<option value="basic">Básico</option>
 							<option value="standard">Estandar</option>
 							<option value="premium">Premium</option>
 						</select>

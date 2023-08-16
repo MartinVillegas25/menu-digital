@@ -54,12 +54,12 @@ export default function LoginModal({ handleCloseLogin }) {
 			<div className="login-container">
 				<div className="login-input">
 					<h1>
-						Nombre <span>compañia</span>
+						Si <span>Mesero</span>
 					</h1>
 					<h2>Bienvenido/a de vuelta</h2>
 					<p>Ingresá con tu email y contraseña</p>
 					<div>
-						<p>Correo electronico</p>
+						<p>Correo electrónico</p>
 						<input
 							type="text"
 							name="email"

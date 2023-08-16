@@ -14,7 +14,8 @@ const { homeGet,
     mostrarUsuarioPorEstado,
     nuevosValores,
     recuperarClave,
-    mostrarPlanes} = require('../controllers/routers');
+    mostrarPlanes,
+    adminGet} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 // const recuperarClave = require('../controllers/nodemailer');
@@ -33,6 +34,9 @@ router.get('/', homeGet);
 router.get('/dashboard/:email',[
     validarJWT
 ], dashboardLocal);
+router.get('/admin',[
+    validarJWT 
+], adminGet);
 //mostrar planes get
 router.get('/planes', mostrarPlanes);
 

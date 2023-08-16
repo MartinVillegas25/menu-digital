@@ -58,7 +58,7 @@ const loginUsuario = async (req, res = response) => {
         if (validPassword) {
             switch (user.email) {
                 case 'example@example.com':
-                    res.redirect(`/dashboard/${user.email}`);
+                    res.redirect(`/admin`);
                     console.log({ 
                         message: 'Inicio de sesión exitoso admin',
                         token
@@ -243,6 +243,13 @@ const dashboardLocal = async(req, res) => {
         res.status(400).send('error en la peticion')
     }
 }
+
+//ruta get admin dashboard 
+const adminGet = (req, res = response) => {
+    res.json('adminGet')
+}
+
+
 
 //ruta para suspender cuenta en dashboard del admin
 
@@ -447,7 +454,8 @@ mostrarUsuarioPorEstado,
 nuevosValores,
 PaymentController,
 recuperarClave,
-mostrarPlanes
+mostrarPlanes,
+adminGet
 
 
 

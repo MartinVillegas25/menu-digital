@@ -14,7 +14,7 @@ const createTrans = ()=>{
   // })
   const transport = nodemailer.createTransport(
     nodemailerSendgrid({
-      apikey:'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'
+      apikey: process.env.API_KEY,
     })
   )
 

@@ -68,7 +68,7 @@ const loginUsuario = async (req, res = response) => {
                     break;
             
                 default:
-                    res.redirect(`/dashboard/${user.email}`);
+                    res.json({token});
                     console.log({ 
                         message: 'Inicio de sesión exitoso local',
                         token

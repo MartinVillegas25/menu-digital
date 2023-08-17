@@ -33,11 +33,18 @@ ADD tipo varchar(20) NOT NULL,
 ADD comentario varchar(200) NULL;
 
 CREATE TABLE planes (
+  basic VARCHAR(20) NULL,
   standard INT(6) NOT NULL,
   premium INT(6) NOT NULL,
+
 )
 
-DESCRRIBE planes;
+
+ALTER TABLE planes
+ADD basic varchar(20) NULL
+
+
+DESCRIBE planes;
 
 DESCRIBE usuarios;
 

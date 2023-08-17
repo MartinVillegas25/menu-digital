@@ -32,10 +32,9 @@ const router = Router();
 //rutas get
 router.get('/', homeGet);
 router.get('/dashboard/:email',[
-    validarJWT
 ], dashboardLocal);
-router.get('/admin',[
-    validarJWT 
+router.get('/admin',[ 
+    validarJWT,
 ], adminGet);
 //mostrar planes get
 router.get('/planes', mostrarPlanes);

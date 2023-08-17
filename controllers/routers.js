@@ -55,7 +55,7 @@ const loginUsuario = async (req, res = response) => {
         const validPassword = bcrypt.compareSync(password, user.password);
 
         //generar token
-        const token = await generarJWT(user.storeName);
+        const token = await generarJWT(user.email);
             
         if (validPassword) {
             switch (user.email) {
@@ -64,7 +64,7 @@ const loginUsuario = async (req, res = response) => {
                         message: 'Inicio de sesión exitoso admin',
                         token
                  });
-                    res.redirect('/admin');
+                    res.json({token});
                     break;
             
                 default:
@@ -249,9 +249,6 @@ const dashboardLocal = async(req, res) => {
 //ruta get admin dashboard 
 const adminGet = (req, res = response) => {
 
-    const UsuarioAdmin = req.storeName 
-
-
     res.send('admin')
     
 }
@@ -383,11 +380,11 @@ const actualizarDatos =async (req, res)=>{
 const nuevosValores = async (req, res)=>{
     const {standard, premium} = req.body;
 
-    const query = 'UPDATE planes SET standard = ?, premium = ?';
+    const query = 'UPDATE planes SET standard = ?, premium = ?, basic = ? ';
     const query2 = 'SELECT * FROM planes'
 
     try {
-        const result = await pool.query(query, [standard, premium]);
+        const result = await pool.query(query, [standard, premium, basic]);
         console.log(result);
         if (result.length === 0){
             return res.status(404).json({ message: 'planes no encontrados' });

@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-const generarJWT = (storeName)=>{
+const generarJWT = (email)=>{
     return new Promise((resolve, reject)=>{
-        const payload = {storeName};
+        const payload = {email};
 
     jwt.sign(payload, process.env.SECRETORPUBLIC_KEY, 
         {

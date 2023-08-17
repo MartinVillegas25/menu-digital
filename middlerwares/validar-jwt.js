@@ -13,9 +13,9 @@ const validarJWT = async ( req, res=response, next ) => {
 
     
     try {
-        const {storeName} = jwt.verify(token, process.env.SECRETORPUBLIC_KEY);
-        console.log(storeName);
-        req.storeName = storeName
+        const {email} = jwt.verify(token, process.env.SECRETORPUBLIC_KEY);
+        console.log(email);
+        req.email = email
 
 
 

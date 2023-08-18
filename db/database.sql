@@ -44,6 +44,19 @@ ALTER TABLE planes
 ADD basic varchar(20) NULL
 
 
+CREATE TABLE items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  img VARCHAR(200) NULL,
+  nombre VARCHAR(60) NOT NULL,
+  categoria VARCHAR(60) NOT NULL,
+  subcategoria VARCHAR(60) NULL,
+  cantidad INT NULL,
+  precio INT NOT NULL
+);
+
+ALTER TABLE items ADD COLUMN emailusuario VARCHAR(100);
+
+
 DESCRIBE planes;
 
 DESCRIBE usuarios;

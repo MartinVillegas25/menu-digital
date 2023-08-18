@@ -253,6 +253,8 @@ const adminGet = (req, res = response) => {
     
 }
 
+//logout
+
 
 
 //ruta para suspender cuenta en dashboard del admin
@@ -340,7 +342,7 @@ const newPassword = async (req, res)=>{
 
 const actualizarDatos =async (req, res)=>{
     const dataActualizada= req.body;
-    const usuarioActualizado = req.storeName 
+    const usuarioActualizado = req.email 
 
     try {
         let sql = `UPDATE usuarios SET`;
@@ -459,7 +461,8 @@ nuevosValores,
 PaymentController,
 recuperarClave,
 mostrarPlanes,
-adminGet
+adminGet,
+
 
 
 

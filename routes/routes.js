@@ -1,8 +1,7 @@
 
 const { Router} = require('express');
 const { homeGet, 
-    loginUsuario, 
-    postSubcripcion, 
+    loginUsuario,  
     postUsuario, 
     mostrar, 
     dashboardLocal, 
@@ -10,7 +9,6 @@ const { homeGet,
     activarCuenta, 
     newPassword,
     actualizarDatos,
-    sesionEnd,
     mostrarUsuarioPorEstado,
     nuevosValores,
     recuperarClave,
@@ -19,7 +17,7 @@ const { homeGet,
 
 const { check } = require('express-validator');
 // const recuperarClave = require('../controllers/nodemailer');
-const validarJWT = require('../middlerwares/validar-jwt');
+const {validarJWT, logout} = require('../middlerwares/validar-jwt');
 const adminRol = require('../middlerwares/validad-roles');
 
 
@@ -41,6 +39,11 @@ router.get('/admin',[
 ], adminGet);
 //mostrar planes get
 router.get('/planes', mostrarPlanes);
+
+
+//logout 
+
+router.get('/logout', logout);
 
 //mostrar usuarios por estado 
 router.post('/status', mostrarUsuarioPorEstado);

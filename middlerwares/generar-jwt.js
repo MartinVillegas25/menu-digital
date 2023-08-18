@@ -6,7 +6,7 @@ const generarJWT = (email)=>{
 
     jwt.sign(payload, process.env.SECRETORPUBLIC_KEY, 
         {
-            expiresIn: '4h'
+            expiresIn: '10h'
         },
         (err, token)=>{
             if (err){

@@ -14,6 +14,7 @@ class Server {
 
     router(){
         this.app.use('/', require('../routes/routes'))
+        // this.app.use('/dashboard', require('../routes/router-local'))
         
     }
     listen(){

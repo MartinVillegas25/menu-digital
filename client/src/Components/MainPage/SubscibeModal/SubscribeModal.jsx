@@ -16,9 +16,9 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 		email: '',
 		password: '',
 		address: '',
-		cp: 0,
+		cp: '',
 		plan: '',
-		telefono: 0,
+		telefono: '',
 		pais: '',
 		localidad: '',
 		tipo: '',
@@ -31,6 +31,12 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 			[e.target.name]: e.target.value
 		});
 	};
+	const [nameError, setNameError] = useState('');
+	const [addressError, setAddressError] = useState('');
+	const [storeNameError, setStoreNameError] = useState('');
+	const [emailError, setEmailError] = useState('');
+	const [cpError, setCpError] = useState('');
+	const [passwordError, setPasswordError] = useState('');
 
 	const handleSubmit = (e) => {
 		e.preventDefault(); // Prevent the default form submission behavior
@@ -38,7 +44,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 		// Regular expression for email validation
 		const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-		// Check if any of the required fields are empty or null
+		//Check if any of the required fields are empty or null
 		if (
 			input.name.trim() === '' ||
 			input.address.trim() === '' ||
@@ -56,6 +62,29 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 			);
 			return; // Exit the function if validation fails
 		}
+
+		// if (input.name.trim() === '') {
+		// 	setNameError('por favor complete su nombre');
+		// 	return;
+		// } else if (input.address.trim() === '') {
+		// 	setAddressError('Por favor complete su direccion');
+		// 	return;
+		// } else if (input.storeName.trim() === '') {
+		// 	setStoreNameError('Por favor indique el nombre de su local');
+		// 	return;
+		// } else if (input.email.trim() === '') {
+		// 	setEmailError('Por favor ingrese su email');
+		// 	return;
+		// } else if (!emailRegex.test(input.email)) {
+		// 	setEmailError('email no valido');
+		// 	return;
+		// } else if (input.cp.trim() === '') {
+		// 	setCpError('Ingrese su codigo postal');
+		// 	return;
+		// } else if (input.password.trim() === '') {
+		// 	setPasswordError('ingrese una contraseña');
+		// 	return;
+		// }
 
 		// If all validation checks pass, dispatch the user creation action
 		dispatch(createUser(input));
@@ -103,6 +132,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							value={input.email}
 							onChange={handleChange}
 						/>
+						{/* {emailError ? <h1>{emailError}</h1> : <br></br>} */}
 					</div>
 					<div>
 						<p>Ingresa una contraseña para iniciar tu suscripción:</p>
@@ -113,6 +143,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							value={input.password}
 							onChange={handleChange}
 						/>
+						{/* {passwordError ? <h1>{passwordError}</h1> : <br></br>} */}
 						<p>Repetí la contraseña:</p>
 						<input type="password" id="" />
 					</div>
@@ -127,6 +158,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								value={input.name}
 								onChange={handleChange}
 							/>
+							{/* {nameError ? <h1>{nameError}</h1> : <br></br>} */}
 							<input
 								type="text"
 								placeholder="Nombre del local"
@@ -135,6 +167,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								value={input.storeName}
 								onChange={handleChange}
 							/>
+							{/* {storeNameError ? <h1>{storeNameError}</h1> : <br></br>} */}
 							<input
 								type="text"
 								placeholder="Dirección"
@@ -151,6 +184,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								value={input.cp}
 								onChange={handleChange}
 							/>
+							{/* {cpError ? <h1>{cpError}</h1> : <br></br>} */}
 
 							<input
 								type="url"

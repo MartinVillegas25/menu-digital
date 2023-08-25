@@ -5,6 +5,9 @@ import './Subscription.css';
 import { IoRestaurantSharp } from 'react-icons/io5';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import BasicPlanImg from './BasicPlanImg.jsx';
+import StandardPlanImg from './StandardPlanImg.jsx';
+import PremiumPlanImg from './PremiumPlanImg.jsx';
 //Vista de imagen para comenzar la suscripcion al servicio
 export default function Subscription() {
 	const [subscribeOpen, setSubscribeOpen] = useState(false);
@@ -14,7 +17,23 @@ export default function Subscription() {
 	const handleCloseSubscribe = () => {
 		setSubscribeOpen(false);
 	};
+	const plans = [
+		<BasicPlanImg key="1" />,
+		<StandardPlanImg key="2" />,
+		<PremiumPlanImg key="3" />
+	];
+	const [index, setIndex] = useState(0);
 
+	// functions to move de slides
+	const leftSlide = () => {
+		const newIndex = index === 0 ? plans.length - 1 : index - 1;
+		setIndex(newIndex);
+	};
+
+	const rightSlide = () => {
+		const newIndex = index === plans.length - 1 ? 0 : index + 1;
+		setIndex(newIndex);
+	};
 	return (
 		<div className="subscription">
 			<h2>
@@ -22,81 +41,23 @@ export default function Subscription() {
 				innovadora plataforma gastronómica
 			</h2>
 			<div className="subscription-container-web">
-				<div className="subscription-img">
-					<IoRestaurantSharp className="icon" />
-					<h3>Gratis </h3>
-					<p>Por mes</p>
-					<ul className="subs-list">
-						<li>1. Menú digital interactivo</li>
-						<li>2. División de cuentas automatizada</li>
-						<li>3. Gestión de pedidos eficiente</li>
-						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte técnico personalizado</li>
-						<li>6. Experiencia culinaria mejorada</li>
-					</ul>
-
-					<button className="subs-btn" onClick={handleOpenSubscribe}>
-						Comprar ahora
-					</button>
-				</div>
-				<div className="subscription-img">
-					<IoRestaurantSharp className="icon" />
-					<h3>$5.000,00 </h3>
-					<p>Por mes</p>
-					<ul className="subs-list">
-						<li>1. Menú digital interactivo</li>
-						<li>2. División de cuentas automatizada</li>
-						<li>3. Gestión de pedidos eficiente</li>
-						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte técnico personalizado</li>
-						<li>6. Experiencia culinaria mejorada</li>
-					</ul>
-
-					<button className="subs-btn" onClick={handleOpenSubscribe}>
-						Comprar ahora
-					</button>
-				</div>
-				<div className="subscription-img">
-					<IoRestaurantSharp className="icon" />
-					<h3>$7.500,00 </h3>
-					<p>Por mes</p>
-					<ul className="subs-list">
-						<li>1. Menú digital interactivo</li>
-						<li>2. División de cuentas automatizada</li>
-						<li>3. Gestión de pedidos eficiente</li>
-						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte técnico personalizado</li>
-						<li>6. Experiencia culinaria mejorada</li>
-					</ul>
-
-					<button className="subs-btn" onClick={handleOpenSubscribe}>
-						Comprar ahora
-					</button>
-				</div>
+				<BasicPlanImg handleOpenSubscribe={handleOpenSubscribe} />
+				<StandardPlanImg handleOpenSubscribe={handleOpenSubscribe} />
+				<PremiumPlanImg handleOpenSubscribe={handleOpenSubscribe} />
 			</div>
 			<div className="subscription-container-mobile">
 				<div>
-					<BsFillArrowLeftCircleFill className="left-arrow" />
+					<BsFillArrowLeftCircleFill
+						className="left-arrow"
+						onClick={leftSlide}
+					/>
 				</div>
-				<div className="subscription-img">
-					<IoRestaurantSharp className="icon" />
-					<h3>$7.500,00 </h3>
-					<p>Por mes</p>
-					<ul className="subs-list">
-						<li>1. Menú digital interactivo</li>
-						<li>2. División de cuentas automatizada</li>
-						<li>3. Gestión de pedidos eficiente</li>
-						<li>4. Precios actualizados en tiempo real</li>
-						<li>5. Soporte técnico personalizado</li>
-						<li>6. Experiencia culinaria mejorada</li>
-					</ul>
-
-					<button className="subs-btn" onClick={handleOpenSubscribe}>
-						Comprar ahora
-					</button>
-				</div>
+				<div>{plans[index]}</div>
 				<div>
-					<BsFillArrowRightCircleFill className="right-arrow" />
+					<BsFillArrowRightCircleFill
+						className="right-arrow"
+						onClick={rightSlide}
+					/>
 				</div>
 			</div>
 			<div className="slide-circles">

@@ -1,48 +1,44 @@
-import './SideMenu.css';
-import { BsFillHouseFill } from 'react-icons/bs';
-import { FaMoneyBillWave } from 'react-icons/fa';
+import './ClientSideMenu.css';
+import { IoRestaurantOutline } from 'react-icons/io5';
+import { MdMenuBook } from 'react-icons/md';
 import { BsFillPersonFill } from 'react-icons/bs';
-import { IoMdSettings } from 'react-icons/io';
+
 import { VscSignOut } from 'react-icons/vsc';
 import CEO from '../../../assets/CEO.jpg';
 import logo from '../../../assets/logos/Logo1.png';
 import { useState } from 'react';
-export default function SideMenu() {
+export default function ClientSideMenu() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	return (
 		<div>
-			<aside className="admin-side-menu-web">
-				<img src={logo} alt="" className="admin-side-menu-logo" />
-				<div className="admin-side-container">
-					<div className="admin-side-link">
-						<BsFillHouseFill />
-						<a href="/admin">Panel de control</a>
+			<aside className="client-side-menu-web">
+				<img src={logo} alt="" className="client-side-menu-logo" />
+				<div className="client-side-container">
+					<div className="client-side-link">
+						<IoRestaurantOutline />
+						<a href="/client/salon">Salon</a>
 					</div>
-					<div className="admin-side-link">
-						<FaMoneyBillWave />
-						<a href="">Ganancias</a>
+					<div className="client-side-link">
+						<MdMenuBook />
+						<a href="/client/menu">Menu</a>
 					</div>
-					<div className="admin-side-link">
+					<div className="client-side-link">
 						<BsFillPersonFill />
-						<a href="/admin/clientes">Clientes</a>
+						<a href="/client/configuracion">Configuracion</a>
 					</div>
-					<div className="admin-side-link">
-						<IoMdSettings />
-						<a href="/admin/configuracion">Configuracion</a>
-					</div>
-					<div className="admin-side-link">
+					<div className="client-side-link">
 						<VscSignOut />
 						<a href="">Salir</a>
 					</div>
-					<div className="admin-side-img">
+					<div className="client-side-img">
 						<img src={CEO} alt="" />
 						<p>Cambiar foto</p>
 					</div>
 				</div>
 			</aside>
-			<nav className="admin-menu-mobile">
-				<div className="admin-menu-mobile-top">
+			<nav className="client-menu-mobile">
+				<div className="client-menu-mobile-top">
 					<div>
 						<button onClick={() => setMenuOpen(!menuOpen)}>
 							{menuOpen ? (
@@ -76,33 +72,28 @@ export default function SideMenu() {
 							)}
 						</button>
 					</div>
-					<div>
-						<img src={logo} alt="" className="nav-menu-logo-mobile" />
-					</div>
+					<img src={logo} alt="" className="nav-menu-logo-mobile" />
 				</div>
 				<div className={`${menuOpen ? 'nav-block' : 'nav-hidden'} `}>
-					<div className="admin-side-container">
-						<div className="admin-side-link">
-							<BsFillHouseFill />
-							<a href="/admin">Panel de control</a>
+					<div className="client-side-container">
+						<div className="client-side-link">
+							<IoRestaurantOutline />
+							<a href="/salon">Salon</a>
 						</div>
-						<div className="admin-side-link">
-							<FaMoneyBillWave />
-							<a href="">Ganancias</a>
+						<div className="client-side-link">
+							<MdMenuBook />
+							<a href="/menu">Menu</a>
 						</div>
-						<div className="admin-side-link">
+						<div className="client-side-link">
 							<BsFillPersonFill />
-							<a href="/admin/clientes">Clientes</a>
+							<a href="/configuracion">Configuracion</a>
 						</div>
-						<div className="admin-side-link">
-							<IoMdSettings />
-							<a href="/admin/configuracion">Configuracion</a>
-						</div>
-						<div className="admin-side-link">
+
+						<div className="client-side-link">
 							<VscSignOut />
 							<a href="">Salir</a>
 						</div>
-						<div className="admin-side-img">
+						<div className="client-side-img">
 							<img src={CEO} alt="" />
 							<p>Cambiar foto</p>
 						</div>

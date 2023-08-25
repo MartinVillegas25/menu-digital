@@ -1,6 +1,7 @@
 .act-container {
 	margin-top: 159px;
 	display: flex;
+
 	margin-left: 30px;
 }
 
@@ -11,6 +12,7 @@
 }
 
 .act-page {
+	display: flex;
 }
 
 .act-total-clients :nth-child(2) {
@@ -31,7 +33,9 @@
 }
 
 .act-graf {
-	width: 100%;
+	width: 15em;
+	height: 20em;
+	margin-right: 20px;
 }
 .graf {
 	width: 100%;
@@ -43,7 +47,8 @@
 }
 
 .act-table-container {
-	width: 55%;
+	width: 60%;
+	min-width: fit-content;
 	height: fit-content;
 	min-height: 70%;
 	max-height: 878px;
@@ -71,4 +76,61 @@
 .state-reference {
 	display: flex;
 	justify-content: start;
+}
+
+.status-btn-suspend {
+	background-color: orange;
+	color: white;
+	font-weight: bold;
+	padding: 2px 2px;
+	border: solid 2px orange;
+	border-radius: 10px;
+	padding: 10px 20px;
+}
+
+.status-btn-suspend:hover {
+	background-color: transparent;
+	color: orange;
+}
+
+.status-btn-activate {
+	background-color: transparent;
+	color: orange;
+	font-weight: bold;
+	padding: 2px 2px;
+	border: solid 2px orange;
+	border-radius: 10px;
+	padding: 10px 20px;
+}
+
+.status-btn-activate:hover {
+	background-color: orange;
+	color: white;
+}
+
+.act-table-filter-btn {
+	margin-bottom: 20px;
+	margin-left: 10px;
+	margin-top: 20px;
+	background-color: orange;
+	color: black;
+	border-radius: 16px;
+	border: none;
+	height: 24px;
+}
+
+.act-table-filters {
+	display: flex;
+	flex-direction: column;
+}
+
+.act-table-filters label {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.act-table-filters input {
+	background-color: transparent;
+	border-bottom: #000 solid 2px;
+	color: #000;
 }

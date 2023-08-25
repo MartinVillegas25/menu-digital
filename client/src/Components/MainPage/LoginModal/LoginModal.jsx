@@ -1,11 +1,15 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import './LoginModal.css';
 import img from '../../../assets/CAMARERA.jpg';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
-import { logUser } from '../../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { logUser, validateAdmin } from '../../../redux/actions';
+
 export default function LoginModal({ handleCloseLogin }) {
 	const dispatch = useDispatch();
+	const token = useSelector((state) => state.token);
+
 	const [input, setInput] = useState({
 		email: '',
 		password: ''
@@ -17,7 +21,7 @@ export default function LoginModal({ handleCloseLogin }) {
 		});
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault(); // Prevent the default form submission behavior
 
 		// Regular expression for email validation
@@ -37,14 +41,21 @@ export default function LoginModal({ handleCloseLogin }) {
 		}
 
 		// If all validation checks pass, dispatch the user creation action
-		dispatch(logUser(input));
+		await dispatch(logUser(input));
 
-		// Clear the input fields after submission
 		setInput({
 			email: '',
 			password: ''
 		});
 	};
+	useEffect(() => {
+		// Check if the token has been updated in the Redux store
+		if (token) {
+			// Store the updated token in local storage
+			localStorage.setItem('token', token);
+			dispatch(validateAdmin());
+		}
+	}, [token]);
 
 	return (
 		<div className="login">

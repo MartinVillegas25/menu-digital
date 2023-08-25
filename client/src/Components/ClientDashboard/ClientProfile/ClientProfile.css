@@ -1,4 +1,4 @@
-.admin-menu {
+.client-menu {
 	position: absolute;
 	height: 52px;
 	flex-shrink: 0;
@@ -6,20 +6,20 @@
 	top: 5%;
 }
 
-.admin-menu-panel {
+.client-menu-panel {
 	display: flex;
 }
 
-.admin-menu-container h3 {
+.client-menu-container h3 {
 	margin-left: 10px;
 }
-.admin-menu-notification {
+.client-menu-notification {
 	font-size: 45px;
 	color: orange;
 	margin-top: 10px;
 }
 
-.admin-menu-img {
+.client-menu-img {
 	border: solid orange 2px;
 	width: 50px;
 	height: 50px;
@@ -27,7 +27,7 @@
 	margin-top: 10px;
 }
 
-.admin-menu-panel :nth-child(1) {
+.client-menu-panel :nth-child(1) {
 	display: flex;
 	align-items: center;
 	margin-right: 2px;
@@ -65,10 +65,7 @@
 	display: none;
 }
 @media screen and (max-width: 850px) {
-	.admin-menu {
-		display: none;
-	}
-	.admin-menu-title {
+	.client-menu {
 		display: none;
 	}
 }

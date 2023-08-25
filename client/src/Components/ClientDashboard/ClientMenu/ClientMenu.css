@@ -1,0 +1,115 @@
+.client-create-menu-container {
+	margin-top: 159px;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.create-menu-container {
+	width: 600px;
+}
+
+.create-menu-tittle {
+	color: #fff;
+	text-align: start;
+	font-family: Outfit;
+	font-size: 32px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.create-menu-add-btn {
+	width: 100%;
+	height: 34px;
+	flex-shrink: 0;
+	background-color: white;
+	color: #000;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.create-menu-input {
+	display: flex;
+	text-align: start;
+	color: #fff;
+	font-family: Outfit;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 200;
+	line-height: normal;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.create-menu-input label {
+	margin-right: 20px;
+}
+
+.create-menu-input input {
+	background-color: transparent;
+}
+
+.create-menu-select {
+	display: flex;
+	justify-content: space-between;
+}
+.add-subC-input {
+	background-color: transparent;
+}
+
+.create-menu-delete-btn {
+	background-color: transparent;
+	border: none;
+}
+
+.create-menu-delete-icon {
+	font-size: 25px;
+}
+
+.create-menu-add-btn {
+	color: #000;
+	text-align: center;
+	font-family: Outfit;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.create-menu-add-icon {
+	font-size: 20px;
+	background-color: #000;
+	color: white;
+}
+
+.menu-mobile-admin {
+	width: 344px;
+	height: 640px;
+	flex-shrink: 0;
+	background-color: white;
+	border-radius: 64px;
+}
+
+.menu-mobile-admin h1 {
+	color: #000;
+}
+
+.menu-mobile-admin-categories {
+	max-width: 344px;
+	display: flex;
+	overflow-x: scroll;
+}
+
+.menu-mobile-admin-btn {
+	margin-bottom: 20px;
+	width: 71px;
+	height: 33px;
+	flex-shrink: 0;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-radius: 18px;
+	background: #d9d9d9;
+	font-size: 10px;
+	color: #000;
+}

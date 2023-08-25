@@ -1,0 +1,44 @@
+.client-home-container {
+	margin-top: 159px;
+	display: flex;
+	flex-direction: column;
+	margin-left: 30px;
+}
+
+.client-home-table {
+	overflow-y: scroll;
+	width: 100%;
+}
+.client-home-table-container {
+	max-height: 400px;
+	overflow-y: scroll;
+	margin-right: 50px;
+}
+.client-home-container th {
+	width: 15%;
+}
+
+.client-home-container td {
+	width: 15%;
+	margin-top: 20px;
+}
+
+.client-table-body {
+	text-align: center;
+}
+
+.client-home-table-btn {
+	background-color: orange;
+	color: white;
+	font-weight: bold;
+	padding: 2px 2px;
+	border: solid 2px orange;
+	border-radius: 10px;
+	padding: 10px 20px;
+	margin-right: 20px;
+}
+
+.client-home-table-btn:hover {
+	background-color: transparent;
+	color: orange;
+}

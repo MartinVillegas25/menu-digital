@@ -1,4 +1,4 @@
-.admin-side-menu-web {
+.client-side-menu-web {
 	height: 1024px;
 	background-color: #ffa101;
 	border-radius: 0px 120px 0 0px;
@@ -10,7 +10,7 @@
 	align-items: center;
 }
 
-.admin-side-menu-web h1 {
+.client-side-menu-web h1 {
 	color: #000;
 	text-align: center;
 	font-size: 28px;
@@ -21,22 +21,22 @@
 	margin-bottom: 78px;
 }
 
-.admin-side-menu-logo {
+.client-side-menu-logo {
 	width: 200px;
 }
 
-.admin-side-link {
+.client-side-link {
 	margin-right: 50px;
 	margin-bottom: 40px;
 	width: max-content;
 	display: flex;
 }
 
-.admin-side-link :hover {
+.client-side-link :hover {
 	color: white;
 }
 
-.admin-side-link a {
+.client-side-link a {
 	color: #000;
 	font-family: Outfit;
 	font-size: 20px;
@@ -46,36 +46,36 @@
 	text-decoration: none;
 }
 
-.admin-side-link :nth-child(1) {
+.client-side-link :nth-child(1) {
 	font-size: 30px;
 	color: white;
 	margin-right: 10px;
 }
 
-.admin-side-img img {
+.client-side-img img {
 	border: black 2px solid;
 	width: 160px;
 	height: 160px;
 	border-radius: 100%;
 }
 
-.admin-side-img {
+.client-side-img {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
 
-.admin-menu-mobile {
+.client-menu-mobile {
 	display: none;
 }
 
 @media screen and (max-width: 850px) {
-	.admin-side-menu-web {
+	.client-side-menu-web {
 		display: none;
 	}
 
-	.admin-menu-mobile {
+	.client-menu-mobile {
 		display: block;
 		position: fixed;
 		height: 60px;
@@ -96,20 +96,18 @@
 	}
 
 	.nav-menu-logo-mobile {
-		scale: 1;
-		position: fixed;
-		right: 0px;
-		top: -100px;
+		width: 250px;
+		margin-left: 80px;
 	}
 
 	.nav-icon {
 		width: 20px;
 	}
 
-	.admin-menu-mobile-top {
+	.client-menu-mobile-top {
 		position: fixed;
+		top: -100px;
 		display: flex;
-		top: 15px;
 		justify-content: space-around;
 		align-items: center;
 		left: 10px;

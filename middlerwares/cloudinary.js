@@ -1,26 +1,38 @@
 const cloudinary = require('cloudinary').v2;
-const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // Configuración de Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
+    api_secret: process.env.CLOUD_API_SECRET,
+    secure: true
   });
+
+//configuracion para guardar images
+
+const uploadImage = async(filePath)=>{
+    return await cloudinary.uploader.upload(filePath, {
+      folder: 'Menu Didactico',
+    })
+}
+
+module.exports = uploadImage
+
+
+
 
 
 // Configuración de almacenamiento de imágenes en Cloudinary
-const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-      folder: 'menu_images',
-      allowedFormats: ['jpg', 'jpeg', 'png']
-    }
-  });
+// const storage = new CloudinaryStorage({
+//     cloudinary: cloudinary,
+//     params: {
+//       folder: 'menu_images',
+//       allowedFormats: ['jpg', 'jpeg', 'png']
+//     }
+//   });
   
-  const upload = multer({ storage: storage });
+//   const upload = multer({ storage: storage });
   
   
- module.exports = upload;
+//  module.exports = upload;
 

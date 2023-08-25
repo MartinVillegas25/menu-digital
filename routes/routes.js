@@ -16,7 +16,7 @@ const { homeGet,
     adminGet} = require('../controllers/routers');
 
 const { check } = require('express-validator');
-// const recuperarClave = require('../controllers/nodemailer');
+
 const {validarJWT, logout} = require('../middlerwares/validar-jwt');
 const adminRol = require('../middlerwares/validad-roles');
 
@@ -30,7 +30,7 @@ const router = Router();
 
 //rutas get
 router.get('/', homeGet);
-router.get('/dashboard/:email',[
+router.get('/dashboard',[
     validarJWT,
 ], dashboardLocal);
 router.get('/admin',[ 
@@ -84,6 +84,5 @@ router.put('/valores', nuevosValores);
 
 
 module.exports = router;
-
 
 

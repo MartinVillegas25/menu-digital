@@ -48,13 +48,31 @@ CREATE TABLE items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   img VARCHAR(200) NULL,
   nombre VARCHAR(60) NOT NULL,
-  categoria VARCHAR(60) NOT NULL,
-  subcategoria VARCHAR(60) NULL,
+  id_categoria INT NOT NULL,
+  id_subcategoria INT NOT NULL,
   cantidad INT NULL,
-  precio INT NOT NULL
+  precio INT NOT NULL,
+  emailusuario VARCHAR(100) NOT NULL,
+  FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
+  FOREIGN KEY (id_subcategoria) REFERENCES subcategorias(id_subcategoria);
 );
 
-ALTER TABLE items ADD COLUMN emailusuario VARCHAR(100);
+
+
+CREATE TABLE categorias (
+    id_categoria INT PRIMARY KEY,
+    emailusuario VARCHAR(100) NOT NULL,
+    nombre_categoria VARCHAR(50),
+);
+
+CREATE TABLE subcategorias (
+    id_subcategoria INT PRIMARY KEY,
+    nombre_subcategoria VARCHAR(50),
+    id_categoria INT,
+    emailusuario VARCHAR(100) NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
+);
+
 
 
 DESCRIBE planes;

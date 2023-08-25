@@ -48,9 +48,7 @@ const loginUsuario = async (req, res = response) => {
 
          //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
          if(user.status === 0){
-            res.status(404).send({
-                message: 'El usuario a sido suspendido por falta de pago, por favor regularice su situacion y contancte al administrador'
-            })
+            return res.status(404).redirect('/');
         }
 
         //validad clave
@@ -286,12 +284,12 @@ const adminGet = async (req, res = response) => {
 //ruta para suspender cuenta en dashboard del admin
 
 const suspenderCuenta = async(req,res)=>{
-    const {storeName} =  req.body;
+    const {email} =  req.body;
 
-    const query = 'UPDATE usuarios SET status = false WHERE storeName = ?';
+    const query = 'UPDATE usuarios SET status = false WHERE email = ?';
 
     try {
-        const result = await pool.query(query, [storeName]);
+        const result = await pool.query(query, [email]);
 
         if (result.length === 0){
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -299,7 +297,7 @@ const suspenderCuenta = async(req,res)=>{
         else{
 
             
-            res.send(`el cliente ${storeName} a sido suspendido`);
+            res.send(`el cliente ${email} a sido suspendido`);
         }
 
 
@@ -313,12 +311,12 @@ const suspenderCuenta = async(req,res)=>{
 //ruta para activar cuenta en dashboard del admin
 
 const activarCuenta = async(req,res)=>{
-    const {storeName} =  req.body;
+    const {email} =  req.body;
 
-    const query = 'UPDATE usuarios SET status = true WHERE storeName = ?';
+    const query = 'UPDATE usuarios SET status = true WHERE email = ?';
 
     try {
-        const result = await pool.query(query, [storeName]);
+        const result = await pool.query(query, [email]);
 
         if (result.length === 0){
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -326,7 +324,7 @@ const activarCuenta = async(req,res)=>{
         else{
 
             
-            res.send(`el cliente ${storeName} a sido activado`);
+            res.send(`el cliente ${email} a sido activado`);
         }
 
 

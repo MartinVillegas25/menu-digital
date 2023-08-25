@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-
+const fileUpload = require('express-fileupload')
 
 
 class Server {
@@ -14,7 +14,7 @@ class Server {
 
     router(){
         this.app.use('/', require('../routes/routes'))
-        // this.app.use('/dashboard', require('../routes/router-local'))
+        // this.app.use('/dashboard/', require('../routes/router-local'))
         
     }
     listen(){
@@ -32,6 +32,11 @@ class Server {
         this.app.use(express.static('public'));
         this.app.use(cors());
 
+        //subida de imagenes
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : './uploads'
+        }));
     }
 
     

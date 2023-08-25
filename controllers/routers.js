@@ -5,12 +5,14 @@ const { validationResult } = require('express-validator');
 const generarJWT = require('../middlerwares/generar-jwt');
 const emailer = require('./nodemailer')
 
+const fs = require('fs-extra');
 
 //controllers y services payments
 //rutas payments
 
 const PaymentService = require("../services/paymentServices");
 const sendMail = require('./nodemailer');
+const uploadImage = require('../middlerwares/cloudinary');
 
 
 
@@ -46,9 +48,7 @@ const loginUsuario = async (req, res = response) => {
 
          //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
          if(user.status === 0){
-            res.status(404).send({
-                message: 'El usuario a sido suspendido por falta de pago, por favor regularice su situacion y contancte al administrador'
-            })
+            return res.status(404).redirect('/');
         }
 
         //validad clave
@@ -61,9 +61,9 @@ const loginUsuario = async (req, res = response) => {
             switch (user.email) {
                 case 'example@example.com':
                     console.log({ 
-                        message: 'Inicio de sesión exitoso admin',
-                        token
-                 });
+                            message: 'Inicio de sesión exitoso admin',
+                            token
+                    });
                     res.json({token});
                     break;
             
@@ -154,12 +154,12 @@ const postUsuario = async(req, res = response) => {
            return res.status(404).json({ message: `El usuario con el email: ${email} ya esta registrado`  });
        }
 
-       //verificar si el nombre local existe
-       const searchName = 'SELECT COUNT(*) AS count FROM usuarios WHERE storeName = ?';
-       const result2 = await pool.query(searchName, [storeName]);
-       
-       if (result2[0][0].count>0){
-           return res.status(404).json({ message: `El usuario con el email: ${storeName} ya esta registrado, eliga otro nombre`  });
+       if(req.files?.img){
+          const result = await uploadImage(req.files.img.tempFilePath);
+          console.log(result);
+          img = result.url;
+
+          await fs.unlink(req.files.img.tempFilePath);
        }
 
        //encriptar password
@@ -226,17 +226,22 @@ const mostrarUsuarioPorEstado = async(req, res) => {
 
 //ruta get para el dashboard local
 const dashboardLocal = async(req, res) => {
-    let email = req.params.email
+    
 
 
     const query =  'SELECT * FROM usuarios WHERE email = ?';
     try {
+        let email = req.query.email
+        console.log(email)
         const result = await pool.query(query, [email]);
         if (result.length === 0){
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
         else{
-            res.status(200).send(`dashboard de ${email}`);
+            res.status(200).json({
+                usuario: result[0][0],
+                msg:`inicio de sesion en el dashboard de ${email}` 
+            });
         }
 
         
@@ -247,9 +252,28 @@ const dashboardLocal = async(req, res) => {
 }
 
 //ruta get admin dashboard 
-const adminGet = (req, res = response) => {
+const adminGet = async (req, res = response) => {
+    const email = req.email;
+    const query =  'SELECT * FROM usuarios WHERE email = ?';
+    
 
-    res.send('admin')
+    try {
+        const result = await pool.query(query, [email]);
+        if (result.length === 0){
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        else{
+            res.status(200).json({
+                usuario: result[0][0],
+                msg:'admin'
+            });
+        }
+
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).send('error en la peticion')
+    }
     
 }
 
@@ -260,12 +284,12 @@ const adminGet = (req, res = response) => {
 //ruta para suspender cuenta en dashboard del admin
 
 const suspenderCuenta = async(req,res)=>{
-    const {storeName} =  req.body;
+    const {email} =  req.body;
 
-    const query = 'UPDATE usuarios SET status = false WHERE storeName = ?';
+    const query = 'UPDATE usuarios SET status = false WHERE email = ?';
 
     try {
-        const result = await pool.query(query, [storeName]);
+        const result = await pool.query(query, [email]);
 
         if (result.length === 0){
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -273,7 +297,7 @@ const suspenderCuenta = async(req,res)=>{
         else{
 
             
-            res.send(`el cliente ${storeName} a sido suspendido`);
+            res.send(`el cliente ${email} a sido suspendido`);
         }
 
 
@@ -287,12 +311,12 @@ const suspenderCuenta = async(req,res)=>{
 //ruta para activar cuenta en dashboard del admin
 
 const activarCuenta = async(req,res)=>{
-    const {storeName} =  req.body;
+    const {email} =  req.body;
 
-    const query = 'UPDATE usuarios SET status = true WHERE storeName = ?';
+    const query = 'UPDATE usuarios SET status = true WHERE email = ?';
 
     try {
-        const result = await pool.query(query, [storeName]);
+        const result = await pool.query(query, [email]);
 
         if (result.length === 0){
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -300,7 +324,7 @@ const activarCuenta = async(req,res)=>{
         else{
 
             
-            res.send(`el cliente ${storeName} a sido activado`);
+            res.send(`el cliente ${email} a sido activado`);
         }
 
 

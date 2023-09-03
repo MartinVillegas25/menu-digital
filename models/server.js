@@ -7,22 +7,17 @@ class Server {
 
     constructor(){
         this.app = express();
+        
+        this.paths={
+            main: '/',
+            dashboardLocal: '/dashboard-local',  
+        }
         this.middelewares();
         this.router();
+        
         this.port = process.env.PORT ;
     }
 
-    router(){
-        this.app.use('/', require('../routes/routes'))
-        // this.app.use('/dashboard/', require('../routes/router-local'))
-        
-    }
-    listen(){
-        this.app.listen(this.port, () => {
-            console.log('listening on port', this.port);
-        });
-
-    }
     middelewares(){
 
         //para obtener datos del front en json
@@ -35,9 +30,22 @@ class Server {
         //subida de imagenes
         this.app.use(fileUpload({
             useTempFiles : true,
-            tempFileDir : './uploads'
+            tempFileDir : './uploads',
+            createParentPath: true,
         }));
     }
+
+    router(){
+        this.app.use(this.paths.main, require('../routes/routes'))
+        
+    }
+    listen(){
+        this.app.listen(this.port, () => {
+            console.log('listening on port', this.port);
+        });
+
+    }
+  
 
     
 

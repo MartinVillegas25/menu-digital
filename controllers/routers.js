@@ -12,7 +12,7 @@ const fs = require('fs-extra');
 
 const PaymentService = require("../services/paymentServices");
 const sendMail = require('./nodemailer');
-const uploadImage = require('../middlerwares/cloudinary');
+
 
 
 
@@ -380,7 +380,7 @@ const actualizarDatos =async (req, res)=>{
         }
         }
         sql = sql.slice(0, -2);
-        sql += ` WHERE storeName = ?`; 
+        sql += ` WHERE email = ?`; 
         values.push(usuarioActualizado); 
 
         const result= await pool.query(sql, values);
@@ -404,7 +404,7 @@ const actualizarDatos =async (req, res)=>{
 
 //actualizar valores de planes 
 const nuevosValores = async (req, res)=>{
-    const {standard, premium} = req.body;
+    const {standard, premium, basic} = req.body;
 
     const query = 'UPDATE planes SET standard = ?, premium = ?, basic = ? ';
     const query2 = 'SELECT * FROM planes'

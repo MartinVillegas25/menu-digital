@@ -45,34 +45,45 @@ ADD basic varchar(20) NULL
 
 
 CREATE TABLE items (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY ,
   img VARCHAR(200) NULL,
   nombre VARCHAR(60) NOT NULL,
   id_categoria INT NOT NULL,
-  id_subcategoria INT NOT NULL,
-  cantidad INT NULL,
+  id_subcategoria INT NULL,
   precio INT NOT NULL,
   emailusuario VARCHAR(100) NOT NULL,
+ 
   FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
-  FOREIGN KEY (id_subcategoria) REFERENCES subcategorias(id_subcategoria);
-);
+  FOREIGN KEY (id_subcategoria) REFERENCES subcategorias(id_subcategoria)
+)
 
 
 
 CREATE TABLE categorias (
-    id_categoria INT PRIMARY KEY,
+    id_categoria INT PRIMARY KEY AUTO_INCREMENT,
     emailusuario VARCHAR(100) NOT NULL,
-    nombre_categoria VARCHAR(50),
-);
+    nombre_categoria VARCHAR(50)
+)
 
 CREATE TABLE subcategorias (
-    id_subcategoria INT PRIMARY KEY,
+    id_subcategoria INT PRIMARY KEY AUTO_INCREMENT,
     nombre_subcategoria VARCHAR(50),
     id_categoria INT,
     emailusuario VARCHAR(100) NOT NULL,
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
-);
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+)
 
+CREATE TABLE pedidos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  mesa INT NOT NULL,
+  pedido varchar(200) NOT NULL,
+  comentarios varchar(200) NULL,
+  nombre varchar(100) NOT NULL,
+  total INT NOT NULL,
+  usuario_email VARCHAR(100) NOT NULL,
+  camarera BOOLEAN NOT NULL DEFAULT false,
+  cuenta BOOLEAN NOT NULL DEFAULT false;
+)
 
 
 DESCRIBE planes;

@@ -20,6 +20,20 @@ const { check } = require('express-validator');
 const {validarJWT, logout} = require('../middlerwares/validar-jwt');
 const adminRol = require('../middlerwares/validad-roles');
 
+//controllers y middlerwares del menu
+const { mostrarMenu, 
+    actualizarMenu, 
+    agregarProducto, 
+    borrarProducto, 
+    mostrarCategorias, 
+    mostrarPedidos, 
+    realizarPedidos, 
+    crearCategoria,
+    crearSubCategoria,
+    mostrarsubCategorias,
+    liberarPedido} = require('../controllers/router-menu');
+
+
 
 
 
@@ -82,6 +96,54 @@ router.get('/mostrar', mostrar); //Mostrar usuarios formato Json
 router.put('/valores', nuevosValores);
 
 
+
+//*********RUTAS DEL DASHBOARD LOCAL*****************/
+
+//items menu dashboard local
+
+router.get('/dashboard/:email/items', validarJWT, mostrarMenu)
+
+router.put('/dashboard/items',[
+    validarJWT
+], actualizarMenu)
+
+router.post('/dashboard/:email/items',[
+    validarJWT
+], agregarProducto);
+
+router.delete('/dashboard/items',[
+    validarJWT
+], borrarProducto);
+
+
+//mostar categorias por local
+
+router.get('/dashboard/categorias',[
+    validarJWT
+],mostrarCategorias);
+router.get('/dashboard/subcategorias',[
+    validarJWT
+],mostrarsubCategorias);
+router.post('/dashboard/newcategoria',[
+    validarJWT
+],crearCategoria);
+router.post('/dashboard/newsubcategoria',[
+    validarJWT
+],crearSubCategoria);
+
+//manejos de pedidos local
+
+router.get('/dashboard/:email/pedidos',[
+    validarJWT
+], mostrarPedidos);
+router.delete('/:mesa/:nombre/liberar-pedido',[
+    validarJWT
+], liberarPedido);
+
+
+
+//****************RUTAS DEL MENU******************
+router.post('/:email/:mesa/pedido', realizarPedidos);
 
 module.exports = router;
 

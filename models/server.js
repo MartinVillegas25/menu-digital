@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload')
 
+// const { socketController } = require('../sockets/controller');
 
 class Server {
 
@@ -14,6 +15,7 @@ class Server {
         }
         this.middelewares();
         this.router();
+        // this.io     = require('socket.io')( this.server );
         
         this.port = process.env.PORT ;
     }
@@ -39,6 +41,11 @@ class Server {
         this.app.use(this.paths.main, require('../routes/routes'))
         
     }
+    // sockets() {
+
+    //     this.io.on('connection', socketController );
+
+    // }
     listen(){
         this.app.listen(this.port, () => {
             console.log('listening on port', this.port);

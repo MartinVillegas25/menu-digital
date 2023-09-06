@@ -13,7 +13,8 @@ const { homeGet,
     nuevosValores,
     recuperarClave,
     mostrarPlanes,
-    adminGet} = require('../controllers/routers');
+    adminGet,
+    configGet} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 
@@ -44,6 +45,9 @@ const router = Router();
 
 //rutas get
 router.get('/', homeGet);
+router.get('/dashboard/config',[
+    validarJWT,
+], configGet);
 router.get('/dashboard',[
     validarJWT,
 ], dashboardLocal);

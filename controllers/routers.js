@@ -228,11 +228,12 @@ const mostrarUsuarioPorEstado = async(req, res) => {
 const dashboardLocal = async(req, res) => {
     
 
-
+    const email = req.email;
+    const emailQuery = req.query.email
     const query =  'SELECT * FROM usuarios WHERE email = ?';
+    
+
     try {
-        let email = req.query.email
-        console.log(email)
         const result = await pool.query(query, [email]);
         if (result.length === 0){
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -240,7 +241,8 @@ const dashboardLocal = async(req, res) => {
         else{
             res.status(200).json({
                 usuario: result[0][0],
-                msg:`inicio de sesion en el dashboard de ${email}` 
+                msg:'local',
+                emailQuery
             });
         }
 
@@ -277,7 +279,34 @@ const adminGet = async (req, res = response) => {
     
 }
 
-//logout
+//ruta get configuracion
+
+//ruta get admin dashboard 
+const configGet = async (req, res = response) => {
+    const email = req.email;
+    const emailquery = req.query.email;
+
+    const query =  'SELECT * FROM usuarios WHERE email = ?';
+    
+
+    try {
+        const result = await pool.query(query, [emailquery]);
+        if (result.length === 0){
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        else{
+            res.status(200).json({
+                usuario: result[0][0],
+            });
+        }
+
+        
+    } catch (error) {
+        console.log(error);
+        res.status(400).send('error en la peticion')
+    }
+    
+}
 
 
 
@@ -408,12 +437,18 @@ const nuevosValores = async (req, res)=>{
 
     const query = 'UPDATE planes SET standard = ?, premium = ?, basic = ? ';
     const query2 = 'SELECT * FROM planes'
+    const query3 = 'INSERT INTO planes (standard, premium, basic) VALUES (?, ?, ?)';
 
     try {
         const result = await pool.query(query, [standard, premium, basic]);
-        console.log(result);
-        if (result.length === 0){
-            return res.status(404).json({ message: 'planes no encontrados' });
+        const planes = result[0].affectedRows;
+        
+        if (planes === 0){
+            
+            const nuevosPlanes = await pool.query(query3, [standard, premium, basic]);
+            res.status(201).json({
+                nuevosPlanes
+            })
         }
         else{
             const planesActulizados = await pool.query(query2)
@@ -486,6 +521,7 @@ PaymentController,
 recuperarClave,
 mostrarPlanes,
 adminGet,
+configGet
 
 
 

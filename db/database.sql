@@ -83,8 +83,11 @@ CREATE TABLE pedidos (
   usuario_email VARCHAR(100) NOT NULL,
   camarera BOOLEAN NOT NULL DEFAULT false,
   cuenta BOOLEAN NOT NULL DEFAULT false;
+  estado_pedido BOOLEAN NOT NULL DEFAULT false;
 )
 
+ALTER TABLE pedidos
+ADD estado_pedido BOOLEAN NOT NULL DEFAULT FALSE;
 
 DESCRIBE planes;
 

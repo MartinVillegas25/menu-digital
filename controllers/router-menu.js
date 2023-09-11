@@ -194,10 +194,11 @@ const borrarProducto = async (req, res) => {
 // Ruta GET para mostrar todas las categorías
 const mostrarCategorias = async (req, res) => {
 const emailUsuario = req.email
-const query = 'SELECT * FROM categorias WHERE emailusuario = ?';
+const query = 'SELECT nombre_categoria FROM categorias WHERE emailusuario = ?';
 try {
     const result = await pool.query(query, [emailUsuario]);
-    const categorias = result[0][0].nombre_categoria
+    const categorias = result[0];
+
     res.status(200).json({ categorias})
 } catch (error) {
   res.status(500).json({ 
@@ -211,28 +212,39 @@ try {
 
 // Ruta GET para mostrar todas las subcategorías
 const mostrarsubCategorias = async (req, res) => {
-  const emailUsuario = req.email
-  const categoria = req.query.categoria;
+	const emailUsuario = req.email;
+	const categoria = req.query.categoria;
 
-  const categoriasquery = 'SELECT * FROM categorias WHERE usuario_email = ? AND nombre_categoria= ?'
-  const querysubcategoria = 'SELECT * FROM subcategoria WHERE usuario_email = ?AND id_categoria =? ';
-  try {
-    //primero obtengo el id de la categoria
-    const resultCateroria = await pool.query(categoriasquery, [emailUsuario, categoria]);
-      const categoriaSeleccionada = resultCateroria[0][0].id_subcategoria;
-      
+	const categoriasquery =
+		'SELECT id_categoria FROM categorias WHERE emailusuario = ? AND nombre_categoria= ?';
+	const querysubcategoria =
+		'SELECT nombre_subcategoria FROM subcategorias WHERE emailusuario = ? AND id_categoria = ?';
+	try {
+		// primero obtengo el id de la categoria
+		const resultCateroria = await pool.query(categoriasquery, [
+			emailUsuario,
+			categoria
+		]);
+		const categoriaSeleccionada = resultCateroria[0][0];
 
-      const resultSubCategoria = await pool.query(querysubcategoria, [emailUsuario,categoriaSeleccionada]);
-      const subcategorias = resultSubCategoria[0][0]
-      res.status(200).json({ subcategorias})
-  } catch (error) {
-    res.status(500).json({ 
-      error: error,
-      msg: 'Error en mostrar subcategorias'
-     });
-  }
-  
-  };
+		// extraigo el id de la categoria
+		const idCategoria = categoriaSeleccionada.id_categoria;
+
+		const resultSubCategoria = await pool.query(querysubcategoria, [
+			emailUsuario,
+			idCategoria
+		]);
+		const subcategorias = resultSubCategoria[0];
+		console.log(subcategorias);
+
+		res.status(200).json({ subcategorias });
+	} catch (error) {
+		res.status(500).json({
+			error: error,
+			msg: 'Error en mostrar subcategorias'
+		});
+	}
+};
 //ruta mostrar pedidos
 
 const mostrarPedidos = async (req, res) => {

@@ -5,9 +5,12 @@ const ticketControl = new TicketControl();
 
 
 const socketController = (socket) => {
+   
 
     // Cuando un cliente se conecta
-    
+    socket.emit( 'ultimo-ticket', ticketControl.ultimo );
+    socket.emit( 'estado-actual', ticketControl.ultimos4 );
+    socket.emit( 'tickets-pendientes', ticketControl.tickets.length);
         
 
     socket.on('siguiente-ticket', ( payload, callback ) => {
@@ -52,7 +55,9 @@ const socketController = (socket) => {
 
 
 
-// module.exports = {
-//     socketController
-// }
+module.exports = {
+    socketController
+}
+
+
 

@@ -7,16 +7,16 @@ const divAlerta     = document.querySelector('.alert');
 const lblPendientes = document.querySelector('#lblPendientes');
 
 
+
 const searchParams = new URLSearchParams( window.location.search );
 
-if ( !searchParams.has('mesa') ) {
+if ( !searchParams.has('escritorio') ) {
     window.location = 'index.html';
-    throw new Error('la mesa es obligatoria');
+    throw new Error('El escritorio es obligatorio');
 }
 
-const mesa = searchParams.get('mesa');
-const email = searchParams.get('email');
-lblEscritorio.innerText = mesa;
+const escritorio = searchParams.get('escritorio');
+lblEscritorio.innerText = escritorio;
 
 divAlerta.style.display = 'none';
 
@@ -24,7 +24,9 @@ divAlerta.style.display = 'none';
 const socket = io();
 
 
+
 socket.on('connect', () => {
+    console.log('Connect')
     btnAtender.disabled = false;
 });
 
@@ -43,7 +45,6 @@ socket.on('tickets-pendientes', ( pendientes ) => {
 
 
 btnAtender.addEventListener( 'click', () => {
-    
 
     socket.emit( 'atender-ticket', { escritorio }, ( { ok, ticket, msg } ) => {
         

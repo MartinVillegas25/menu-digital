@@ -433,19 +433,49 @@ const actualizarDatos =async (req, res)=>{
 
 //actualizar valores de planes 
 const nuevosValores = async (req, res)=>{
-    const {standard, premium, basic} = req.body;
+    const dataActualizada = req.body;
+    const usuarioAdmin = req.email
 
-    const query = 'UPDATE planes SET standard = ?, premium = ?, basic = ? ';
     const query2 = 'SELECT * FROM planes'
-    const query3 = 'INSERT INTO planes (standard, premium, basic) VALUES (?, ?, ?)';
+    
 
     try {
-        const result = await pool.query(query, [standard, premium, basic]);
+
+        //actulizar solos los campos que se pusieron
+        let sql = `UPDATE planes SET`;
+        let values = [];
+        for (const key in dataActualizada) {
+        if (key !== usuarioAdmin && dataActualizada.hasOwnProperty(key)) {
+            sql += ` ${key} = ?, `;
+            console.log(sql);
+            values.push(dataActualizada[key]);
+            console.log(values);
+        }
+        }
+        sql = sql.slice(0, -2);
+       
+
+        
+
+        const result = await pool.query(sql, values);
         const planes = result[0].affectedRows;
         
         if (planes === 0){
-            
-            const nuevosPlanes = await pool.query(query3, [standard, premium, basic]);
+                //actulizar solos los campos que se pusieron
+            let sql2 = `INSERT INTO planes `;
+            let values2 = [];
+            for (const key in dataActualizada) {
+            if (key !== usuarioAdmin && dataActualizada.hasOwnProperty(key)) {
+                sql += ` ${key} = ?, `;
+                console.log(sql);
+                values.push(dataActualizada[key]);
+                console.log(values);
+            }
+            }
+            sql = sql.slice(0, -2);
+         
+
+            const nuevosPlanes = await pool.query(sql2, values2);
             res.status(201).json({
                 nuevosPlanes
             })

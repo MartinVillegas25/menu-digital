@@ -10,36 +10,63 @@ const lblTicket4 = document.querySelector('#lblTicket4');
 const lblEscritorio4 = document.querySelector('#lblEscritorio4');
 
 
+
+const searchParams = new URLSearchParams( window.location.search );
+
+if ( !searchParams.has('email') ) {
+    window.location = 'index.html';
+    throw new Error('El email es obligatorio');
+}
+
+
+
+const usuario ={
+    email:searchParams.get('email')
+}
+
 const socket = io();
 
+socket.on('connect', () => {
+    console.log('conectado a la sala' + usuario.email);  
+    // Unirse a la sala de llamar a la camarera
+    socket.emit('join-room', { room: usuario.email + '-llamar-camarera' });
+
+    // Unirse a la sala de pedir la cuenta
+    socket.emit('join-room', { room: usuario.email + '-pedir-cuenta' });
+});
+
+socket.on('disconnect', () => {
+   console.log('desconectado');
+});
+socket.emit('join-room', { room: usuario.email });
 
 
 socket.on('estado-actual', ( payload ) => {
-
-    const audio = new Audio('./audio/new-ticket.mp3');
-    audio.play();
+    console.log('payload' , payload)
+    // const audio = new Audio('./audio/new-ticket.mp3');
+    // audio.play();
 
 
     const [ ticket1, ticket2, ticket3, ticket4 ] = payload;
 
     if( ticket1 ){
-        lblTicket1.innerText = 'Ticket ' + ticket1.numero;
-        lblEscritorio1.innerText = ticket1.escritorio;
+        lblTicket1.innerText = ticket1;
+       
     }
     
     if( ticket2 ){
-        lblTicket2.innerText = 'Ticket ' + ticket2.numero;
-        lblEscritorio2.innerText = ticket2.escritorio;
+        lblTicket2.innerText = ticket2;
+       
     }
     
     if( ticket3 ){
-        lblTicket3.innerText = 'Ticket ' + ticket3.numero;
-        lblEscritorio3.innerText = ticket3.escritorio;
+        lblTicket3.innerText = ticket3;
+        
     }
     
     if( ticket4 ){
-        lblTicket4.innerText = 'Ticket ' + ticket4.numero;
-        lblEscritorio4.innerText = ticket4.escritorio;
+        lblTicket4.innerText =ticket4;
+        
     }
     
 

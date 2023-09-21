@@ -12,8 +12,7 @@ class Server {
         this.server = require('http').createServer( this.app );
         this.io     = require('socket.io')( this.server );
         this.paths={
-            main: '/',
-            dashboardLocal: '/dashboard-local',  
+            main: '/'
         }
         //middlewares
         this.middelewares();
@@ -54,7 +53,7 @@ class Server {
 
     }
     listen(){
-        this.app.listen(this.port, () => {
+        this.server.listen(this.port, () => {
             console.log('listening on port', this.port);
         });
 

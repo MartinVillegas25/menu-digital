@@ -2,9 +2,9 @@ const path = require('path');
 const fs   = require('fs');
 
 class Ticket {
-    constructor( numero, escritorio ) {
-        this.numero = numero;
-        this.escritorio = escritorio;
+    constructor( mesa, email ) {
+        this.mesa = mesa;
+        this.email = email;
     }
 }
 
@@ -13,9 +13,9 @@ class TicketControl {
 
 
     constructor() {
-        this.ultimo   = 0;
+        this.ultimaMesa   = 0;
         this.hoy      = new Date().getDate(); // 11
-        this.tickets  = [];
+        this.mesas  = [];
         this.ultimos4 = [];
 
         this.init();
@@ -24,18 +24,18 @@ class TicketControl {
 
     get toJson() {
         return {
-            ultimo: this.ultimo,
+            ultimaMesa: this.ultimaMesa,
             hoy: this.hoy,
-            tickets: this.tickets,
+            mesas: this.mesas,
             ultimos4: this.ultimos4,
         }
     }
 
     init() {
-        const { hoy, tickets, ultimo, ultimos4 } = require('../db/data.json');
+        const { hoy, mesas, ultimaMesa, ultimos4 } = require('../db/data.json');
         if ( hoy === this.hoy ) {
-            this.tickets  = tickets;
-            this.ultimo   = ultimo;
+            this.mesas  = mesas;
+            this.ultimaMesa   = ultimaMesa;
             this.ultimos4 = ultimos4;
         } else {
             // Es otro dia
@@ -50,26 +50,25 @@ class TicketControl {
 
     }
 
-    siguiente() {
-        this.ultimo += 1;
-        const ticket = new Ticket( this.ultimo, null );
-        this.tickets.push( ticket );
+    siguiente(mesa, email) {
+        this.ultimo = mesa ;
+        const ticket = new Ticket( this.ultimo, email );
+        this.mesas.push( ticket );
 
         this.guardarDB();
-        return 'Ticket ' + ticket.numero;
+        return 'Mesa ' + ticket.mesa;
     }
 
-    atenderTicket( escritorio ) {
 
-        // No tenemos tickets
-        if ( this.tickets.length === 0 ) {
-            return null;
-        }
+    // Nuevo método para solicitar atención de la camarera
+    llamarCamerera(mesa, email) {
+        
+        const ticket = this.mesas.shift(); // this.tickets[0];
+        ticket.mesa = 'Camarera Mesa ' + mesa;
+        
+            
 
-        const ticket = this.tickets.shift(); // this.tickets[0];
-        ticket.escritorio = escritorio;
-
-        this.ultimos4.unshift( ticket );
+        this.ultimos4.unshift( ticket.mesa);
 
         if ( this.ultimos4.length > 4 ) {
             this.ultimos4.splice(-1,1);
@@ -77,9 +76,40 @@ class TicketControl {
 
         this.guardarDB();
 
+        console.log(ticket.mesa)
         return ticket;
     }
 
+    // Nuevo método para enviar la cuenta
+    guardarPedirCuenta(email, mesa, nombre, total, pago, personas) {
+        const ticket = new Ticket(mesa, email);
+        ticket.nombre = nombre;
+        ticket.total = total;
+        ticket.metodoPago = pago;
+        ticket.cantidadPersonas = personas;
+        this.mesas.push(ticket);
+        this.guardarDB();
+        return ticket;
+    }
+
+
+    // Nuevo método para pedir cuenta
+    pedirCuenta(mesa, nombre, total, pago, personas) {
+        
+        const ticket = this.mesas.shift(); // this.tickets[0];
+        ticket.mesa = `Cuenta en mesa ${mesa}, ${nombre}, Total: ${total}, Metodo de Pago : ${pago}, personas: ${personas}`; 
+
+        this.ultimos4.unshift( ticket.mesa);
+
+        if ( this.ultimos4.length > 4 ) {
+            this.ultimos4.splice(-1,1);
+        }
+
+        this.guardarDB();
+
+        console.log(ticket.mesa)
+        return ticket;
+    }
 
 
 }

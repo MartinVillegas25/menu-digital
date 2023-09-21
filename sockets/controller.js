@@ -4,40 +4,43 @@ const ticketControl = new TicketControl();
 
 
 
-const socketController = (socket) => {
+const socketController = (socket, io) => {
 
-    // Cuando un cliente se conecta
-    
-        
-
-    socket.on('siguiente-ticket', ( payload, callback ) => {
-        
-        const siguiente = ticketControl.siguiente();
-        callback( siguiente );
-        socket.broadcast.emit( 'tickets-pendientes', ticketControl.tickets.length);
-
+    socket.on('join-room', ({ room }) => {
+        socket.join(room); // Unir el socket a la sala especificada
+        console.log(room);
     });
 
-    socket.on('atender-ticket', ({ escritorio }, callback) => {
+    socket.on('llamar-camarera', (usuario, callback) => {
+        const salaLlamarCamarera = usuario.email + '-llamar-camarera';
+
+        // Unir el socket a la sala correspondiente
+        socket.join(salaLlamarCamarera);
         
-        if ( !escritorio ) {
+        console.log('Usuario llamar camarera', usuario)
+         const siguiente = ticketControl.siguiente(usuario.mesa, usuario.email);
+        callback( siguiente );
+
+
+             if ( !usuario.mesa ) {
             return callback({
                 ok: false,
-                msg: 'Es escritorio es obligatorio'
+                msg: 'La mesa es obligatoria'
             });
         }
-
-        const ticket = ticketControl.atenderTicket( escritorio );
-
         
-        socket.broadcast.emit( 'estado-actual', ticketControl.ultimos4 );
-        socket.emit( 'tickets-pendientes', ticketControl.tickets.length);
-        socket.broadcast.emit( 'tickets-pendientes', ticketControl.tickets.length);
+
+        const ticket = ticketControl.llamarCamerera( usuario.mesa );
+        console.log('ticket de ticket control', ticket)
+        
+        socket.to(salaLlamarCamarera).emit( 'estado-actual', ticketControl.ultimos4 );
+        socket.emit( 'tickets-pendientes', ticketControl.mesas.length);
+        socket.to(salaLlamarCamarera).emit( 'tickets-pendientes', ticketControl.mesas.length);
 
         if ( !ticket ) {
             callback({
                 ok: false,
-                msg: 'Ya no hay tickets pendientes'
+                msg: 'No hay Alertas pendientes'
             });
         } else {
             callback({
@@ -45,14 +48,60 @@ const socketController = (socket) => {
                 ticket
             })
         }
+    });
 
-    })
+    socket.on('pedir-cuenta', (usuario, data, callback) => {
+        
+        const salaPedirCuenta = usuario.email + '-pedir-cuenta';
 
+        // Unir el socket a la sala correspondiente
+        socket.join(salaPedirCuenta);
+
+        const { nombre, total, pago, personas } = data;
+        console.log({ nombre, total, pago, personas });
+    
+    
+        const respuesta = ticketControl.guardarPedirCuenta(usuario.email, usuario.mesa, nombre, total,  pago, personas);
+        callback(respuesta);
+
+        const ticket = ticketControl.pedirCuenta( usuario.mesa, nombre, total, pago, personas);
+        console.log('ticket de ticket control', ticket)
+
+        socket.to(salaPedirCuenta).emit( 'estado-actual', ticketControl.ultimos4 );
+        socket.emit( 'tickets-pendientes', ticketControl.mesas.length);
+        socket.to(salaPedirCuenta).emit( 'tickets-pendientes', ticketControl.mesas.length);
+    });
+
+    socket.on('atender-ticket', (comensal, callback) => {
+        if (!comensal.mesa) {
+            return callback({
+                ok: false,
+                msg: 'El mesa es obligatoria'
+            });
+        }
+        console.log('hola');
+    
+    });
+   
+
+        
+
+    socket.on('siguiente-ticket', ( payload, callback ) => {
+        const mesa = payload.mesa
+        const siguiente = ticketControl.siguiente(mesa);
+        callback( siguiente );
+        socket.broadcast.emit( 'tickets-pendientes', ticketControl.mesas.length);
+
+    });
+
+    
 }
 
 
 
-// module.exports = {
-//     socketController
-// }
+module.exports = {
+    socketController
+}
+
+
 

@@ -13,15 +13,28 @@ cloudinary.config( process.env.CLOUDINARY_URL );
 
 
 const mostrarMenu = async (req, res = response) => {
-  const emailUsuario = req.email;
+  const emailUsuario = req.query.email;
   try {
-    const query = `
-    SELECT * FROM items
-    WHERE emailusuario = ?
-    `;
-
-    const [rows] = await pool.query(query, [emailUsuario]);
-    res.status(200).json(rows[0]);
+      const query = `
+        SELECT
+          i.id,
+          i.img,
+          i.nombre,
+          c.nombre_categoria AS categoria,
+          s.nombre_subcategoria AS subcategoria,
+          i.precio
+        FROM
+          items AS i
+        LEFT JOIN
+          categorias AS c ON i.id_categoria = c.id_categoria
+        LEFT JOIN
+          subcategorias AS s ON i.id_subcategoria = s.id_subcategoria
+        WHERE
+          i.emailusuario = ?
+      `;
+  
+      const [rows] = await pool.query(query, [emailUsuario]);
+      res.status(200).json(rows);
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -31,25 +44,52 @@ const mostrarMenu = async (req, res = response) => {
 const agregarProducto = async (req, res) => {
   const emailUsuario = req.email
   try {
-    const { nombre, categoria, subcategoria, precio } = req.body;
+    const { nombre, categoria, precio } = req.body;
     
     //agregar imagen a cloudinary para obterner url
   
-    const { tempFilePath } = req.files.img
+    if(req.files){
+      const { tempFilePath } = req.files.img
+      console.log('file image:', tempFilePath);
+      const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+      
+      img_url = secure_url;
+      
+    } else{
+      img_url = 'https://res.cloudinary.com/dj3akdhb9/image/upload/v1695261911/samples/default-product-image_gqztb6.png';
+      
+    }
+
+
+    const queryCategoria = 'SELECT id_categoria FROM categorias WHERE nombre_categoria = ? AND emailusuario = ?'
+    const resultCategoria = await pool.query(queryCategoria,[categoria, emailUsuario]);
+
+    const c = resultCategoria[0][0];
+    const cSeleccionada = c.id_categoria;
     
-    const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+    const querySubCategoria = 'SELECT id_subcategoria FROM subcategorias WHERE id_categoria = ? AND emailusuario = ?'
+    const resultSubCategoria = await pool.query(querySubCategoria,[cSeleccionada, emailUsuario]);
+    if(resultSubCategoria[0].length === 0){
+      const query = 'INSERT INTO items (img, nombre, id_categoria, precio, emailusuario) VALUES (?, ?, ?, ?, ?)';
+      const values = [img_url, nombre, cSeleccionada,precio, emailUsuario];
     
-    const img_url = secure_url;
+      await pool.query(query, values);
+    }
+    else{
+      const sub= resultSubCategoria[0][0];
+      const cSubSeleccionada = sub.id_subcategoria;
+      const query = 'INSERT INTO items (img, nombre, id_categoria, id_subcategoria, precio, emailusuario) VALUES (?, ?, ?, ?, ?, ?)';
+      const values = [img_url, nombre, cSeleccionada, cSubSeleccionada, precio, emailUsuario];
     
-    const query = 'INSERT INTO items (img, nombre, categoria, subcategoria, precio, emailusuario) VALUES (?, ?, ?, ?, ?, ?)';
-    const values = [img_url, nombre, categoria, subcategoria, precio, emailUsuario];
-    
-    await pool.query(query, values);
-    res.Status(201).json({
+      await pool.query(query, values);
+    }
+
+    res.status(201).json({
       message:'Producto agregado correctamente'
     });
   } catch (err) {
-    res.status(500).json({ error: err });
+    console.error(err);
+    res.status(500).json({ err });
   }
 };
 
@@ -84,6 +124,92 @@ if (categoriaExistenteResult.length > 0) {
     }
 
 }
+
+//DELETE borrar categoria 
+
+const borrarCategoria = async (req, res) => {
+  const emailUsuario = req.email;
+  const {nombre_categoria} = req.body;
+  
+
+  try {
+    //buscar el id de categoria 
+    const idCategoriaQuery =  'SELECT id_categoria FROM categorias WHERE nombre_categoria = ? AND emailusuario = ?'
+    const resultIdCategoria = await pool.query(idCategoriaQuery, [nombre_categoria, emailUsuario])
+    
+    if (resultIdCategoria[0].length === 0) {
+      return res.status(404).json({ error: 'La categoría no existe.' });
+    }
+    const idCtg = resultIdCategoria[0][0];
+    const categoria = idCtg.id_categoria;
+    console.log(categoria);
+    // Verifica si la categoría existe
+    const categoriaExistenteQuery = 'SELECT * FROM categorias WHERE id_categoria = ?';
+    const [categoriaExistenteRows] = await pool.query(categoriaExistenteQuery, [categoria]);
+
+    if (categoriaExistenteRows.length === 0) {
+      return res.status(404).json({ error: 'La categoría no existe.' });
+    }
+
+    // Borra todos los productos asociados a la categoría
+    const deleteProductosQuery = 'DELETE FROM items WHERE id_categoria = ?';
+    await pool.query(deleteProductosQuery, [categoria]);
+
+    // Borra la categoría
+    const deleteCategoriaQuery = 'DELETE FROM categorias WHERE id_categoria = ?';
+    await pool.query(deleteCategoriaQuery, [categoria]);
+
+    res.status(200).json({ message: 'Categoría y productos asociados eliminados con éxito.' });
+  } catch (err) {
+    res.status(500).json({ error: err });
+    console.error(err);
+  }
+
+
+};
+
+//DELETE borrar subcategoria 
+const borrarSubCategoria = async (req, res) => {
+  const emailUsuario = req.email;
+  const { nombre_subcategoria } = req.body;
+  
+  try {
+    //buscar el id de categoria 
+    const idSubCategoriaQuery =  'SELECT id_subcategoria FROM subcategorias WHERE nombre_subcategoria = ? AND emailusuario = ?'
+    const resultIdSubCategoria = await pool.query(idSubCategoriaQuery, [nombre_subcategoria, emailUsuario])
+    console.log(resultIdSubCategoria)
+    if (resultIdSubCategoria[0].length === 0) {
+      return res.status(404).json({ error: 'La subcategoría no existe.' });
+    }
+    const idSubCtg = resultIdSubCategoria[0][0];
+    const subcategoria = idSubCtg.id_subcategoria;
+    console.log(subcategoria);
+
+   // Verifica si la subcategoría existe
+   const subcategoriaExistenteQuery = 'SELECT * FROM subcategorias WHERE id_subcategoria = ?';
+   const [subcategoriaExistenteRows] = await pool.query(subcategoriaExistenteQuery, [subcategoria]);
+
+   if (subcategoriaExistenteRows.length === 0) {
+     return res.status(404).json({ error: 'La subcategoría no existe.' });
+   }
+
+   // Borra todos los productos asociados a la subcategoría
+   const deleteProductosQuery = 'DELETE FROM items WHERE id_subcategoria = ?';
+   await pool.query(deleteProductosQuery, [subcategoria]);
+
+   // Borra la subcategoría
+   const deleteSubcategoriaQuery = 'DELETE FROM subcategorias WHERE id_subcategoria = ?';
+   await pool.query(deleteSubcategoriaQuery, [subcategoria]);
+
+   res.status(200).json({ message: 'Subcategoría y productos asociados eliminados con éxito.' });
+  } catch (err) {
+    res.status(500).json({ error: err });
+    console.error(err);
+  }
+
+
+};
+
 
 //ruta para agregar subcategorias
 
@@ -194,10 +320,11 @@ const borrarProducto = async (req, res) => {
 // Ruta GET para mostrar todas las categorías
 const mostrarCategorias = async (req, res) => {
 const emailUsuario = req.email
-const query = 'SELECT * FROM categorias WHERE emailusuario = ?';
+const query = 'SELECT nombre_categoria FROM categorias WHERE emailusuario = ?';
 try {
     const result = await pool.query(query, [emailUsuario]);
-    const categorias = result[0][0].nombre_categoria
+    const categorias = result[0];
+
     res.status(200).json({ categorias})
 } catch (error) {
   res.status(500).json({ 
@@ -211,28 +338,39 @@ try {
 
 // Ruta GET para mostrar todas las subcategorías
 const mostrarsubCategorias = async (req, res) => {
-  const emailUsuario = req.email
-  const categoria = req.query.categoria;
+	const emailUsuario = req.email;
+	const categoria = req.query.categoria;
 
-  const categoriasquery = 'SELECT * FROM categorias WHERE usuario_email = ? AND nombre_categoria= ?'
-  const querysubcategoria = 'SELECT * FROM subcategoria WHERE usuario_email = ?AND id_categoria =? ';
-  try {
-    //primero obtengo el id de la categoria
-    const resultCateroria = await pool.query(categoriasquery, [emailUsuario, categoria]);
-      const categoriaSeleccionada = resultCateroria[0][0].id_subcategoria;
-      
+	const categoriasquery =
+		'SELECT id_categoria FROM categorias WHERE emailusuario = ? AND nombre_categoria= ?';
+	const querysubcategoria =
+		'SELECT nombre_subcategoria FROM subcategorias WHERE emailusuario = ? AND id_categoria = ?';
+	try {
+		// primero obtengo el id de la categoria
+		const resultCateroria = await pool.query(categoriasquery, [
+			emailUsuario,
+			categoria
+		]);
+		const categoriaSeleccionada = resultCateroria[0][0];
 
-      const resultSubCategoria = await pool.query(querysubcategoria, [emailUsuario,categoriaSeleccionada]);
-      const subcategorias = resultSubCategoria[0][0]
-      res.status(200).json({ subcategorias})
-  } catch (error) {
-    res.status(500).json({ 
-      error: error,
-      msg: 'Error en mostrar subcategorias'
-     });
-  }
-  
-  };
+		// extraigo el id de la categoria
+		const idCategoria = categoriaSeleccionada.id_categoria;
+
+		const resultSubCategoria = await pool.query(querysubcategoria, [
+			emailUsuario,
+			idCategoria
+		]);
+		const subcategorias = resultSubCategoria[0];
+		console.log(subcategorias);
+
+		res.status(200).json({ subcategorias });
+	} catch (error) {
+		res.status(500).json({
+			error: error,
+			msg: 'Error en mostrar subcategorias'
+		});
+	}
+};
 //ruta mostrar pedidos
 
 const mostrarPedidos = async (req, res) => {
@@ -309,6 +447,8 @@ module.exports ={
   liberarPedido,
   crearCategoria,
   crearSubCategoria,
-  mostrarsubCategorias
+  mostrarsubCategorias,
+  borrarCategoria,
+  borrarSubCategoria
 }
   

@@ -1,65 +1,78 @@
 
 // Referencias HTML
-const lblEscritorio = document.querySelector('h1');
-const btnAtender    = document.querySelector('button');
+const lblMesa = document.querySelector('h1');
+const btnAtender    = document.querySelector('#llamarCamareraButton');
+const pedirCuentaForm = document.querySelector('form');
 const lblTicket     = document.querySelector('small');
 const divAlerta     = document.querySelector('.alert');
 const lblPendientes = document.querySelector('#lblPendientes');
 
 
+
+
+
+
 const searchParams = new URLSearchParams( window.location.search );
 
-if ( !searchParams.has('mesa') ) {
-    window.location = 'index.html';
-    throw new Error('la mesa es obligatoria');
+// if ( !searchParams.has('mesa') && !searchParams.has('email') ) {
+//     // window.location = 'index.html';
+//     throw new Error('El mesa y email es obligatorio');
+// }
+
+const usuario = {
+    mesa : searchParams.get('mesa'),
+    email : searchParams.get('email')
+
 }
 
-const mesa = searchParams.get('mesa');
-const email = searchParams.get('email');
-lblEscritorio.innerText = mesa;
+lblMesa.innerText = usuario.mesa;
 
-divAlerta.style.display = 'none';
+
 
 
 const socket = io();
 
 
 socket.on('connect', () => {
-    btnAtender.disabled = false;
+    console.log('conenctado menu');
+
 });
 
 socket.on('disconnect', () => {
-    btnAtender.disabled = true;
+    console.log('disconnect');
 });
 
-socket.on('tickets-pendientes', ( pendientes ) => {
-    if ( pendientes === 0 ) {
-        lblPendientes.style.display = 'none';
-    } else {
-        lblPendientes.style.display = '';
-        lblPendientes.innerText = pendientes;
-    }
-})
+
+
 
 
 btnAtender.addEventListener( 'click', () => {
-    
+  
+    socket.emit( 'llamar-camarera', usuario, ( payload ) => {       
 
-    socket.emit( 'atender-ticket', { escritorio }, ( { ok, ticket, msg } ) => {
+        lblTicket.innerText = 'Mesa' + payload;
         
-        if ( !ok ) {
-            lblTicket.innerText = 'Nadie.';
-            return divAlerta.style.display = '';
-        }
-
-        lblTicket.innerText = 'Ticket ' + ticket.numero;
-
     });
-    // socket.emit( 'siguiente-ticket', null, ( ticket ) => {
-    //     lblNuevoTicket.innerText = ticket;
-    // });
-
+    
 });
 
 
 
+const nombre = document.querySelector('#nombre');
+const total = document.querySelector('#total');
+const pago = document.querySelector('#pago');
+const personas = document.querySelector('#personas');
+
+pedirCuentaForm.addEventListener( 'submit', (e) => {
+    e.preventDefault();
+    
+    const nombreValor = nombre.value;
+    const totalValor = total.value;
+    const pagoValor = pago.value;
+    const personasValor = personas.value;
+
+    socket.emit('pedir-cuenta', usuario, { nombre: nombreValor, total: totalValor, pago: pagoValor, personas: personasValor }, (response) => {      
+        console.log(response);
+    });
+    
+});

@@ -32,7 +32,9 @@ const { mostrarMenu,
     crearCategoria,
     crearSubCategoria,
     mostrarsubCategorias,
-    liberarPedido} = require('../controllers/router-menu');
+    liberarPedido,
+    borrarCategoria,
+    borrarSubCategoria} = require('../controllers/router-menu');
 
 
 
@@ -105,7 +107,7 @@ router.put('/valores', nuevosValores);
 
 //items menu dashboard local
 
-router.get('/dashboard/:email/items', validarJWT, mostrarMenu)
+router.get('/dashboard/items', mostrarMenu)
 
 router.put('/dashboard/items',[
     validarJWT
@@ -119,6 +121,8 @@ router.delete('/dashboard/items',[
     validarJWT
 ], borrarProducto);
 
+router.delete('/dashboard/items/borrar-categoria', validarJWT, borrarCategoria);
+router.delete('/dashboard/items/borrar-subcategoria', validarJWT, borrarSubCategoria);
 
 //mostar categorias por local
 
@@ -134,6 +138,7 @@ router.post('/dashboard/newcategoria',[
 router.post('/dashboard/newsubcategoria',[
     validarJWT
 ],crearSubCategoria);
+
 
 //manejos de pedidos local
 

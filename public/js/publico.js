@@ -48,25 +48,23 @@ socket.on('estado-actual', ( payload ) => {
 
 
     const [ ticket1, ticket2, ticket3, ticket4 ] = payload;
+    const email = searchParams.get('email');
 
-    if( ticket1 ){
-        lblTicket1.innerText = ticket1;
-       
+
+    if (ticket1 && ticket1[email]) {
+        lblTicket1.innerText = ticket1[email];
     }
-    
-    if( ticket2 ){
-        lblTicket2.innerText = ticket2;
-       
+
+    if (ticket2 && ticket2[email]) {
+        lblTicket2.innerText = ticket2[email];
     }
-    
-    if( ticket3 ){
-        lblTicket3.innerText = ticket3;
-        
+
+    if (ticket3 && ticket3[email]) {
+        lblTicket3.innerText = ticket3[email];
     }
-    
-    if( ticket4 ){
-        lblTicket4.innerText =ticket4;
-        
+
+    if (ticket4 && ticket4[email]) {
+        lblTicket4.innerText = ticket4[email];
     }
     
 

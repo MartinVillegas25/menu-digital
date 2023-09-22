@@ -57,14 +57,14 @@ const socketController = (socket, io) => {
         // Unir el socket a la sala correspondiente
         socket.join(salaPedirCuenta);
 
-        const { nombre, total, pago, personas } = data;
-        console.log({ nombre, total, pago, personas });
+        const { nombre } = data;
+        console.log({ nombre });
     
     
-        const respuesta = ticketControl.guardarPedirCuenta(usuario.email, usuario.mesa, nombre, total,  pago, personas);
+        const respuesta = ticketControl.guardarPedirCuenta(usuario.email, usuario.mesa, nombre);
         callback(respuesta);
 
-        const ticket = ticketControl.pedirCuenta( usuario.mesa, nombre, total, pago, personas);
+        const ticket = ticketControl.pedirCuenta( usuario.mesa, nombre);
         console.log('ticket de ticket control', ticket)
 
         socket.to(salaPedirCuenta).emit( 'estado-actual', ticketControl.ultimos4 );

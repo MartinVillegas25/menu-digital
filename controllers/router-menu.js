@@ -15,36 +15,85 @@ cloudinary.config( process.env.CLOUDINARY_URL );
 const mostrarMenu = async (req, res = response) => {
   const emailUsuario = req.query.email;
   try {
-      const query = `
-        SELECT
-          i.id,
-          i.img,
-          i.nombre,
-          c.nombre_categoria AS categoria,
-          s.nombre_subcategoria AS subcategoria,
-          i.precio
-        FROM
-          items AS i
-        LEFT JOIN
-          categorias AS c ON i.id_categoria = c.id_categoria
-        LEFT JOIN
-          subcategorias AS s ON i.id_subcategoria = s.id_subcategoria
-        WHERE
-          i.emailusuario = ?
-      `;
-  
-      const [rows] = await pool.query(query, [emailUsuario]);
-      res.status(200).json(rows);
+    const query = `
+      SELECT
+        c.id_categoria AS categoria_id,
+        c.nombre_categoria AS categoria,
+        s.id_subcategoria AS subcategoria_id,
+        s.nombre_subcategoria AS subcategoria,
+        i.img,
+        i.nombre,
+        i.precio
+      FROM
+        categorias AS c
+      LEFT JOIN
+        subcategorias AS s ON c.id_categoria = s.id_categoria
+      LEFT JOIN
+        items AS i ON s.id_subcategoria = i.id_subcategoria
+      WHERE
+        i.emailusuario = ?
+    `;
+
+    const [rows] = await pool.query(query, [emailUsuario]);
+
+    // Organizar los resultados en una estructura jerárquica
+    const result = [];
+    rows.forEach(row => {
+      let categoriaIndex = result.findIndex(item => item.categoria_id === row.categoria_id);
+      if (categoriaIndex === -1) {
+        // Si la categoría aún no está en el resultado, agrégala
+        result.push({
+          categoria_id: row.categoria_id,
+          categoria: row.categoria,
+          subcategorias: [],
+        });
+        categoriaIndex = result.length - 1;
+      }
+
+      if (row.subcategoria_id) {
+        // Si la fila tiene una subcategoría, agrégala
+        let subcategoriaIndex = result[categoriaIndex].subcategorias.findIndex(item => item.subcategoria_id === row.subcategoria_id);
+        if (subcategoriaIndex === -1) {
+          result[categoriaIndex].subcategorias.push({
+            subcategoria_id: row.subcategoria_id,
+            subcategoria: row.subcategoria,
+            productos: [],
+          });
+          subcategoriaIndex = result[categoriaIndex].subcategorias.length - 1;
+        }
+
+        // Agrega el producto a la subcategoría
+        result[categoriaIndex].subcategorias[subcategoriaIndex].productos.push({
+          img: row.img,
+          nombre: row.nombre,
+          precio: row.precio,
+        });
+      } else {
+        // Si no tiene subcategoría, agrega el producto directamente a la categoría
+        result[categoriaIndex].productos.push({
+          img: row.img,
+          nombre: row.nombre,
+          precio: row.precio,
+        });
+      }
+    });
+
+    res.status(200).json(result);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err });
+
   }
 };
+
+
+
 
 // Ruta para agregar un elemento
 const agregarProducto = async (req, res) => {
   const emailUsuario = req.email
   try {
-    const { nombre, categoria, precio } = req.body;
+    const { nombre, categoria, subcategoria,  precio } = req.body;
     
     //agregar imagen a cloudinary para obterner url
   
@@ -63,12 +112,16 @@ const agregarProducto = async (req, res) => {
 
     const queryCategoria = 'SELECT id_categoria FROM categorias WHERE nombre_categoria = ? AND emailusuario = ?'
     const resultCategoria = await pool.query(queryCategoria,[categoria, emailUsuario]);
+    console.log(resultCategoria)
+    if(resultCategoria[0].length === 0){
+      return res.status(400).json({ message: 'La categoría no existe para este usuario.' });
+    }
 
     const c = resultCategoria[0][0];
     const cSeleccionada = c.id_categoria;
     
-    const querySubCategoria = 'SELECT id_subcategoria FROM subcategorias WHERE id_categoria = ? AND emailusuario = ?'
-    const resultSubCategoria = await pool.query(querySubCategoria,[cSeleccionada, emailUsuario]);
+    const querySubCategoria = 'SELECT id_subcategoria FROM subcategorias WHERE id_categoria = ? AND emailusuario = ? AND nombre_subcategoria = ?'
+    const resultSubCategoria = await pool.query(querySubCategoria,[cSeleccionada, emailUsuario, subcategoria]);
     if(resultSubCategoria[0].length === 0){
       const query = 'INSERT INTO items (img, nombre, id_categoria, precio, emailusuario) VALUES (?, ?, ?, ?, ?)';
       const values = [img_url, nombre, cSeleccionada,precio, emailUsuario];

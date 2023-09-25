@@ -6,10 +6,17 @@ const ticketControl = new TicketControl();
 
 const socketController = (socket, io) => {
 
+    socket.on('connect', ({ room }) => {
+        socket.to(room).emit( 'estado-actual', ticketControl.ultimos4 );
+        socket.emit( 'tickets-pendientes', ticketControl.mesas.length);
+        socket.to(room).emit( 'tickets-pendientes', ticketControl.mesas.length);
+    });
+
     socket.on('join-room', ({ room }) => {
         socket.join(room); // Unir el socket a la sala especificada
-        console.log(room);
+        console.log( "sala" , room);
     });
+
 
     socket.on('llamar-camarera', (usuario, callback) => {
         const salaLlamarCamarera = usuario.email + '-llamar-camarera';
@@ -30,7 +37,7 @@ const socketController = (socket, io) => {
         }
         
 
-        const ticket = ticketControl.llamarCamerera( usuario.mesa );
+        const ticket = ticketControl.llamarCamerera( usuario.email, usuario.mesa );
         console.log('ticket de ticket control', ticket)
         
         socket.to(salaLlamarCamarera).emit( 'estado-actual', ticketControl.ultimos4 );
@@ -57,14 +64,14 @@ const socketController = (socket, io) => {
         // Unir el socket a la sala correspondiente
         socket.join(salaPedirCuenta);
 
-        const { nombre } = data;
-        console.log({ nombre });
+        const { nombre, metodo } = data;
+        console.log({ nombre, metodo });
     
     
-        const respuesta = ticketControl.guardarPedirCuenta(usuario.email, usuario.mesa, nombre);
+        const respuesta = ticketControl.guardarPedirCuenta(usuario.email, usuario.mesa, nombre, metodo );
         callback(respuesta);
 
-        const ticket = ticketControl.pedirCuenta( usuario.mesa, nombre);
+        const ticket = ticketControl.pedirCuenta( usuario.mesa, nombre, usuario.email, metodo );
         console.log('ticket de ticket control', ticket)
 
         socket.to(salaPedirCuenta).emit( 'estado-actual', ticketControl.ultimos4 );

@@ -41,32 +41,27 @@ socket.on('disconnect', () => {
 socket.emit('join-room', { room: usuario.email });
 
 
-socket.on('estado-actual', ( payload ) => {
-    console.log('payload' , payload)
+socket.on('estado-actual', (payload) => {
+    console.log('payload', payload);
     // const audio = new Audio('./audio/new-ticket.mp3');
     // audio.play();
 
-
-    const [ ticket1, ticket2, ticket3, ticket4 ] = payload;
     const email = searchParams.get('email');
+    console.log(payload[email][0])
 
-
-    if (ticket1 && ticket1[email]) {
-        lblTicket1.innerText = ticket1[email];
+    if (payload[email][0]) {
+        lblTicket1.innerText = payload[email][0];
     }
 
-    if (ticket2 && ticket2[email]) {
-        lblTicket2.innerText = ticket2[email];
+    if (payload[email][1]) {
+        lblTicket2.innerText = payload[email][1];
     }
 
-    if (ticket3 && ticket3[email]) {
-        lblTicket3.innerText = ticket3[email];
+    if (payload[email][2]) {
+        lblTicket3.innerText = payload[email][2];
     }
 
-    if (ticket4 && ticket4[email]) {
-        lblTicket4.innerText = ticket4[email];
+    if (payload[email][3]) {
+        lblTicket4.innerText = payload[email][3];
     }
-    
-
-
 });

@@ -55,14 +55,16 @@ btnAtender.addEventListener( 'click', () => {
 
 
 const nombre = document.querySelector('#nombre');
+const metodo = document.querySelector('#metodo');
+
 
 pedirCuentaForm.addEventListener( 'submit', (e) => {
     e.preventDefault();
     
     const nombreValor = nombre.value;
-   
+    const metodoValor = metodo.value;
 
-    socket.emit('pedir-cuenta', usuario, { nombre: nombreValor }, (response) => {      
+    socket.emit('pedir-cuenta', usuario, { nombre: nombreValor, metodo: metodoValor }, (response) => {      
         console.log(response);
     });
     

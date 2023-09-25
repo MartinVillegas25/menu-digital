@@ -8,6 +8,8 @@ body {
 
 table {
     width: 100%;
+    max-width: 300px;
+    float: right;
     height: 100%;
     text-align: center;
 }
@@ -17,20 +19,20 @@ table {
 }
 
 .ticket-actual-numero {
-    font-size: 80px;
+    font-size: 35px;
 }
 
 .ticket-actual-escritorio {
-    font-size: 45px;
+    font-size: 32px;
 }
 
 .ticket-secundario {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 
 /* Nuevo-ticket */
 
 #lblNuevoTicket {
-    font-size: 70px;
+    font-size: 32px;
 }

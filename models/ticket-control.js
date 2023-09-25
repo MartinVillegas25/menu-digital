@@ -48,15 +48,15 @@ class TicketControl {
 
     // Nuevo método para agregar eventos a una sala específica
     agregarEventoSala(email, evento) {
+        
         if (!this.ultimos4[email]) {
             this.ultimos4[email] = [];
         }
         this.ultimos4[email].unshift(evento);
-    
+
         if (this.ultimos4[email].length > 4) {
             this.ultimos4[email].splice(-1, 1);
         }
-    
 
         this.guardarDB();
     }
@@ -85,19 +85,11 @@ class TicketControl {
 
 
     // Nuevo método para solicitar atención de la camarera
-    llamarCamerera(mesa, email) {
+    llamarCamerera(email, mesa) {
         
         const ticket = this.mesas.shift(); // this.tickets[0];
         ticket.mesa = 'Camarera Mesa ' + mesa;
         
-            
-
-        this.ultimos4.unshift( ticket.mesa);
-
-        if ( this.ultimos4.length > 4 ) {
-            this.ultimos4.splice(-1,1);
-        }
-
         this.agregarEventoSala(email, ticket.mesa);
 
         this.guardarDB();
@@ -107,9 +99,10 @@ class TicketControl {
     }
     
     // Nuevo método para enviar la cuenta
-    guardarPedirCuenta(email, mesa, nombre) {
+    guardarPedirCuenta(email, mesa, nombre, metodo) {
         const ticket = new Ticket(mesa, email);
         ticket.nombre = nombre;
+        ticket.metodo = metodo;
         this.mesas.push(ticket);
         this.guardarDB();
         return ticket;
@@ -117,16 +110,20 @@ class TicketControl {
 
 
     // Nuevo método para pedir cuenta
-    pedirCuenta(mesa, nombre) {
+    pedirCuenta(mesa, nombre, email, metodo) {
         
-        const ticket = this.mesas.shift(); // this.tickets[0];
-        ticket.mesa = `Cuenta en mesa ${mesa}, ${nombre}`; 
+        // const ticket = this.mesas.shift(); // this.tickets[0];
+        // ticket.mesa = `Cuenta en mesa ${mesa}, ${nombre}`; 
 
-        this.ultimos4.unshift( ticket.mesa);
+        // this.ultimos4.unshift( ticket.mesa);
 
-        if ( this.ultimos4.length > 4 ) {
-            this.ultimos4.splice(-1,1);
-        }
+        // if ( this.ultimos4.length > 4 ) {
+        //     this.ultimos4.splice(-1,1);
+        // }
+
+        // this.agregarEventoSala(email, ticket.mesa);
+        const ticket = this.mesas.shift();
+        ticket.mesa = `Cuenta en mesa ${mesa} \n ${nombre}, ${metodo}`;
 
         this.agregarEventoSala(email, ticket.mesa);
 

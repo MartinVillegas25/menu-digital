@@ -34,7 +34,9 @@ const { mostrarMenu,
     mostrarsubCategorias,
     liberarPedido,
     borrarCategoria,
-    borrarSubCategoria} = require('../controllers/router-menu');
+    borrarSubCategoria,
+    mostrarsubCategoriasMenu,
+    mostrarCategoriasMenu} = require('../controllers/router-menu');
 
 
 
@@ -151,8 +153,12 @@ router.delete('/:mesa/:nombre/liberar-pedido',[
 
 
 
+
+
 //****************RUTAS DEL MENU******************
 router.post('/:email/:mesa/pedido', realizarPedidos);
+router.get('/menu/subcategorias' , mostrarsubCategoriasMenu);
+router.get('/menu/categorias' , mostrarCategoriasMenu);
 
 module.exports = router;
 

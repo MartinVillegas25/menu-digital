@@ -20,6 +20,14 @@
     <form action="" id="pedirCuentaForm">
       <label class="form-label" for="nombre">Nombre:</label>
       <input  type="text" id="nombre" required><br>
+      <label class="form-label" for="metodo">Metodo de Pago:</label>
+      <select name="metodo" id="metodo">
+        <option value="Efectivo">Efectivo</option>
+        <option value="Credito">Credito</option>
+        <option value="Debito">Debito</option>
+        <option value="Mercado Pago">Mercado Pago</option>
+        <option value="Transferencia">Transferencia</option>
+      </select>
       
       <button class="btn btn-primary">Enviar</button>
     </form>
@@ -27,6 +35,10 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/escritorio.js"></script>
+
+    <!-- chat -->
+
+    
 
 </body>
 

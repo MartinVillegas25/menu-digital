@@ -36,3 +36,7 @@ table {
 #lblNuevoTicket {
     font-size: 32px;
 }
+
+h3, p, div, h5 {
+    color:#000;
+}

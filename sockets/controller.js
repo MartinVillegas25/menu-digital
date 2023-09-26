@@ -1,5 +1,8 @@
 const TicketControl = require('../models/ticket-control');
+const {Usuarios}= require('../models/usuarios');
+const { crearMensaje } = require('../utilidades/utilidades');
 
+const usuarios = new Usuarios();
 const ticketControl = new TicketControl();
 
 
@@ -17,6 +20,8 @@ const socketController = (socket, io) => {
         console.log( "sala" , room);
     });
 
+
+//socket llamar camarera
 
     socket.on('llamar-camarera', (usuario, callback) => {
         const salaLlamarCamarera = usuario.email + '-llamar-camarera';
@@ -56,6 +61,8 @@ const socketController = (socket, io) => {
             })
         }
     });
+//socket pedit cuenta
+
 
     socket.on('pedir-cuenta', (usuario, data, callback) => {
         
@@ -79,27 +86,62 @@ const socketController = (socket, io) => {
         socket.to(salaPedirCuenta).emit( 'tickets-pendientes', ticketControl.mesas.length);
     });
 
-    socket.on('atender-ticket', (comensal, callback) => {
-        if (!comensal.mesa) {
+
+   //chat por restaurant 
+
+    socket.on('entrarChat', (data, callback) => {
+        console.log("data", data);
+
+        if (!data.mesa || !data.email) {
             return callback({
-                ok: false,
-                msg: 'El mesa es obligatoria'
+                error: true,
+                mensaje: 'El nombre/sala es necesario'
             });
         }
-        console.log('hola');
-    
+
+        socket.join(data.email);
+
+        usuarios.agregarPersona(socket.id, data.mesa, data.email);
+
+        socket.to(data.email).emit('listaPersona', usuarios.getPersonasPorSala(data.email));
+
+        callback(usuarios.getPersonasPorSala(data.email));
+
     });
-   
+
+    socket.on('crearMensaje', (data, callback) => {
+
+        let persona = usuarios.getPersona(socket.id);
+
+        let mensaje = crearMensaje(persona.mesa, data.mensaje);
+        socket.to(persona.email).emit('crearMensaje', mensaje);
+
+        callback(mensaje);
+    });
+
+
+    socket.on('disconnect', () => {
+
+        let personaBorrada = usuarios.borrarPersona(socket.id);
+
+        
+        socket.to(personaBorrada.email).emit('listaPersona', usuarios.getPersonasPorSala(personaBorrada.email));
+
+
+    });
+
+    // Mensajes privados
+    socket.on('mensajePrivado', data => {
+
+        let persona = usuarios.getPersona(socket.id);
+        socket.to(data.para).emit('mensajePrivado', crearMensaje(persona.mesa, data.mensaje));
+
+    });
+
 
         
 
-    socket.on('siguiente-ticket', ( payload, callback ) => {
-        const mesa = payload.mesa
-        const siguiente = ticketControl.siguiente(mesa);
-        callback( siguiente );
-        socket.broadcast.emit( 'tickets-pendientes', ticketControl.mesas.length);
-
-    });
+  
 
     
 }

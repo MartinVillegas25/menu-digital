@@ -1,5 +1,6 @@
 .client-side-menu-web {
-	height: 1024px;
+	height: 100%;
+	min-height: 100vh;
 	background-color: #ffa101;
 	border-radius: 0px 120px 0 0px;
 	color: #000;
@@ -68,6 +69,42 @@
 
 .client-menu-mobile {
 	display: none;
+}
+
+.sideMenuClosed {
+	width: 60px;
+	height: 100%;
+	min-height: 100vh;
+	background-color: #ffa101;
+	border-radius: 0px 120px 0 0px;
+}
+
+.openSideBtn {
+	position: absolute;
+	top: 30px;
+	left: 200px;
+	background: none;
+	border: none;
+	color: black;
+}
+
+.openSideBtn .menuBtn {
+	rotate: 180deg;
+}
+
+.closedSideBtn {
+	position: absolute;
+	top: 30px;
+	left: 20px;
+	background: none;
+	border: none;
+}
+.menuBtn {
+	width: 30px;
+	height: 30px;
+	color: black;
+	background: none;
+	border: none;
 }
 
 @media screen and (max-width: 850px) {

@@ -6,10 +6,14 @@ import SubsbribeModal from '../SubscibeModal/SubscribeModal.jsx';
 import { BsPersonCircle } from 'react-icons/bs';
 import logo1 from '../../../assets/logos/logo1.png';
 import logo2 from '../../../assets/logos/logo2.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { logOutUser } from '../../../redux/actions';
 
 //barra de navegacion en la parte superior de la web
 export default function NavBar() {
 	//manejo de estado de la barra de navegacion
+	const dispatch = useDispatch();
 	const [navbar, setNavbar] = useState(false);
 	const [loginOpen, setLoginOpen] = useState(false);
 	const handleOpenLogin = () => {
@@ -25,6 +29,13 @@ export default function NavBar() {
 	const handleCloseSubscribe = () => {
 		setSubscribeOpen(false);
 	};
+
+	const handleLogOut = () => {
+		dispatch(logOutUser());
+	};
+
+	const actualUser = useSelector((state) => state.validation);
+	const actualUserLocal = useSelector((state) => state.validationLocal);
 
 	return (
 		<nav className="navbar">
@@ -93,14 +104,34 @@ export default function NavBar() {
 								</a>
 							</li>
 						</ul>
-						<div className="navbar-btns">
-							<button className="navbar-btn" onClick={handleOpenLogin}>
-								Iniciar sesión
-							</button>
-							<button className="navbar-btn" onClick={handleOpenSubscribe}>
-								Registrarse
-							</button>
-						</div>
+						{actualUser.msg === 'admin' ? (
+							<div className="navbar-btns">
+								<Link to="/admin">
+									<button className="navbar-btn">Administrador</button>
+								</Link>
+								<button className="navbar-btn" onClick={logOutUser}>
+									Cerrar sesion
+								</button>
+							</div>
+						) : actualUserLocal.msg === 'local' ? (
+							<div className="navbar-btns">
+								<Link to={`/dashboard?email=${actualUserLocal.usuario.email}`}>
+									<button className="navbar-btn">Dashboard</button>
+								</Link>
+								<button className="navbar-btn" onClick={logOutUser}>
+									Cerrar sesion
+								</button>
+							</div>
+						) : (
+							<div className="navbar-btns">
+								<button className="navbar-btn" onClick={handleOpenLogin}>
+									Iniciar sesión
+								</button>
+								<button className="navbar-btn" onClick={handleOpenSubscribe}>
+									Registrarse
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>

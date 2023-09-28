@@ -4,7 +4,7 @@ import './LoginModal.css';
 import img from '../../../assets/CAMARERA.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { logUser, validateAdmin } from '../../../redux/actions';
+import { logUser, validateAdmin, validateUser } from '../../../redux/actions';
 
 export default function LoginModal({ handleCloseLogin }) {
 	const dispatch = useDispatch();
@@ -42,18 +42,19 @@ export default function LoginModal({ handleCloseLogin }) {
 
 		// If all validation checks pass, dispatch the user creation action
 		await dispatch(logUser(input));
-
-		setInput({
-			email: '',
-			password: ''
-		});
+		dispatch(handleCloseLogin());
 	};
 	useEffect(() => {
 		// Check if the token has been updated in the Redux store
 		if (token) {
 			// Store the updated token in local storage
-			localStorage.setItem('token', token);
-			dispatch(validateAdmin());
+			if (input.email === 'example@example.com') {
+				localStorage.setItem('token', token);
+				dispatch(validateAdmin());
+			} else if (input.email !== '') {
+				localStorage.setItem('token', token);
+				dispatch(validateUser());
+			}
 		}
 	}, [token]);
 
@@ -68,13 +69,13 @@ export default function LoginModal({ handleCloseLogin }) {
 						Si <span>Mesero</span>
 					</h1>
 					<h2>Bienvenido/a de vuelta</h2>
+
 					<p>Ingresá con tu email y contraseña</p>
 					<div>
 						<p>Correo electrónico</p>
 						<input
 							type="text"
 							name="email"
-							id=""
 							value={input.email}
 							onChange={handleChange}
 						/>
@@ -84,7 +85,6 @@ export default function LoginModal({ handleCloseLogin }) {
 						<input
 							type="password"
 							name="password"
-							id=""
 							value={input.password}
 							onChange={handleChange}
 						/>

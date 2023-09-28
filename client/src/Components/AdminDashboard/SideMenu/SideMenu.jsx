@@ -7,40 +7,52 @@ import { VscSignOut } from 'react-icons/vsc';
 import CEO from '../../../assets/CEO.jpg';
 import logo from '../../../assets/logos/Logo1.png';
 import { useState } from 'react';
+import { BsArrowRightCircle } from 'react-icons/bs';
 export default function SideMenu() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	return (
-		<div>
-			<aside className="admin-side-menu-web">
-				<img src={logo} alt="" className="admin-side-menu-logo" />
-				<div className="admin-side-container">
-					<div className="admin-side-link">
-						<BsFillHouseFill />
-						<a href="/admin">Panel de control</a>
+		<div className="menu-admin-container">
+			<button
+				onClick={() => setMenuOpen(!menuOpen)}
+				className={menuOpen === true ? `openSideBtn` : `closedSideBtn`}
+			>
+				{' '}
+				<BsArrowRightCircle className="menuBtn" />
+			</button>
+			{menuOpen ? (
+				<aside className="admin-side-menu-web ">
+					<img src={logo} alt="" className="admin-side-menu-logo" />
+					<div className="admin-side-container">
+						<div className="admin-side-link">
+							<BsFillHouseFill />
+							<a href="/admin">Panel de control</a>
+						</div>
+						<div className="admin-side-link">
+							<FaMoneyBillWave />
+							<a href="">Ganancias</a>
+						</div>
+						<div className="admin-side-link">
+							<BsFillPersonFill />
+							<a href="/admin/clientes">Clientes</a>
+						</div>
+						<div className="admin-side-link">
+							<IoMdSettings />
+							<a href="/admin/configuracion">Configuracion</a>
+						</div>
+						<div className="admin-side-link">
+							<VscSignOut />
+							<a href="">Salir</a>
+						</div>
+						<div className="admin-side-img">
+							<img src={CEO} alt="" />
+							<p>Cambiar foto</p>
+						</div>
 					</div>
-					<div className="admin-side-link">
-						<FaMoneyBillWave />
-						<a href="">Ganancias</a>
-					</div>
-					<div className="admin-side-link">
-						<BsFillPersonFill />
-						<a href="/admin/clientes">Clientes</a>
-					</div>
-					<div className="admin-side-link">
-						<IoMdSettings />
-						<a href="/admin/configuracion">Configuracion</a>
-					</div>
-					<div className="admin-side-link">
-						<VscSignOut />
-						<a href="">Salir</a>
-					</div>
-					<div className="admin-side-img">
-						<img src={CEO} alt="" />
-						<p>Cambiar foto</p>
-					</div>
-				</div>
-			</aside>
+				</aside>
+			) : (
+				<div className="sideMenuClosed"></div>
+			)}
 			<nav className="admin-menu-mobile">
 				<div className="admin-menu-mobile-top">
 					<div>
@@ -77,10 +89,10 @@ export default function SideMenu() {
 						</button>
 					</div>
 					<div>
-						<img src={logo} alt="" className="nav-menu-logo-mobile" />
+						<div className="nav-menu-logo-mobile"></div>
 					</div>
 				</div>
-				<div className={`${menuOpen ? 'nav-block' : 'nav-hidden'} `}>
+				<div className={`${menuOpen ? 'nav-open' : 'nav-hidden'} `}>
 					<div className="admin-side-container">
 						<div className="admin-side-link">
 							<BsFillHouseFill />

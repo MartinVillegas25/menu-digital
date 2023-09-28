@@ -1,5 +1,7 @@
 import { IoRestaurantSharp } from 'react-icons/io5';
-export default function BasicPlanImg(handleOpenSubscribe) {
+
+// eslint-disable-next-line react/prop-types
+export default function BasicPlanImg({ handleOpenSubscribe }) {
 	return (
 		<div className="subscription-img">
 			<IoRestaurantSharp className="icon" />

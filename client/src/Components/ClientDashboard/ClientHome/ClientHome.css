@@ -5,9 +5,15 @@
 	margin-left: 30px;
 }
 
+.client-home {
+	display: flex;
+	justify-content: center;
+}
+
 .client-home-table {
 	overflow-y: scroll;
 	width: 100%;
+	min-width: 50vw;
 }
 .client-home-table-container {
 	max-height: 400px;
@@ -41,4 +47,11 @@
 .client-home-table-btn:hover {
 	background-color: transparent;
 	color: orange;
+}
+
+.client-home-alerts {
+	height: 400px;
+	width: 200px;
+	max-height: 400px;
+	border: solid 2px orange;
 }

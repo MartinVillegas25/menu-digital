@@ -128,7 +128,6 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 						<input
 							type="text"
 							name="email"
-							id=""
 							value={input.email}
 							onChange={handleChange}
 						/>
@@ -139,13 +138,12 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 						<input
 							type="password"
 							name="password"
-							id=""
 							value={input.password}
 							onChange={handleChange}
 						/>
 						{/* {passwordError ? <h1>{passwordError}</h1> : <br></br>} */}
 						<p>Repetí la contraseña:</p>
-						<input type="password" id="" />
+						<input type="password" />
 					</div>
 					<p>Complete los siguientes datos:</p>
 					<div className="subs-data">
@@ -155,6 +153,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								placeholder="Nombre completo"
 								name="name"
 								className="subs-input"
+								key="pass2"
 								value={input.name}
 								onChange={handleChange}
 							/>

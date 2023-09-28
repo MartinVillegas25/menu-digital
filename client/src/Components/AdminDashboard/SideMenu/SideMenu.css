@@ -1,5 +1,6 @@
 .admin-side-menu-web {
-	height: 1024px;
+	height: 100%;
+	min-height: 100vh;
 	background-color: #ffa101;
 	border-radius: 0px 120px 0 0px;
 	color: #000;
@@ -70,6 +71,41 @@
 	display: none;
 }
 
+.sideMenuClosed {
+	width: 60px;
+	height: 100%;
+	background-color: #ffa101;
+	border-radius: 0px 120px 0 0px;
+}
+
+.openSideBtn {
+	position: absolute;
+	top: 30px;
+	left: 200px;
+	background: none;
+	border: none;
+	color: black;
+}
+
+.openSideBtn .menuBtn {
+	rotate: 180deg;
+}
+
+.closedSideBtn {
+	position: absolute;
+	top: 30px;
+	left: 20px;
+	background: none;
+	border: none;
+}
+.menuBtn {
+	width: 30px;
+	height: 30px;
+	color: black;
+	background: none;
+	border: none;
+}
+
 @media screen and (max-width: 850px) {
 	.admin-side-menu-web {
 		display: none;
@@ -81,25 +117,32 @@
 		height: 60px;
 		background-color: orange;
 		width: 100%;
+		z-index: 1000;
 	}
 
 	.nav-hidden {
 		display: none;
 	}
-	.nav-block {
+	.nav-open {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		background-color: #ffa101;
-		margin-top: 60px;
-		padding-top: 30px;
+		margin-top: 10px;
+		padding-top: 70px;
 	}
 
 	.nav-menu-logo-mobile {
-		scale: 1;
 		position: fixed;
-		right: 0px;
-		top: -100px;
+		top: 5px;
+		left: -50px;
+		background-image: url('../../../assets/logos/Logo1.png');
+		width: 40px;
+		height: 50px;
+		border-radius: 80px;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
 	}
 
 	.nav-icon {
@@ -107,11 +150,11 @@
 	}
 
 	.admin-menu-mobile-top {
-		position: fixed;
-		display: flex;
-		top: 15px;
-		justify-content: space-around;
-		align-items: center;
-		left: 10px;
+		margin-top: 15px;
+		margin-left: 5px;
+	}
+
+	.menu-admin-container {
+		max-width: 200vw;
 	}
 }

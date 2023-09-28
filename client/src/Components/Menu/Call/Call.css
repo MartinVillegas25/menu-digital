@@ -1,0 +1,55 @@
+/* .call-container {
+	padding-top: 200px;
+	color: #000;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.call-container div {
+	width: 310px;
+	height: 157px;
+	flex-shrink: 0;
+	border-radius: 15px;
+	background: #f4eeee;
+	box-shadow: 0px 2.76726px 2.21381px 0px rgba(0, 0, 0, 0.02),
+		0px 6.6501px 5.32008px 0px rgba(0, 0, 0, 0.03),
+		0px 12.52155px 10.01724px 0px rgba(0, 0, 0, 0.04),
+		0px 22.33631px 17.86905px 0px rgba(0, 0, 0, 0.04),
+		0px 41.77761px 33.42209px 0px rgba(0, 0, 0, 0.05),
+		0px 100px 80px 0px rgba(0, 0, 0, 0.07);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.call-container h4 {
+	color: #000;
+	font-family: Outfit;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin-top: 50px;
+}
+
+.call-logo {
+	width: 57px;
+	height: 40px;
+	flex-shrink: 0;
+}
+
+.call-logo :hover {
+	color: #ffa101;
+}
+
+.selected {
+	border-bottom: solid 3px #ffa101;
+}
+
+.container {
+	color: #000;
+	padding-top: 50px;
+} */

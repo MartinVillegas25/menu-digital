@@ -69,6 +69,11 @@
 	padding-bottom: 20px;
 }
 
+.admin-changedata input {
+	color: #000;
+	text-align: center;
+}
+
 .admin-functions-btn:hover {
 	background-color: white;
 	cursor: pointer;
@@ -124,4 +129,49 @@
 	width: 60%;
 	height: 30px;
 	margin-top: 5px;
+}
+
+.admin-config-submit-btn {
+	margin-top: 10px;
+	background-color: orange;
+	color: white;
+	font-weight: bold;
+	padding: 2px 2px;
+	border: solid 2px orange;
+	border-radius: 10px;
+	padding: 10px 20px;
+}
+
+@media screen and (max-width: 850px) {
+	.admin-config-container {
+		flex-direction: column;
+		margin-top: 100px;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.admin-config-info {
+		height: 50%;
+		width: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		text-align: center;
+		margin-left: 0;
+	}
+	.admin-config-info div {
+		margin-bottom: 10px;
+	}
+
+	.admin-config-info h3 {
+		width: auto;
+	}
+
+	.admin-config-info h4 {
+		margin-left: 20px;
+	}
+
+	.admin-functions-panel {
+		padding-bottom: 30px;
+	}
 }

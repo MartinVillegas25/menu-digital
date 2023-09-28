@@ -2,41 +2,60 @@ import './ClientSideMenu.css';
 import { IoRestaurantOutline } from 'react-icons/io5';
 import { MdMenuBook } from 'react-icons/md';
 import { BsFillPersonFill } from 'react-icons/bs';
-
 import { VscSignOut } from 'react-icons/vsc';
 import CEO from '../../../assets/CEO.jpg';
 import logo from '../../../assets/logos/Logo1.png';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { BsArrowRightCircle } from 'react-icons/bs';
+
 export default function ClientSideMenu() {
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const userEmail = searchParams.get('email');
+
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	return (
 		<div>
-			<aside className="client-side-menu-web">
-				<img src={logo} alt="" className="client-side-menu-logo" />
-				<div className="client-side-container">
-					<div className="client-side-link">
-						<IoRestaurantOutline />
-						<a href="/client/salon">Salon</a>
+			<button
+				onClick={() => setMenuOpen(!menuOpen)}
+				className={menuOpen === true ? `openSideBtn` : `closedSideBtn`}
+			>
+				{' '}
+				<BsArrowRightCircle className="menuBtn" />
+			</button>
+			{menuOpen ? (
+				<aside className="client-side-menu-web">
+					<img src={logo} alt="" className="client-side-menu-logo" />
+					<div className="client-side-container">
+						<div className="client-side-link">
+							<IoRestaurantOutline />
+							<a href={`/dashboard?email=${userEmail}`}>Salon</a>
+						</div>
+						<div className="client-side-link">
+							<MdMenuBook />
+							<a href={`/dashboard/menu?email=${userEmail}`}>Menu</a>
+						</div>
+						<div className="client-side-link">
+							<BsFillPersonFill />
+							<a href={`/dashboard/configuracion?email=${userEmail}`}>
+								Configuracion
+							</a>
+						</div>
+						<div className="client-side-link">
+							<VscSignOut />
+							<a href="">Salir</a>
+						</div>
+						<div className="client-side-img">
+							<img src={CEO} alt="" />
+							<p>Cambiar foto</p>
+						</div>
 					</div>
-					<div className="client-side-link">
-						<MdMenuBook />
-						<a href="/client/menu">Menu</a>
-					</div>
-					<div className="client-side-link">
-						<BsFillPersonFill />
-						<a href="/client/configuracion">Configuracion</a>
-					</div>
-					<div className="client-side-link">
-						<VscSignOut />
-						<a href="">Salir</a>
-					</div>
-					<div className="client-side-img">
-						<img src={CEO} alt="" />
-						<p>Cambiar foto</p>
-					</div>
-				</div>
-			</aside>
+				</aside>
+			) : (
+				<div className="sideMenuClosed"></div>
+			)}
 			<nav className="client-menu-mobile">
 				<div className="client-menu-mobile-top">
 					<div>

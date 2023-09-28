@@ -2,6 +2,24 @@
 	margin-top: 159px;
 }
 
+.backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(
+		0,
+		0,
+		0,
+		0.5
+	); /* Cambia el color y la opacidad según tus preferencias */
+	backdrop-filter: blur(
+		10px
+	); /* Ajusta el valor de desenfoque según tus preferencias */
+	/* Asegúrate de que esté por encima del contenido */
+}
+
 .client-config-container {
 	height: 300px;
 	display: flex;
@@ -77,6 +95,47 @@
 
 .client-config-qr-input {
 	background-color: transparent;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.client-data-popup {
+	background-color: rgba(255, 255, 255, 1);
+	border-radius: 10%;
+	border: solid 4px orange;
+	color: #000;
+	width: 400px;
+	height: 400px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background-color: rgba(
+		0,
+		0,
+		0,
+		0.5
+	); /* Cambia el color y la opacidad según tus preferencias */
+	backdrop-filter: blur(10px);
+}
+
+.popup-hidden {
+	display: none;
+}
+
+.client-data-popup-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 80px;
+}
+
+.client-data-popup-container input {
+	width: 300px;
+	height: 30px;
 	margin-top: 10px;
 	margin-bottom: 20px;
 }

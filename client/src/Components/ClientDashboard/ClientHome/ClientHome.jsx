@@ -1,6 +1,5 @@
-import { BsCheckCircle } from 'react-icons/bs';
-import { BsXCircle } from 'react-icons/bs';
 import './ClientHome.css';
+import { useLocation } from 'react-router-dom';
 export default function ClientHome() {
 	const aux = [
 		{
@@ -148,7 +147,10 @@ export default function ClientHome() {
 			LLamoCamarera: true
 		}
 	];
-
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const userEmail = searchParams.get('email');
+	console.log(userEmail, 'desdeHOME');
 	const cantidadMesas = 40;
 	const mesasLibres = cantidadMesas - aux.length;
 	const mesasOcupadas = aux.length;
@@ -157,73 +159,49 @@ export default function ClientHome() {
 		<main>
 			<div className="client-home-container">
 				<div>
-					<h2>Monitoreo del salon</h2>
-					<h3>
-						Mesas ocupadas: <span>{mesasOcupadas}</span> | Mesas libres :{' '}
-						<span>{mesasLibres} </span>
-					</h3>
+					<div>
+						<h2>Monitoreo del salon</h2>
+						<h3>
+							Mesas ocupadas: <span>{mesasOcupadas}</span> | Mesas libres :
+							<span>{mesasLibres} </span>
+						</h3>
+					</div>
 				</div>
-				<div className="client-home-table-container">
-					<table className="client-home-table">
-						<thead className="">
-							<tr>
-								<th>Mesa</th>
-								<th>Pedido</th>
-								<th>Entregado</th>
-								<th>Nombre</th>
-								<th>Pidio cuenta</th>
-								<th>Llamo camarera</th>
-								<th>-</th>
-							</tr>
-						</thead>
-						<tbody className="client-table-body">
-							{aux?.map((c) => {
-								return (
-									<tr key={c.id}>
-										<td>{c.Mesa}</td>
-										<td>Ver</td>
-										{c.Entregado === true ? (
+				<div className="client-home">
+					<div className="client-home-table-container">
+						<table className="client-home-table">
+							<thead className="">
+								<tr>
+									<th>Mesa</th>
+									<th>Nombre</th>
+									<th>Pedido</th>
+									<th>Total</th>
+									<th>Alertas</th>
+
+									<th>-</th>
+								</tr>
+							</thead>
+							<tbody className="client-table-body">
+								{aux?.map((c, index) => {
+									return (
+										<tr key={c.Mesa + index}>
+											<td>{c.Mesa}</td>
+											<td>{c.Nombre}</td>
+											<td>Ver</td>
+											<td>0</td>
+											<td>alerta</td>
 											<td>
-												<BsCheckCircle className="check-icon" />
+												<button className="client-home-table-btn">
+													Liberar mesa
+												</button>
 											</td>
-										) : (
-											<td>
-												<BsXCircle className="X-icon" />
-											</td>
-										)}
-										<td>{c.Nombre}</td>
-										<td>
-											{c.PidioCuenta === true ? (
-												<td>
-													<BsCheckCircle className="check-icon" />
-												</td>
-											) : (
-												<td>
-													<BsXCircle className="X-icon" />
-												</td>
-											)}
-										</td>
-										<td>
-											{c.LLamoCamarera === true ? (
-												<td>
-													<BsCheckCircle className="check-icon" />
-												</td>
-											) : (
-												<td>
-													<BsXCircle className="X-icon" />
-												</td>
-											)}
-										</td>
-										<td>
-											<button className="client-home-table-btn">
-												Liberar mesa
-											</button>
-										</td>
-									</tr>
-								);
-							})}
-						</tbody>
-					</table>
+										</tr>
+									);
+								})}
+							</tbody>
+						</table>
+					</div>
+					<div className="client-home-alerts">alertas</div>
 				</div>
 			</div>
 		</main>

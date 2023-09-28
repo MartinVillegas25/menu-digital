@@ -1,28 +1,73 @@
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from 'react';
+import { getLocalData } from '../../../redux/actions';
 import './ClientConfig.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+
 export default function ClientConfig() {
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const userEmail = searchParams.get('email');
+	const dispatch = useDispatch();
+	const [input, setInput] = useState({
+		storeName: '',
+		address: '',
+		telefono: ''
+	});
+
+	const [popUpOpen, setPopUpOpen] = useState(false);
+	const handlepopUp = () => {
+		setPopUpOpen(!popUpOpen);
+	};
+	console.log(popUpOpen);
+
+	useEffect(() => {
+		dispatch(getLocalData(userEmail));
+	}, []);
+
+	const user = useSelector((state) => state.localData.usuario);
+
 	return (
 		<main className="client-config">
+			<div className={popUpOpen === true ? ' backdrop' : ''}>
+				<div
+					className={popUpOpen === true ? 'client-data-popup' : 'popup-hidden'}
+				>
+					<div className="client-data-popup-container">
+						<label htmlFor="">Nombre del local:</label>
+						<input type="text" />
+						<label htmlFor="">Direccion:</label>
+						<input type="text" />
+						<label htmlFor="">Telefono</label>
+						<input type="text" />
+					</div>
+				</div>
+			</div>
 			<div>
 				<div className="client-config-container">
 					<div className="client-config-personal">
 						<h3>Datos Personales</h3>
 						<h4>
-							Nombre del local: <span></span>
+							Nombre del local: <span>{user?.storeName}</span>
 						</h4>
 						<h4>
-							Direccion: <span></span>
+							Direccion: <span>{user?.address}</span>
 						</h4>
 						<h4>
-							Telefono: <span></span>
+							Telefono: <span>{user?.telefono}</span>
 						</h4>
 						<h4>
-							Mail: <span></span>
+							Mail: <span>{user?.email}</span>
 						</h4>
-						<button className="client-config-btn">Modificar datos</button>
+						<button className="client-config-btn" onClick={handlepopUp}>
+							Modificar datos
+						</button>
 					</div>
+
 					<div className="client-config-plan">
 						<h3>Plan adquirido</h3>
-						<h4>Plan</h4>
+						<h4>{user?.plan}</h4>
 						<button className="client-config-btn">Actualizar plan</button>
 					</div>
 				</div>

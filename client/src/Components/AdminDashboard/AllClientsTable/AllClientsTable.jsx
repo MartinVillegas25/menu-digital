@@ -146,7 +146,13 @@ export default function AllClientsTable() {
 												</td>
 											)}
 											<td>
-												<VscMail className="mail-icon" />
+												<a
+													href={`mailto:${c.email}`}
+													target="_blank"
+													rel="noreferrer"
+												>
+													<VscMail className="mail-icon" />
+												</a>
 											</td>
 											<td>
 												<button

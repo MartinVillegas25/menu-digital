@@ -51,6 +51,8 @@
 .navbar-list {
 	list-style: none;
 	display: flex;
+	margin-top: -10px;
+	padding-top: 0;
 }
 
 .navbar-icon {

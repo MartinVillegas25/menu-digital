@@ -1,9 +1,18 @@
 import { IoRestaurantSharp } from 'react-icons/io5';
-export default function StandardPlanImg(handleOpenSubscribe) {
+import { useDispatch, useSelector } from 'react-redux';
+import { getPlans } from '../../../redux/actions';
+import { useEffect } from 'react';
+// eslint-disable-next-line react/prop-types
+export default function StandardPlanImg({ handleOpenSubscribe }) {
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getPlans());
+	}, []);
+	const plans = useSelector((state) => state.plans);
 	return (
 		<div className="subscription-img">
 			<IoRestaurantSharp className="icon" />
-			<h3>$5.000,00 </h3>
+			<h3>$ {plans.standard} </h3>
 			<p>Por mes</p>
 			<ul className="subs-list">
 				<li>1. Menú digital interactivo</li>

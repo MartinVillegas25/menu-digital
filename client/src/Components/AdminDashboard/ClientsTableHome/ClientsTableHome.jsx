@@ -31,7 +31,7 @@ export default function ClientsTableHome() {
 							<img src={vector} alt="" className="table-vector" />
 						</div>
 					</div>
-					<p>
+					<p className="percent-text">
 						<span>+12% </span>que el mes pasado
 					</p>
 
@@ -45,7 +45,7 @@ export default function ClientsTableHome() {
 								<thead className="clients-table-head">
 									<tr>
 										<th>Nombre</th>
-										<th>Fecha de alta</th>
+										<th className="date">Fecha de alta</th>
 										<th>Plan</th>
 										<th>Estado</th>
 										<th>Mensaje</th>
@@ -56,7 +56,7 @@ export default function ClientsTableHome() {
 										return (
 											<tr key={c.id}>
 												<td>{c.storeName}</td>
-												<td>{c.date}</td>
+												<td className="date">{c.date}</td>
 												<td>{c.plan}</td>
 												{c.status === 1 ? (
 													<td>
@@ -68,7 +68,13 @@ export default function ClientsTableHome() {
 													</td>
 												)}
 												<td>
-													<VscMail className="mail-icon" />
+													<a
+														href={`mailto:${c.email}`}
+														target="_blank"
+														rel="noreferrer"
+													>
+														<VscMail className="mail-icon" />
+													</a>
 												</td>
 											</tr>
 										);

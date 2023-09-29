@@ -1,49 +1,35 @@
-// import { useEffect, useState } from 'react';
-// import io from 'socket.io-client';
+import { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
 export default function Call() {
-	// const [ticket, setTicket] = useState('');
+	const [mensaje, setMensaje] = useState('');
+	const [mensajes, setMensajes] = useState([]);
 
-	// const socket = io('http://localhost:5173');
-	// console.log(socket);
+	const socket = io('/');
 
-	// const handleLlamarCamarera = () => {
-	// 	socket.emit('llamar-camarera', {
-	// 		mesa: 'Mesa 1',
-	// 		email: 'correo@example.com'
-	// 	});
-	// };
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		socket.emit('mensaje', mensaje);
+	};
 
-	// useEffect(() => {
-	// 	socket.on('connect', () => {
-	// 		console.log('Conectado al servidor Node.js');
-	// 	});
-
-	// 	socket.on('respuesta', (data) => {
-	// 		console.log('Respuesta del servidor:', data);
-	// 	});
-
-	// 	socket.on('ticket', (payload) => {
-	// 		setTicket('Mesa ' + payload);
-	// 	});
-
-	// 	socket.emit('mensaje', 'Hola desde el cliente React');
-
-	// 	return () => {
-	// 		socket.disconnect(); // Desconectar el socket cuando el componente se desmonte
-	// 	};
-	// }, []);
+	useEffect(() => {
+		socket.on('mensaje', (mensaje) => {
+			console.log(mensaje);
+			setMensajes([...mensajes, mensaje]);
+		});
+	}, []);
 
 	return (
-		// <div>
-		// 	<h1>Escritorio</h1>
-		// 	<small>{ticket}</small>
-		// 	<h2>Menu Restaurante</h2>
-		// 	<button onClick={handleLlamarCamarera} className="btn btn-primary">
-		// 		Llamar a la camarera
-		// 	</button>
-		// 	<hr />
-		// </div>
-		<div>Llamar camarera</div>
+		<div>
+			<form action="" onSubmit={handleSubmit}>
+				<input type="text" onChange={(e) => setMensaje(e.target.value)} />
+				<button>enviar</button>
+			</form>
+			<ul>
+				{mensajes?.map((m, i) => (
+					<li key={i}>{m}</li>
+				))}
+			</ul>
+		</div>
 	);
 }

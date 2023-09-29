@@ -4,6 +4,7 @@ import { getLocalData } from '../../../redux/actions';
 import './ClientConfig.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import QrGenerator from './QrGenerator';
 
 export default function ClientConfig() {
 	const location = useLocation();
@@ -20,7 +21,6 @@ export default function ClientConfig() {
 	const handlepopUp = () => {
 		setPopUpOpen(!popUpOpen);
 	};
-	console.log(popUpOpen);
 
 	useEffect(() => {
 		dispatch(getLocalData(userEmail));
@@ -87,7 +87,7 @@ export default function ClientConfig() {
 							<input type="number" className="client-config-qr-input" />
 						</div>
 					</div>
-					<button className="client-config-btn">Generar QR</button>
+					<button className="client-config-btn">Generar codigos Qr</button>
 				</div>
 			</div>
 		</main>

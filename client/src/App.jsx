@@ -8,6 +8,7 @@ import ClientDashboardHome from './Components/ClientDashboard/ClientDashboardHom
 import ClientDashboardMenu from './Components/ClientDashboard/ClientDashboardMenu';
 import ClientDashboardConfig from './Components/ClientDashboard/ClientDashboardConfig';
 import Menu from './Components/Menu/Menu';
+import QrGenerator from './Components/ClientDashboard/ClientConfig/QrGenerator';
 // import AlertChart from './Components/Menu/AlertChart/AlertChart';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
 						path="/dashboard/configuracion"
 						element={<ClientDashboardConfig />}
 					/>
+					<Route path="/dashboard/qrgenerator" element={<QrGenerator />} />
 					{/* Ruta del menu */}
 					<Route path="/menulocal" element={<Menu />} />
 					{/* <Route path="/pruebas" element={<AlertChart />} /> */}

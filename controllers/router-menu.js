@@ -99,7 +99,7 @@ const agregarProducto = async (req, res) => {
   
     if(req.files){
       const { tempFilePath } = req.files.img
-      console.log('file image:', tempFilePath);
+
       const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
       
       img_url = secure_url;

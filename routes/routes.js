@@ -14,7 +14,9 @@ const { homeGet,
     recuperarClave,
     mostrarPlanes,
     adminGet,
-    configGet} = require('../controllers/routers');
+    configGet,
+    loginAdminGet,
+    postCrearAdmin} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 
@@ -59,6 +61,15 @@ router.get('/admin',[
     validarJWT,
     adminRol,
 ], adminGet);
+
+//ruta get para crear administrador 
+router.get('/admin-boss', loginAdminGet);
+router.post ('/admin-boss',[
+    check('email', 'correo no valido').isEmail(),
+    check('password', 'la clave es obligatoria').not().isEmpty(),
+], postCrearAdmin)
+
+
 //mostrar planes get
 router.get('/planes', mostrarPlanes);
 

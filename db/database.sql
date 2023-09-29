@@ -24,6 +24,15 @@ CREATE TABLE usuarios (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE administradores (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(40) NOT NULL,
+  password VARCHAR(200) NOT NULL,
+  img VARCHAR(100) NULL,
+  PRIMARY KEY (id)
+);
+
 
 ALTER TABLE usuarios
 ADD telefono INT NOT NULL,

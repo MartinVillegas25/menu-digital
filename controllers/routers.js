@@ -13,6 +13,9 @@ const fs = require('fs-extra');
 const PaymentService = require("../services/paymentServices");
 const sendMail = require('./nodemailer');
 
+const cloudinary = require('cloudinary').v2
+cloudinary.config( process.env.CLOUDINARY_URL );
+
 
 
 
@@ -20,7 +23,65 @@ const sendMail = require('./nodemailer');
 const homeGet = (req, res = response) => {
     res.json('home')
 }
+//get de la pagina de agregar cuenta como administrador 
+const loginAdminGet = (req, res = response) => {
+    res.json('get admin login')
+}
+//ruta POST  crear cuenta administrador
 
+const postCrearAdmin = async (req, res = response) => {
+
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        return res.status(400).send(error)
+    }
+
+
+   let { img, name, email, password } = req.body
+  
+
+   //verificar si el correo existe 
+   const searchEmail = 'SELECT COUNT(*) AS count FROM administradores WHERE email = ?';
+   const result = await pool.query(searchEmail, [email]);
+   
+   if (result[0][0].count>0){
+       return res.status(404).json({ message: `El usuario con el email: ${email} ya esta registrado`  });
+   }
+
+   if(req.files){
+    const { tempFilePath } = req.files.img
+
+    const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+    
+    img_url = secure_url;
+    
+    } else{
+        img_url = 'https://res.cloudinary.com/dj3akdhb9/image/upload/v1695818870/samples/placeholder_profile_jhvdpv.png';
+        
+    }
+
+   //encriptar password
+    const salt = bcrypt.genSaltSync()
+    password = bcrypt.hashSync(password, salt)
+
+
+
+   //guardar en base de datos
+
+   const query = `INSERT INTO administradores (img, name, email, password ) VALUES (?, ?, ?, ? )`;
+   try {
+    const result = await pool.query(query, [img_url, name, email, password]);
+        const response = {
+            message: "Administrador creado correctamente",
+            redirectTo: "/"
+        };
+        res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+        res.status(400).send('Error al obtener datos');
+    }
+
+}
 
 
 
@@ -36,20 +97,37 @@ const loginUsuario = async (req, res = response) => {
     
 
     const query = 'SELECT * FROM usuarios WHERE email = ?';
+    const queryAdmin = 'SELECT * FROM administradores WHERE email = ? '
    
     try {
-        const result = await pool.query(query, [email]);
-        console.log(result[0].length)
-            if (result[0].length === 0){
-                return res.status(404).json({ message: 'Usuario no encontrado' });
-            }
-        const user = result[0][0];
-        console.log(user)
+        const resultGeneral = await pool.query(query, [email]);
+        const resultAdmin = await pool.query(queryAdmin, [email]);
 
-         //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
-         if(user.status === 0){
-            return res.status(404).redirect('/');
+        const resultGeneralLength = resultGeneral[0].length;
+        const resultAdminLength = resultAdmin[0].length;
+        
+
+        if(resultGeneralLength===0 & resultAdminLength===0){
+            return res.status(404).json({ message: 'Usuario no encontrado' });
         }
+
+        //validad si es admin o usuario
+        let user;
+
+        if(resultGeneralLength != 0){
+            user = resultGeneral[0][0];
+            //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
+            if(user.status === 0){
+               return res.status(404).redirect('/');
+           }
+        }else{
+            user = resultAdmin[0][0];
+        }
+        
+        
+        console.log(user)
+     
+
 
         //validad clave
         const validPassword = bcrypt.compareSync(password, user.password);
@@ -58,24 +136,30 @@ const loginUsuario = async (req, res = response) => {
         const token = await generarJWT(user.email);
             
         if (validPassword) {
-            switch (user.email) {
-                case 'example@example.com':
-                    console.log({ 
-                            message: 'Inicio de sesión exitoso admin',
-                            token
-                    });
-                    res.json({token});
-                    break;
-            
-                default:
-                    res.json({token});
-                    console.log({ 
-                        message: 'Inicio de sesión exitoso local',
-                        token
-                     });
-                    //redireccion al dashboard del local
-                    break;
+            const response = {
+                token,
+                user,
+                msg:'inicio de sesion correcta'
             }
+            res.status(200).json(response);
+
+            // switch (user.email) {
+            //     case 'example@example.com':
+            //         console.log({ 
+            //                 message: 'Inicio de sesión exitoso admin',
+            //                 token
+            //         });
+            //         res.json({token});
+            //         break;
+            
+            //     default:
+            //         res.json({token});
+            //         console.log({ 
+            //             message: 'Inicio de sesión exitoso local',
+            //             token
+            //          });
+            //         break;
+            // }
             
         } else {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
@@ -154,13 +238,18 @@ const postUsuario = async(req, res = response) => {
            return res.status(404).json({ message: `El usuario con el email: ${email} ya esta registrado`  });
        }
 
-       if(req.files?.img){
-          const result = await uploadImage(req.files.img.tempFilePath);
-          console.log(result);
-          img = result.url;
-
-          await fs.unlink(req.files.img.tempFilePath);
-       }
+       //agregar imagen
+       if(req.files){
+        const { tempFilePath } = req.files.img
+    
+        const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+        
+        img_url = secure_url;
+        
+        } else{
+            img_url = 'https://res.cloudinary.com/dj3akdhb9/image/upload/v1695818870/samples/placeholder_profile_jhvdpv.png';
+            
+        }
 
        //encriptar password
         const salt = bcrypt.genSaltSync()
@@ -175,10 +264,10 @@ const postUsuario = async(req, res = response) => {
        //guardar en base de datos
 
        const query = `INSERT INTO usuarios (img, name, storeName, email, password, address, cp, plan, date, telefono, pais, localidad, tipo, comentario ) VALUES (?, ?, ?, ?, ? , ? , ? , ?, ?, ?, ? , ? , ? , ? )`;
-       const queryresult = 'SELECT * FROM usuarios WHERE email = ? AND storeName = ?';
+      
        try {
-             const result = await pool.query(query, [ img, name, storeName, email, password, address, cp, plan , date, telefono, pais, localidad, tipo, comentario]);
-             const resultResult = await pool.query(queryresult, [ email, storeName])
+             const result = await pool.query(query, [ img_url, name, storeName, email, password, address, cp, plan , date, telefono, pais, localidad, tipo, comentario]);
+             
 
              PaymentInstance.getSubscriptionLink(req, res);
             
@@ -256,7 +345,7 @@ const dashboardLocal = async(req, res) => {
 //ruta get admin dashboard 
 const adminGet = async (req, res = response) => {
     const email = req.email;
-    const query =  'SELECT * FROM usuarios WHERE email = ?';
+    const query =  'SELECT * FROM administradores WHERE email = ?';
     
 
     try {
@@ -551,8 +640,9 @@ PaymentController,
 recuperarClave,
 mostrarPlanes,
 adminGet,
-configGet
-
+configGet,
+postCrearAdmin,
+loginAdminGet
 
 
 

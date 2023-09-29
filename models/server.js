@@ -26,15 +26,12 @@ class Server {
     }
 
     middelewares(){
-        const corsOptions = {
-            origin: 'http://127.0.0.1:5173', // Cambia esto por la URL real de tu cliente React en Vite
-            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-          };
+      
 
         //directorio static
         this.app.use(express.static('public'));
           
-        this.app.use(cors(corsOptions));
+        this.app.use(cors());
        
 
         //para obtener datos del front en json

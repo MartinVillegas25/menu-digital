@@ -22,7 +22,7 @@ const mostrarMenu = async (req, res = response) => {
         c.nombre_categoria AS categoria,
         s.id_subcategoria AS subcategoria_id,
         s.nombre_subcategoria AS subcategoria,
-        i.id,
+        i.id_producto,
         i.img,
         i.nombre,
         i.precio
@@ -65,7 +65,7 @@ const mostrarMenu = async (req, res = response) => {
 
         // Agrega el producto a la subcategoría
         result[categoriaIndex].subcategorias[subcategoriaIndex].productos.push({
-          id: row.id,
+          id: row.id_producto,
           img: row.img,
           nombre: row.nombre,
           precio: row.precio,

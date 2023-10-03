@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload')
+const morgan = require('morgan')
 
 const { socketController } = require('../sockets/controller');
 
@@ -32,7 +33,7 @@ class Server {
         this.app.use(express.static('public'));
           
         this.app.use(cors());
-       
+        this.app.use(morgan("dev"));
 
         //para obtener datos del front en json
         this.app.use(express.json());

@@ -16,7 +16,13 @@ const { homeGet,
     adminGet,
     configGet,
     loginAdminGet,
-    postCrearAdmin} = require('../controllers/routers');
+    postCrearAdmin,
+    gracias,
+    receiveWebhook,
+    confimarPago,
+    mostrarUsuarioConfirmar,
+    mejorarPlan,
+    confimarPagoPlan} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 
@@ -62,12 +68,29 @@ router.get('/admin',[
     adminRol,
 ], adminGet);
 
+router.put('/admin/confirmar-pago',[
+    validarJWT,
+    adminRol,
+], confimarPago)
+
+//rutas despues del pago
+router.get("/gracias", gracias)
+// router.post("/webhook", receiveWebhook);
+//mostrar usuario a confirmar 
+router.get("/confirmar", mostrarUsuarioConfirmar)
+
 //ruta get para crear administrador 
 router.get('/admin-boss', loginAdminGet);
 router.post ('/admin-boss',[
     check('email', 'correo no valido').isEmail(),
     check('password', 'la clave es obligatoria').not().isEmpty(),
 ], postCrearAdmin)
+
+//confirmacion de pago nuevos plan
+router.put('/admin/confirmar-plan', [
+    validarJWT,
+    adminRol,
+],confimarPagoPlan);
 
 
 //mostrar planes get
@@ -116,6 +139,8 @@ router.put('/valores', nuevosValores);
 
 
 
+//actualizar los planes desde el usuario 
+
 //*********RUTAS DEL DASHBOARD LOCAL*****************/
 
 //items menu dashboard local
@@ -137,6 +162,10 @@ router.delete('/dashboard/items',[
 router.delete('/dashboard/items/borrar-categoria', validarJWT, borrarCategoria);
 router.delete('/dashboard/items/borrar-subcategoria', validarJWT, borrarSubCategoria);
 
+//actualizar los planes desde el usuario 
+router.put('/dashboard/actulizar-plan', [
+    validarJWT 
+],mejorarPlan)
 //mostar categorias por local
 
 router.get('/dashboard/categorias',[

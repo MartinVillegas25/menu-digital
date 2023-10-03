@@ -21,6 +21,7 @@ CREATE TABLE usuarios (
   localidad varchar(20) NULL,
   tipo varchar(20) NOT NULL,
   comentario varchar(200) NULL;
+  pagoConfirmado boolean DEFAULT FALSE NULL;
   PRIMARY KEY (id)
 );
 
@@ -40,6 +41,8 @@ ADD pais varchar(10) NULL ,
 ADD localidad varchar(20) NULL,
 ADD tipo varchar(20) NOT NULL,
 ADD comentario varchar(200) NULL;
+ADD pagoConfirmado boolean DEFAULT FALSE NULL 
+ADD pagoCambioPlan boolean DEFAULT FALSE NULL 
 
 CREATE TABLE planes (
   basic VARCHAR(20) NULL,
@@ -66,7 +69,8 @@ CREATE TABLE items (
   FOREIGN KEY (id_subcategoria) REFERENCES subcategorias(id_subcategoria)
 )
 
-
+ALTER TABLE items
+ADD id_producto varchar(100) NOT NULL;
 
 CREATE TABLE categorias (
     id_categoria INT PRIMARY KEY AUTO_INCREMENT,

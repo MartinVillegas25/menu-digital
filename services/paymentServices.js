@@ -1,5 +1,5 @@
 const axios = require("axios");
-const validarJWT = require("../middlerwares/validar-jwt");
+
 
 class PaymentService {
  
@@ -8,14 +8,15 @@ class PaymentService {
     const url = "https://api.mercadopago.com/preapproval";
   
     const body = {
-      reason: "Suscripción de ejemplo",
+      reason: "Subscripcion Si Mesero",
       auto_recurring: {
         frequency: 1,
         frequency_type: "months",
         transaction_amount: valor,
         currency_id: "ARS"
       },
-      back_url: "https://google.com.ar",
+      back_url: "https://api.mercadopago.com",
+      notification_url: "https://ngrok.com/r/gslb/webhook",
       payer_email: email
     };
 

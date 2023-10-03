@@ -22,7 +22,7 @@ const usuario = {
 
 }
 
-lblMesa.innerText = usuario.mesa;
+// lblMesa.innerText = usuario.mesa;
 
 
 

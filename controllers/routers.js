@@ -10,8 +10,8 @@ const fs = require('fs-extra');
 //controllers y services payments
 //rutas payments
 
-const PaymentService = require("../services/paymentServices");
-const sendMail = require('./nodemailer');
+// const PaymentService = require("../services/paymentServices");
+const sendEmail = require('./nodemailer');
 
 const cloudinary = require('cloudinary').v2
 cloudinary.config( process.env.CLOUDINARY_URL );
@@ -137,29 +137,9 @@ const loginUsuario = async (req, res = response) => {
             
         if (validPassword) {
             const response = {
-                token,
-                user,
-                msg:'inicio de sesion correcta'
+                token
             }
             res.status(200).json(response);
-
-            // switch (user.email) {
-            //     case 'example@example.com':
-            //         console.log({ 
-            //                 message: 'Inicio de sesión exitoso admin',
-            //                 token
-            //         });
-            //         res.json({token});
-            //         break;
-            
-            //     default:
-            //         res.json({token});
-            //         console.log({ 
-            //             message: 'Inicio de sesión exitoso local',
-            //             token
-            //          });
-            //         break;
-            // }
             
         } else {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
@@ -177,45 +157,47 @@ const loginUsuario = async (req, res = response) => {
 
 //payment de  mercado pago
 
-class PaymentController {
-    constructor(subscriptionService) {
-      this.subscriptionService = subscriptionService;
-    }
+// class PaymentController {
+//     constructor(subscriptionService) {
+//       this.subscriptionService = subscriptionService;
+//     }
   
-    async getSubscriptionLink(req, res) {
+//     async getSubscriptionLink(req, res) {
 
-      const {email, plan} = req.body;
+//       const {email, plan} = req.body;
       
       
-      try {
-        const query2 = 'SELECT * FROM planes'
-        const planesActulizados = await pool.query(query2)
+//       try {
+//         const query2 = 'SELECT * FROM planes'
+//         const planesActulizados = await pool.query(query2)
 
-        console.log(planesActulizados)
-        let valor = 0;
-          if (plan === 'standard'){
-            valor= planesActulizados[0][0].standard;
-        }else if( plan==='premium'){
-            valor= planesActulizados[0][0].premium;
-        }else{
-            valor=0;
-        }
+//         console.log("estado 1" , planesActulizados)
+//         let valor = 0;
+//           if (plan === 'standard'){
+//             valor= planesActulizados[0][0].standard;
+//         }else if( plan==='premium'){
+//             valor= planesActulizados[0][0].premium;
+//         }else{
+//             valor=0;
+//         }
 
-        const subscription = await this.subscriptionService.createSubscription(email, valor);
+//         const subscription = await this.subscriptionService.createSubscription(email, valor);
         
-        console.log(subscription.init_point)
-        return res.redirect(subscription.init_point);
-      } catch (error) {
-        console.log(error);
+//         console.log("estado2 ", subscription.init_point)
+//         return res.json(subscription.init_point);
+//       } catch (error) {
+//         console.log( "estado 3", error);
   
-        return res
-          .status(500)
-          .json({ error: true, msg: "Failed to create subscription" });
-      }
-    }
-  }
+//         return res
+//           .status(500)
+//           .json({ error: true, msg: "Failed to create subscription" });
+//       }
+//     }
+//   }
 
-  const PaymentInstance = new PaymentController(new PaymentService());
+//   const PaymentInstance = new PaymentController(new PaymentService());
+
+
 
 //ruta para guardar un nuevo usuario
 
@@ -230,13 +212,32 @@ const postUsuario = async(req, res = response) => {
        let { img, name, storeName, email, password, address, cp, plan, date, telefono, pais, localidad, tipo, comentario } = req.body
       
 
+       //verificar si ya hizo la cuenta pero no realizo el pago
+       const emailRegistrado = 'select * from usuarios where email = ?'
+       const resultEmailRegistrado = await pool.query(emailRegistrado, [email]);
+
+       if(resultEmailRegistrado[0].length > 0){
+           
+           const emailReg = resultEmailRegistrado[0][0];
+           if(resultEmailRegistrado[0].length > 0 && emailReg.pagoConfirmado==0) {
+                return res.status(404).json({
+                    message: `el mail ${email} ya esta registrado, por favor realiza el pago de la suscripcion para poder acceder al dashboard`
+                })
+           }
+       }
+       
+       
+       
+
        //verificar si el correo existe 
        const searchEmail = 'SELECT COUNT(*) AS count FROM usuarios WHERE email = ?';
        const result = await pool.query(searchEmail, [email]);
-       
+        
+
        if (result[0][0].count>0){
            return res.status(404).json({ message: `El usuario con el email: ${email} ya esta registrado`  });
        }
+
 
        //agregar imagen
        if(req.files){
@@ -268,16 +269,57 @@ const postUsuario = async(req, res = response) => {
        try {
              const result = await pool.query(query, [ img_url, name, storeName, email, password, address, cp, plan , date, telefono, pais, localidad, tipo, comentario]);
              
+             res.status(200).json("usuario creado")
 
-             PaymentInstance.getSubscriptionLink(req, res);
-            
-             
-             return;
+            //  PaymentInstance.getSubscriptionLink(req, res);
        } catch (error) {
             console.log(error);
             res.status(400).send('error en obtener datos')
        }
        
+
+}
+
+//ruta de agradecimiento despues del pago
+
+const gracias = (req, res )=>{
+    res.send('gracias por la compra');
+}
+
+//ruta de los webhook de mercado pago para guardar el estado a aprobado
+// const receiveWebhook = async(req, res)=>{
+//     try {
+//         const payment = req.query;
+//         console.log(payment);
+//         if (payment.type === "payment") {
+//           const data = await mercadopage.payment.findById(payment["data.id"]);
+//           console.log(data);
+//         }
+    
+//         res.sendStatus(204);
+//       } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({ message: "Something goes wrong" });
+//       }
+// };
+
+// ruta confirmar pago
+const confimarPago = async(req, res)=>{
+
+    const email = req.email
+
+    const {usuario} = req.query
+
+    const query = 'UPDATE usuarios SET pagoConfirmado = true WHERE email = ?' 
+    try {
+        const result = await pool.query(query, usuario);
+        res.status(200).json("confirmacion de pago realizada");
+
+
+    } catch (error) {
+        console.log(error, "error en obtener datos")
+    }
+
 
 }
 
@@ -293,6 +335,20 @@ const mostrar = async(req, res) => {
     }
 
 }
+
+//ruta para mostrar los usuarios a confirmar pago
+
+const mostrarUsuarioConfirmar = async(req, res) => {
+    const query = 'SELECT * FROM usuarios where pagoConfirmado = 0';
+    try {
+        const result = await pool.query(query);
+        res.json(result[0]);
+    } catch (error) {
+        console.log(error, "error en obtener datos")
+    }
+
+}
+
 
 //ruta para mostrar usuario por estado 
 
@@ -519,7 +575,51 @@ const actualizarDatos =async (req, res)=>{
 
 }
 
+//ruta cambiar de plan usuario 
 
+const mejorarPlan = async (req, res) => {
+    const email = req.email;
+    const {plan} = req.body;
+
+    const query = 'UPDATE usuarios SET plan = ? WHERE email =?'
+
+    try {
+        const result = await pool.query(query, [plan, email]);
+        const response = {
+            message: "Plan actualizado, el administrador confirmara el pago para darle acceso a nuevas opciones",
+            redirectTo: "/"
+        };
+        res.status(200).json(response);
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json('error en actualizar plan');
+    }
+
+}
+
+
+//ruta para confirmar pago por cambio de plan
+// ruta confirmar pago
+const confimarPagoPlan = async(req, res)=>{
+
+    const email = req.email
+
+    const {usuario} = req.query
+
+    const query = 'UPDATE usuarios SET pagoCambioPlan = true WHERE email = ?' 
+    try {
+        const result = await pool.query(query, usuario);
+        res.status(200).json("confirmacion de pago para cambio de plan confirmada");
+
+
+    } catch (error) {
+        console.log(error, "error en obtener datos")
+    }
+
+
+}
 //actualizar valores de planes 
 const nuevosValores = async (req, res)=>{
     const dataActualizada = req.body;
@@ -612,7 +712,7 @@ const recuperarClave = async (req, res) => {
         if (emailRecuperar.length === 0) {    
             return res.status(404).json({ message: 'Correo electrónico no encontrado.' });
         }
-        emailer.sendMail(correo)
+        sendEmail(correo);
         res.status(200).json({ message: " Se ha enviado una emails con los pasos seguir para actualizar la clave"});
         } catch (error) {
           console.log(error);
@@ -636,13 +736,19 @@ newPassword,
 actualizarDatos,
 mostrarUsuarioPorEstado,
 nuevosValores,
-PaymentController,
+// PaymentController,
 recuperarClave,
 mostrarPlanes,
 adminGet,
 configGet,
 postCrearAdmin,
-loginAdminGet
+loginAdminGet,
+// receiveWebhook,
+gracias,
+confimarPago,
+mostrarUsuarioConfirmar,
+mejorarPlan,
+confimarPagoPlan
 
 
 

@@ -1,6 +1,7 @@
 const path = require('path');
 const fs   = require('fs');
 const { response } = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 const pool = require('../database');
 const generarJWT = require('../middlerwares/generar-jwt');
@@ -21,6 +22,7 @@ const mostrarMenu = async (req, res = response) => {
         c.nombre_categoria AS categoria,
         s.id_subcategoria AS subcategoria_id,
         s.nombre_subcategoria AS subcategoria,
+        i.id_producto,
         i.img,
         i.nombre,
         i.precio
@@ -35,7 +37,6 @@ const mostrarMenu = async (req, res = response) => {
     `;
 
     const [rows] = await pool.query(query, [emailUsuario]);
-
     // Organizar los resultados en una estructura jerárquica
     const result = [];
     rows.forEach(row => {
@@ -64,6 +65,7 @@ const mostrarMenu = async (req, res = response) => {
 
         // Agrega el producto a la subcategoría
         result[categoriaIndex].subcategorias[subcategoriaIndex].productos.push({
+          id: row.id_producto,
           img: row.img,
           nombre: row.nombre,
           precio: row.precio,
@@ -71,6 +73,7 @@ const mostrarMenu = async (req, res = response) => {
       } else {
         // Si no tiene subcategoría, agrega el producto directamente a la categoría
         result[categoriaIndex].productos.push({
+       
           img: row.img,
           nombre: row.nombre,
           precio: row.precio,
@@ -94,6 +97,8 @@ const agregarProducto = async (req, res) => {
   const emailUsuario = req.email
   try {
     const { nombre, categoria, subcategoria,  precio } = req.body;
+
+    let id_producto = uuidv4();
     
     //agregar imagen a cloudinary para obterner url
   
@@ -108,6 +113,7 @@ const agregarProducto = async (req, res) => {
       img_url = 'https://res.cloudinary.com/dj3akdhb9/image/upload/v1695261911/samples/default-product-image_gqztb6.png';
       
     }
+    
 
 
     const queryCategoria = 'SELECT id_categoria FROM categorias WHERE nombre_categoria = ? AND emailusuario = ?'
@@ -123,16 +129,16 @@ const agregarProducto = async (req, res) => {
     const querySubCategoria = 'SELECT id_subcategoria FROM subcategorias WHERE id_categoria = ? AND emailusuario = ? AND nombre_subcategoria = ?'
     const resultSubCategoria = await pool.query(querySubCategoria,[cSeleccionada, emailUsuario, subcategoria]);
     if(resultSubCategoria[0].length === 0){
-      const query = 'INSERT INTO items (img, nombre, id_categoria, precio, emailusuario) VALUES (?, ?, ?, ?, ?)';
-      const values = [img_url, nombre, cSeleccionada,precio, emailUsuario];
+      const query = 'INSERT INTO items (img, nombre, id_categoria, precio, emailusuario, id_producto) VALUES (?, ?, ?, ?, ?, ?)';
+      const values = [img_url, nombre, cSeleccionada,precio, emailUsuario, id_producto];
     
       await pool.query(query, values);
     }
     else{
       const sub= resultSubCategoria[0][0];
       const cSubSeleccionada = sub.id_subcategoria;
-      const query = 'INSERT INTO items (img, nombre, id_categoria, id_subcategoria, precio, emailusuario) VALUES (?, ?, ?, ?, ?, ?)';
-      const values = [img_url, nombre, cSeleccionada, cSubSeleccionada, precio, emailUsuario];
+      const query = 'INSERT INTO items (img, nombre, id_categoria, id_subcategoria, precio, emailusuario, id_producto) VALUES (?, ?, ?, ?, ?, ?, ?)';
+      const values = [img_url, nombre, cSeleccionada, cSubSeleccionada, precio, emailUsuario, id_producto];
     
       await pool.query(query, values);
     }

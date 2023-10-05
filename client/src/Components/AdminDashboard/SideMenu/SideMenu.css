@@ -107,6 +107,10 @@
 }
 
 @media screen and (max-width: 850px) {
+	.sideMenuClosed {
+		display: none;
+	}
+
 	.admin-side-menu-web {
 		display: none;
 	}
@@ -114,6 +118,7 @@
 	.admin-menu-mobile {
 		display: block;
 		position: fixed;
+		top: 0;
 		height: 60px;
 		background-color: orange;
 		width: 100%;

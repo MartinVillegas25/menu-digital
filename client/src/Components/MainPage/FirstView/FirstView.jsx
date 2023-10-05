@@ -40,7 +40,9 @@ export default function FirstView() {
 					<div></div>
 					<div></div>
 				</div>
-				<button className="fv-plan-btn">Ver planes</button>
+				<button className="fv-plan-btn">
+					<a href="#suscripcion">Ver planes</a>
+				</button>
 			</div>
 		</main>
 	);

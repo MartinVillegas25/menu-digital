@@ -20,6 +20,10 @@ export const MODIF_DATA = 'MODIF_DATA';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const GET_MENU_CATEGORIES = 'GET_MENU_CATEGORIES';
+export const ADD_TO_MINICART = 'ADD_TO_MINICART';
+export const REMOVE_FROM_MINICART = 'REMOVE_FROM_MINICART';
+export const CREATE_ADMIN = 'CREATE_ADMIN';
+export const CHANGE_PLAN = 'CHANGE_PLAN';
 
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
@@ -34,6 +38,27 @@ export function createUser(payload) {
 			console.log('entro en create');
 			return dispatch({
 				type: CREATE_USER,
+				payload: info.data
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+// Funcion para registro de administrador
+
+export function createAdmin(payload) {
+	return async function (dispatch) {
+		console.log('creando admin');
+		try {
+			const info = await axios.post(
+				'http://localhost:3000/admin-boss',
+				payload
+			);
+
+			return dispatch({
+				type: CREATE_ADMIN,
 				payload: info.data
 			});
 		} catch (error) {
@@ -324,6 +349,49 @@ export function createSubCategory(payload) {
 	};
 }
 
+// cambiar el plan
+// export function changePlan(payload) {
+// 	return async function (dispatch) {
+// 		try {
+// 			const info = await axios.put(
+// 				'localhost:3000/dashboard/actulizar-plan',
+// 				payload
+// 			);
+
+// 			return dispatch({
+// 				type: CHANGE_PLAN,
+// 				payload: info.data
+// 			});
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	};
+// }
+export function changePlan(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.put('http://localhost:3000/dashboard/actulizar-plan', payload, {
+					headers
+				})
+				.then((response) => {
+					console.log(response.data);
+					console.log(payload);
+					return dispatch({
+						type: CHANGE_PLAN,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
 // funcion para mostrar todas las categorias del local
 export function getCategories() {
 	return async function (dispatch) {
@@ -439,5 +507,19 @@ export function getMenuCategories(payload) {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+}
+
+export function addToMinicart(payload) {
+	return {
+		type: ADD_TO_MINICART,
+		payload: payload
+	};
+}
+
+export function removeFromMinicart(payload) {
+	return {
+		type: REMOVE_FROM_MINICART,
+		payload: payload
 	};
 }

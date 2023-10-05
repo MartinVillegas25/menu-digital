@@ -116,6 +116,11 @@
 	scale: 1.2;
 }
 
+.mail-icon:visited {
+	color: orange;
+	text-decoration: none;
+}
+
 /* Firefox */
 * {
 	scrollbar-width: thin;

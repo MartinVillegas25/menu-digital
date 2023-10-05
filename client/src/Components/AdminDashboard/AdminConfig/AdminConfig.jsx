@@ -14,7 +14,8 @@ export default function AdminConfig() {
 	const dispatch = useDispatch();
 	const plans = useSelector((state) => state.plans);
 	const validation = useSelector((state) => state.validation.msg);
-	const dataAdmin = useSelector((state) => state.validation.usuario);
+	const dataAdmin = useSelector((state) => state.validation);
+	console.log(dataAdmin);
 	const [planStandardInput, setPlanStandardInput] = useState('');
 	const [planPremiumInput, setPlanPremiumInput] = useState('');
 	const [input, setInput] = useState({

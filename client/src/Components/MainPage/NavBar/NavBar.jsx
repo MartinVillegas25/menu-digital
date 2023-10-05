@@ -30,10 +30,6 @@ export default function NavBar() {
 		setSubscribeOpen(false);
 	};
 
-	const handleLogOut = () => {
-		dispatch(logOutUser());
-	};
-
 	const actualUser = useSelector((state) => state.validation);
 	const actualUserLocal = useSelector((state) => state.validationLocal);
 

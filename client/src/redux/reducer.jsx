@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import {
 	LOG_USER,
 	GET_ALL_CLIENTS,
@@ -9,7 +10,9 @@ import {
 	GET_PLANS,
 	GET_SUBCATEGORIES,
 	GET_PRODUCTS,
-	GET_MENU_CATEGORIES
+	GET_MENU_CATEGORIES,
+	ADD_TO_MINICART,
+	REMOVE_FROM_MINICART
 } from './actions';
 
 let initialState = {
@@ -22,7 +25,8 @@ let initialState = {
 	plans: {},
 	localSubcategories: [],
 	localProducts: [],
-	menuCategories: []
+	menuCategories: [],
+	productsAdeedToMinicart: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -83,6 +87,25 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				menuCategories: action.payload
+			};
+		case ADD_TO_MINICART:
+			return {
+				...state,
+				productsAdeedToMinicart: [
+					...state.productsAdeedToMinicart,
+					action.payload
+				]
+			};
+		case REMOVE_FROM_MINICART:
+			// Filtrar los productos en el carrito, eliminando el producto con el ID especificado
+			const filteredProducts = state.productsAdeedToMinicart.filter(
+				(product) => product.id !== action.payload
+			);
+			console.log(filteredProducts, 'filtrados');
+
+			return {
+				...state,
+				productsAdeedToMinicart: filteredProducts
 			};
 		default:
 			return state;

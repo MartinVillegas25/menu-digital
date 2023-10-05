@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import QRcode from 'react-qr-code';
-//import './QrGenerator.css';
+import './QrGenerator.css';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useLocation } from 'react-router-dom';
 
 export default function QrGenerator() {
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const email = searchParams.get('email');
 	const [totalCodes, setTotalCodes] = useState(0);
 	const [firstCode, setFirstCode] = useState(0);
 	const [generate, setGenerate] = useState(false);
@@ -16,6 +20,7 @@ export default function QrGenerator() {
 	) {
 		numbers.push(i);
 	}
+	console.log(numbers);
 
 	const handleChangeTotalCodes = (e) => {
 		setTotalCodes(e.target.value);
@@ -31,19 +36,44 @@ export default function QrGenerator() {
 	};
 
 	const handleDownloadPDF = () => {
-		const pdf = new jsPDF('p', 'mm', 'a4'); // Create a new PDF document
-
 		// Capture the HTML content that contains the QR codes
 		const qrCodeContainer = document.getElementById('qrCodeContainer');
 
 		html2canvas(qrCodeContainer).then((canvas) => {
 			const imgData = canvas.toDataURL('image/png');
+			const pdf = new jsPDF('landscape', 'mm', 'a4'); // Cambia la orientación a horizontal
 
-			// Adjust the width and height values to make the QR codes larger
-			// The values here are in millimeters (mm)
-			pdf.addImage(imgData, 'PNG', 10, 10, 100, 100); // Adjust the width and height as needed
+			// Calculate the size and position of the QR codes in the PDF
+			const qrCodeWidth = 100; // Ancho para dos códigos QR en una fila
+			const qrCodeHeight = 100; // Ajusta la altura según sea necesario
+			const xPosition = 10; // Ajusta la posición X según sea necesario
+			const yPosition = 10; // Ajusta la posición Y según sea necesario
 
-			pdf.save('codigos_qr.pdf'); // Download the PDF with the specified name
+			// Variables para rastrear la posición actual
+			let currentX = xPosition;
+			let currentY = yPosition;
+
+			// Agrega las imágenes de los códigos QR al PDF
+			numbers.forEach((mesa, index) => {
+				if (index % 2 === 0 && index !== 0) {
+					// Cambia a la siguiente fila
+					currentX = xPosition;
+					currentY += qrCodeHeight + 10; // Añade un espacio vertical entre filas
+				}
+
+				pdf.addImage(
+					imgData,
+					'PNG',
+					currentX,
+					currentY,
+					qrCodeWidth,
+					qrCodeHeight
+				);
+
+				// Añade un espacio horizontal entre códigos QR
+			});
+
+			pdf.save('codigos_qr.pdf'); // Descarga el PDF con el nombre especificado
 		});
 	};
 	return (
@@ -72,15 +102,16 @@ export default function QrGenerator() {
 					)}
 				</form>
 			</div>
-			<div id="qrCodeContainer" className="qr-code-container">
+			<div id="qrCodeContainer">
 				{generate && (
-					<div>
-						{numbers.map((mesa) => (
+					<div className="qr-code-container">
+						{numbers.map((mesa, index) => (
 							<div key={mesa} className="qrCode">
-								<p>{`Mesa: ${mesa}`}</p>
 								<QRcode
-									value={`http://127.0.0.1:5173/menulocal?email=ejemplo@gmail.com&mesa=${mesa}`}
+									value={`http://127.0.0.1:5173/menulocal?email=${email}&mesa=${mesa}`}
+									className="qr"
 								/>
+								{index % 2 !== 0 && <div className="clear-float"></div>}
 							</div>
 						))}
 					</div>

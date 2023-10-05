@@ -134,7 +134,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 						{/* {emailError ? <h1>{emailError}</h1> : <br></br>} */}
 					</div>
 					<div>
-						<p>Ingresa una contraseña para iniciar tu suscripción:</p>
+						<p>Ingresa una contraseña:</p>
 						<input
 							type="password"
 							name="password"
@@ -237,13 +237,15 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 						</div>
 					</div>
 					<p>Selecciona el plan ideal para ti:</p>
-					<div className="subs-plans">
-						<select name="plan" id="" onClick={handleChange}>
-							<option value="">-</option>
-							<option value="basic">Básico</option>
-							<option value="standard">Estandar</option>
-							<option value="premium">Premium</option>
-						</select>
+					<div className="plan-data">
+						<div className="subs-plans">
+							<select name="plan" id="" onClick={handleChange}>
+								<option value="">-</option>
+								<option value="basic">Básico</option>
+								<option value="standard">Estandar</option>
+								<option value="premium">Premium</option>
+							</select>
+						</div>
 					</div>
 					<div className="subs-btn-container">
 						<button className="subs-btn" onClick={handleSubmit}>

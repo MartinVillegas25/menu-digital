@@ -1,35 +1,106 @@
-// import { useEffect, useState } from 'react';
-// import io from 'socket.io-client';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import io from 'socket.io-client';
 
-// export default function AlertChart() {
-// 	const [ticket, setTicket] = useState('');
+const socket = io();
 
-// 	useEffect(() => {
-// 		const socket = io('http://localhost:5173');
-// 		console.log(socket);
-// 		socket.on('connect', () => {
-// 			console.log('Conectado a la sala');
-// 		});
+export default function AlertChart() {
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const userEmail = searchParams.get('email');
 
-// 		socket.on('disconnect', () => {
-// 			console.log('Desconectado');
-// 		});
+	useEffect(() => {
+		socket.on('connect', () => {
+			console.log('conectado a la sala' + userEmail);
+			socket.emit('join-room', { room: userEmail + '-llamar-camarera' });
+			socket.emit('join-room', { room: userEmail + '-pedir-cuenta' });
+			socket.emit('join-room', { room: userEmail });
+		});
 
-// 		// Escuchar el evento 'ticket' y actualizar el estado del ticket
-// 		socket.on('ticket', (payload) => {
-// 			setTicket('Mesa ' + payload);
-// 		});
+		socket.on('disconnect', () => {
+			console.log('desconectado');
+		});
 
-// 		return () => {
-// 			socket.disconnect();
-// 		};
-// 	}, []);
+		socket.emit('join-room', { room: userEmail });
 
-// 	return (
-// 		<div>
-// 			<h1>Pantalla del Público</h1>
-// 			<p>{ticket}</p>
-// 			{/* Otro contenido de la pantalla del público */}
-// 		</div>
-// 	);
-// }
+		socket.on('estado-actual', (payload) => {
+			console.log('payload', payload);
+
+			const email = searchParams.get('email');
+			console.log(payload[email][0]);
+
+			if (payload[email][0]) {
+				document.getElementById('lblTicket1').innerText = payload[email][0];
+			}
+
+			if (payload[email][1]) {
+				document.getElementById('lblTicket2').innerText = payload[email][1];
+			}
+
+			if (payload[email][2]) {
+				document.getElementById('lblTicket3').innerText = payload[email][2];
+			}
+
+			if (payload[email][3]) {
+				document.getElementById('lblTicket4').innerText = payload[email][3];
+			}
+		});
+	}, []);
+
+	return (
+		<div>
+			<h1>SALA</h1>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<table>
+								<tbody>
+									<tr>
+										<td valign="middle" className="ticket-actual">
+											<span
+												id="lblTicket1"
+												className="ticket-actual-numero"
+											></span>
+											<span
+												id="lblEscritorio1"
+												className="ticket-actual-escritorio"
+											></span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span
+												id="lblTicket2"
+												className="ticket-secundario"
+											></span>
+											<span id="lblEscritorio2"></span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span
+												id="lblTicket3"
+												className="ticket-secundario"
+											></span>
+											<span id="lblEscritorio3"></span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span
+												id="lblTicket4"
+												className="ticket-secundario"
+											></span>
+											<span id="lblEscritorio4"></span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	);
+}

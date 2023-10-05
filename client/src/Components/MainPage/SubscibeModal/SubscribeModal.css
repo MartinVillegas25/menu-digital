@@ -154,10 +154,8 @@
 @media (max-width: 768px) {
 	.subscribe {
 		background-color: rgba(255, 255, 255, 1);
-
 		color: #000;
 		width: 300px;
-		height: 70vh;
 		position: relative;
 		top: 0;
 		bottom: 0;
@@ -198,5 +196,15 @@
 		justify-content: center;
 		align-items: center;
 		margin-right: 30px;
+	}
+
+	.plan-data {
+		margin-left: 15%;
+		margin-bottom: 20px;
+	}
+
+	.subs-btn-container {
+		margin-bottom: 40px;
+		margin-left: 10%;
 	}
 }

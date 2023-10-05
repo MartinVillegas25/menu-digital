@@ -1,3 +1,4 @@
+import AlertChart from '../../Menu/AlertChart/AlertChart';
 import './ClientHome.css';
 import { useLocation } from 'react-router-dom';
 export default function ClientHome() {
@@ -201,7 +202,9 @@ export default function ClientHome() {
 							</tbody>
 						</table>
 					</div>
-					<div className="client-home-alerts">alertas</div>
+					<div className="client-home-alerts">
+						<AlertChart />
+					</div>
 				</div>
 			</div>
 		</main>

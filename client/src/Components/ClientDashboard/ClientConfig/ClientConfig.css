@@ -130,7 +130,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	margin-top: 80px;
+	margin-top: 0px;
 }
 
 .client-data-popup-container input {
@@ -138,4 +138,74 @@
 	height: 30px;
 	margin-top: 10px;
 	margin-bottom: 20px;
+}
+
+.client-data-popup-container {
+	color: white;
+}
+
+.client-data-popup-btn {
+	position: absolute;
+	left: 10px;
+	top: 15px;
+}
+
+.submit-btn {
+	padding: 4px 6px;
+	border: orange solid;
+	border-radius: 5px;
+	outline: none;
+	background-color: orange;
+	color: white;
+}
+
+.client-plan-select {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.client-plan-select select {
+	width: 200px;
+	height: 30px;
+	text-align: center;
+	font-size: large;
+}
+
+.client-plan-popup {
+	background-color: rgba(255, 255, 255, 1);
+	border-radius: 10%;
+	border: solid 4px orange;
+	color: #000;
+	width: 400px;
+	height: 150px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background-color: rgba(
+		0,
+		0,
+		0,
+		0.5
+	); /* Cambia el color y la opacidad según tus preferencias */
+	backdrop-filter: blur(10px);
+}
+.plan-btn {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+.submit-plan-btn {
+	padding: 4px 6px;
+	border: orange solid;
+	border-radius: 5px;
+	outline: none;
+	background-color: orange;
+	color: white;
+	display: flex;
+	justify-content: center;
 }

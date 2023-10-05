@@ -10,7 +10,7 @@ export default function Footer() {
 			<div className="footer">
 				<div className="footer-container">
 					<div className="footer-links">
-						<div>
+						<div className="footer-links-a">
 							<a href="">Aviso legal</a>|<a href="">Privacidad</a>
 						</div>
 						<h3>2023 Todos los derechos reservados. Duwoh Developers</h3>

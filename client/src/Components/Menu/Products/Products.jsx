@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMenuCategories, getProducts } from '../../../redux/actions';
+import {
+	addToMinicart,
+	getMenuCategories,
+	getProducts
+} from '../../../redux/actions';
 import './Products.css';
 import queryString from 'query-string';
 
@@ -19,6 +23,7 @@ export default function Products() {
 
 	const categories = useSelector((state) => state.menuCategories.categorias);
 	const products = useSelector((state) => state.localProducts);
+	console.log(products);
 
 	const handleCategorySelection = (categoryName) => {
 		setSelectedCategory(categoryName);
@@ -26,6 +31,13 @@ export default function Products() {
 
 	const handleShowAll = () => {
 		setSelectedCategory(null); // Reset selected category to show all products
+	};
+
+	const handleAddToMinicart = (e) => {
+		const producto = JSON.parse(e.target.value); // Convierte la cadena JSON en un objeto
+
+		// Luego, puedes dispatch el objeto producto
+		dispatch(addToMinicart(producto));
 	};
 
 	return (
@@ -83,7 +95,12 @@ export default function Products() {
 														</p>
 													</div>
 													<div className="product-add">
-														<button>+</button>
+														<button
+															value={JSON.stringify(producto)} // Convierte el objeto a una cadena JSON
+															onClick={handleAddToMinicart}
+														>
+															+
+														</button>
 													</div>
 												</li>
 											))}

@@ -1,52 +1,60 @@
-.qr-amount-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.qr-amount-form {
-	display: flex;
-	flex-direction: column;
-	margin-top: 30px;
-}
-
-.qr-amount-form input {
-	width: 200px;
-	height: 50px;
-	text-align: center;
-	margin-bottom: 30px;
-	margin-left: 20px;
-	border: orange solid 2px;
-	border-radius: 10px;
-	color: #000;
-}
-
-.generate-qr-btn {
-	border: solid orange;
-	background-color: orange;
-	color: black;
-	font-weight: bold;
-	padding: 5px;
-	margin-left: 15px;
-	border-radius: 10px;
-	margin-bottom: 10px;
-}
-
 .qr-code-container {
-	display: flex;
-	flex-direction: column;
-
-	align-items: center;
+	width: 100%;
+	overflow: hidden; /* Para evitar que los códigos QR se desborden */
 }
 
 .qrCode {
-	margin: 10px 10px 10px 10px;
-	width: 200px;
-	height: 200px;
-	margin-bottom: 200px;
+	width: calc(
+		50% - 10px
+	); /* 2 códigos QR por fila con un espacio de 10px entre ellos */
+	float: left; /* Hace que los códigos QR se alineen en dos columnas */
+	margin-right: 10px; /* Espacio entre códigos QR */
+	margin-bottom: 20px;
+	text-align: center;
+	box-sizing: border-box;
+	padding: 5px; /* Espacio alrededor del código QR */
 }
 
-.qrCode p {
+.clear-float {
+	clear: both; /* Borra el flotador después de cada segundo código QR */
+}
+
+.qrCode img {
+	max-width: 100%;
+	height: auto;
+}
+
+.qr {
+	width: 100%;
+	height: 100%;
+	margin: 20px;
+}
+
+/* Otros estilos que puedas tener */
+.qr-amount-container {
 	text-align: center;
+}
+
+.qr-amount-form {
+	margin-bottom: 20px;
+}
+
+.qr-amount-form div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.qr-amount-form input {
+	width: 45%;
+	padding: 5px;
+}
+
+.generate-qr-btn {
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	cursor: pointer;
 }

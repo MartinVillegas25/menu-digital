@@ -1,0 +1,48 @@
+.cart-container {
+	padding-top: 80px;
+	padding-bottom: 100px;
+}
+
+.minicart-product {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.minicart-prod-img {
+	width: 81px;
+	height: 78px;
+	flex-shrink: 0;
+}
+
+.minicart-prod-name {
+	color: #000;
+	font-family: Outfit;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	width: 116px;
+	height: 19px;
+
+	text-align: center;
+}
+
+.minicart-prod-price {
+	color: #000;
+	text-align: center;
+	font-family: Outfit;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.minicart-total-price {
+	color: #000;
+	text-align: center;
+	font-family: Outfit;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}

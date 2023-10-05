@@ -60,17 +60,18 @@
 	}
 
 	.footer-links a {
-		margin: 10px;
+		margin: 5px;
 		color: white;
 	}
 
 	.footer-links h3 {
 		font-size: 10px;
 		font-weight: 200;
+		margin-left: 5px;
 	}
 
 	.footer-socials a {
-		font-size: 40px;
+		font-size: 30px;
 		color: white;
 		margin-left: 0px;
 		margin-top: 20px;

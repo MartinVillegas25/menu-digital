@@ -9,8 +9,9 @@ import ClientDashboardMenu from './Components/ClientDashboard/ClientDashboardMen
 import ClientDashboardConfig from './Components/ClientDashboard/ClientDashboardConfig';
 import Menu from './Components/Menu/Menu';
 import QrGenerator from './Components/ClientDashboard/ClientConfig/QrGenerator';
-// import AlertChart from './Components/Menu/AlertChart/AlertChart';
-
+import Gracias from './Components/MainPage/Gracias/gracias';
+import LoginAdmin from './Components/MainPage/LoginAdmin/loginAdmin';
+import AlertChart from './Components/Menu/AlertChart/AlertChart';
 function App() {
 	return (
 		<BrowserRouter>
@@ -18,6 +19,8 @@ function App() {
 				<Routes>
 					{/* Ruta de pagina principal  */}
 					<Route path="/" element={<MainPage />} />
+					<Route path="/gracias" element={<Gracias />} />
+					<Route path="/admin-boss" element={<LoginAdmin />} />
 					{/* Rutas del panel de administrador */}
 					<Route path="/admin" element={<AdminDashboardHome />} />
 					<Route path="/admin/clientes" element={<AdminDashboardClients />} />
@@ -35,7 +38,7 @@ function App() {
 					<Route path="/dashboard/qrgenerator" element={<QrGenerator />} />
 					{/* Ruta del menu */}
 					<Route path="/menulocal" element={<Menu />} />
-					{/* <Route path="/pruebas" element={<AlertChart />} /> */}
+					<Route path="/alert" element={<AlertChart />} />
 				</Routes>
 			</div>
 		</BrowserRouter>

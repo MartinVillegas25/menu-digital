@@ -1,35 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 
+const socket = io();
+
 export default function Call() {
-	const [mensaje, setMensaje] = useState('');
-	const [mensajes, setMensajes] = useState([]);
-
-	const socket = io('/');
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		socket.emit('mensaje', mensaje);
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const userEmail = searchParams.get('email');
+	const mesa = searchParams.get('mesa');
+	const payload = () => {
+		console.log('emitiendo');
 	};
 
-	useEffect(() => {
-		socket.on('mensaje', (mensaje) => {
-			console.log(mensaje);
-			setMensajes([...mensajes, mensaje]);
-		});
-	}, []);
+	socket.on('connect', () => {
+		console.log('conectado');
+	});
+
+	const usuario = { email: userEmail, mesa: mesa };
+	console.log(usuario);
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		console.log('llamar');
+		socket.emit('llamar-camarera', usuario, payload);
+	};
 
 	return (
 		<div>
-			<form action="" onSubmit={handleSubmit}>
-				<input type="text" onChange={(e) => setMensaje(e.target.value)} />
-				<button>enviar</button>
-			</form>
-			<ul>
-				{mensajes?.map((m, i) => (
-					<li key={i}>{m}</li>
-				))}
-			</ul>
+			<h1>Pantalla del Público</h1>
+
+			<button onClick={handleSubmit}>Llamar camarera</button>
 		</div>
 	);
 }

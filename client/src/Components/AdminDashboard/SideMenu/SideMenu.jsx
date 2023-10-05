@@ -8,6 +8,7 @@ import CEO from '../../../assets/CEO.jpg';
 import logo from '../../../assets/logos/Logo1.png';
 import { useState } from 'react';
 import { BsArrowRightCircle } from 'react-icons/bs';
+
 export default function SideMenu() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
@@ -42,7 +43,8 @@ export default function SideMenu() {
 						</div>
 						<div className="admin-side-link">
 							<VscSignOut />
-							<a href="">Salir</a>
+
+							<a href="/">Salir</a>
 						</div>
 						<div className="admin-side-img">
 							<img src={CEO} alt="" />

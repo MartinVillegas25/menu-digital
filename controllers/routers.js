@@ -721,7 +721,84 @@ const recuperarClave = async (req, res) => {
     
 }
 
+//actualizar imagen admin 
+const cambiarImagenAdmin = async (req, res) => {
+    const email = req.email
+    console.log(email)
+    let newImagen = req.body
 
+    const query = 'UPDATE administradores SET img = ? WHERE email = ?'
+
+  
+
+    try {
+        // Verificar que el elemento pertenezca al usuario autenticado antes de actualizar
+         const adminRow = await pool.query('SELECT * FROM administradores WHERE email = ?', [email]);
+         
+   
+            const urlImagenVIeja = adminRow[0][0].img;
+            
+            const [ public_id ] = urlImagenVIeja.split('.');
+                  cloudinary.uploader.destroy( public_id );
+          
+            //agregar imagen a cloudinary para obterner url
+            const { tempFilePath } = req.files.newImagen
+            const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+          
+            newImagen = secure_url;
+
+
+
+
+        const result = await pool.query(query, [newImagen, email]);
+        console.log(result)
+        res.status(200).json("imagen admin actualizada");
+
+
+    } catch (error) {
+        console.log(error, "error en actualizar image")
+    }
+
+}
+
+const cambiarImagenLocal = async (req, res) => {
+    const email = req.email
+    
+    let newImagen = req.body
+
+    const query = 'UPDATE usuarios SET img = ? WHERE email = ?'
+
+  
+
+    try {
+        // Verificar que el elemento pertenezca al usuario autenticado antes de actualizar
+         const adminRow = await pool.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+         
+   
+            const urlImagenVIeja = adminRow[0][0].img;
+            
+            const [ public_id ] = urlImagenVIeja.split('.');
+                  cloudinary.uploader.destroy( public_id );
+          
+            //agregar imagen a cloudinary para obterner url
+            const { tempFilePath } = req.files.newImagen
+            const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+          
+            newImagen = secure_url;
+
+
+
+
+        const result = await pool.query(query, [newImagen, email]);
+        console.log(result)
+        res.status(200).json("imagen local actualizada");
+
+
+    } catch (error) {
+        console.log(error, "error en actualizar imagen")
+    }
+
+}
 
 
 module.exports = {
@@ -748,7 +825,9 @@ gracias,
 confimarPago,
 mostrarUsuarioConfirmar,
 mejorarPlan,
-confimarPagoPlan
+confimarPagoPlan,
+cambiarImagenAdmin,
+cambiarImagenLocal
 
 
 

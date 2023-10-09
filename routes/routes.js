@@ -22,7 +22,9 @@ const { homeGet,
     confimarPago,
     mostrarUsuarioConfirmar,
     mejorarPlan,
-    confimarPagoPlan} = require('../controllers/routers');
+    confimarPagoPlan,
+    cambiarImagenAdmin,
+    cambiarImagenLocal} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 
@@ -85,12 +87,17 @@ router.post ('/admin-boss',[
     check('email', 'correo no valido').isEmail(),
     check('password', 'la clave es obligatoria').not().isEmpty(),
 ], postCrearAdmin)
+router.put('/actualizar-imagen',[
+    validarJWT
+], cambiarImagenAdmin)
 
 //confirmacion de pago nuevos plan
 router.put('/admin/confirmar-plan', [
     validarJWT,
     adminRol,
 ],confimarPagoPlan);
+
+
 
 
 //mostrar planes get
@@ -158,7 +165,9 @@ router.post('/dashboard/:email/items',[
 router.delete('/dashboard/items',[
     validarJWT
 ], borrarProducto);
-
+router.put('/actualizar-img',[
+    validarJWT
+] ,cambiarImagenLocal)
 router.delete('/dashboard/items/borrar-categoria', validarJWT, borrarCategoria);
 router.delete('/dashboard/items/borrar-subcategoria', validarJWT, borrarSubCategoria);
 

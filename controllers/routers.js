@@ -113,15 +113,19 @@ const loginUsuario = async (req, res = response) => {
 
         //validad si es admin o usuario
         let user;
+        let msg;
+
 
         if(resultGeneralLength != 0){
             user = resultGeneral[0][0];
+            msg = "local";
             //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
             if(user.status === 0){
                return res.status(404).redirect('/');
            }
         }else{
             user = resultAdmin[0][0];
+            msg = "admin";
         }
         
         
@@ -137,7 +141,9 @@ const loginUsuario = async (req, res = response) => {
             
         if (validPassword) {
             const response = {
-                token
+                token,
+                msg,
+                usuario: user
             }
             res.status(200).json(response);
             

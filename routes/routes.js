@@ -196,7 +196,7 @@ router.post('/dashboard/newsubcategoria',[
 router.get('/dashboard/:email/pedidos',[
     validarJWT
 ], mostrarPedidos);
-router.delete('/:mesa/:nombre/liberar-pedido',[
+router.delete('/liberar-pedido',[
     validarJWT
 ], liberarPedido);
 

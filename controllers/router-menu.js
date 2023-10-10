@@ -532,7 +532,7 @@ const realizarPedidos = async (req, res) => {
 }
 
 const liberarPedido = async (req, res) => {
-const {mesa, nombre} = req.params;
+const {mesa, nombre} = req.query;
 const emailUsuario = req.email;
 
 

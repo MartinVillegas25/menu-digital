@@ -22,6 +22,7 @@ CREATE TABLE usuarios (
   tipo varchar(20) NOT NULL,
   comentario varchar(200) NULL;
   pagoConfirmado boolean DEFAULT FALSE NULL;
+  pagoCambioPlan boolean DEFAULT FALSE NULL ;
   PRIMARY KEY (id)
 );
 
@@ -83,7 +84,7 @@ CREATE TABLE subcategorias (
     nombre_subcategoria VARCHAR(50),
     id_categoria INT,
     emailusuario VARCHAR(100) NOT NULL,
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria) ON DELETE CASCADE;
 )
 
 CREATE TABLE pedidos (

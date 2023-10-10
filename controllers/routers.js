@@ -113,15 +113,19 @@ const loginUsuario = async (req, res = response) => {
 
         //validad si es admin o usuario
         let user;
+        let msg;
+
 
         if(resultGeneralLength != 0){
             user = resultGeneral[0][0];
+            msg = "local";
             //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
             if(user.status === 0){
                return res.status(404).redirect('/');
            }
         }else{
             user = resultAdmin[0][0];
+            msg = "admin";
         }
         
         
@@ -137,7 +141,9 @@ const loginUsuario = async (req, res = response) => {
             
         if (validPassword) {
             const response = {
-                token
+                token,
+                msg,
+                usuario: user
             }
             res.status(200).json(response);
             
@@ -721,7 +727,84 @@ const recuperarClave = async (req, res) => {
     
 }
 
+//actualizar imagen admin 
+const cambiarImagenAdmin = async (req, res) => {
+    const email = req.email
+    console.log(email)
+    let newImagen = req.body
 
+    const query = 'UPDATE administradores SET img = ? WHERE email = ?'
+
+  
+
+    try {
+        // Verificar que el elemento pertenezca al usuario autenticado antes de actualizar
+         const adminRow = await pool.query('SELECT * FROM administradores WHERE email = ?', [email]);
+         
+   
+            const urlImagenVIeja = adminRow[0][0].img;
+            
+            const [ public_id ] = urlImagenVIeja.split('.');
+                  cloudinary.uploader.destroy( public_id );
+          
+            //agregar imagen a cloudinary para obterner url
+            const { tempFilePath } = req.files.newImagen
+            const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+          
+            newImagen = secure_url;
+
+
+
+
+        const result = await pool.query(query, [newImagen, email]);
+        console.log(result)
+        res.status(200).json("imagen admin actualizada");
+
+
+    } catch (error) {
+        console.log(error, "error en actualizar image")
+    }
+
+}
+
+const cambiarImagenLocal = async (req, res) => {
+    const email = req.email
+    
+    let newImagen = req.body
+
+    const query = 'UPDATE usuarios SET img = ? WHERE email = ?'
+
+  
+
+    try {
+        // Verificar que el elemento pertenezca al usuario autenticado antes de actualizar
+         const adminRow = await pool.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+         
+   
+            const urlImagenVIeja = adminRow[0][0].img;
+            
+            const [ public_id ] = urlImagenVIeja.split('.');
+                  cloudinary.uploader.destroy( public_id );
+          
+            //agregar imagen a cloudinary para obterner url
+            const { tempFilePath } = req.files.newImagen
+            const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
+          
+            newImagen = secure_url;
+
+
+
+
+        const result = await pool.query(query, [newImagen, email]);
+        console.log(result)
+        res.status(200).json("imagen local actualizada");
+
+
+    } catch (error) {
+        console.log(error, "error en actualizar imagen")
+    }
+
+}
 
 
 module.exports = {
@@ -748,7 +831,9 @@ gracias,
 confimarPago,
 mostrarUsuarioConfirmar,
 mejorarPlan,
-confimarPagoPlan
+confimarPagoPlan,
+cambiarImagenAdmin,
+cambiarImagenLocal
 
 
 

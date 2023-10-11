@@ -9,6 +9,7 @@ import { logUser, validateAdmin, validateUser } from '../../../redux/actions';
 export default function LoginModal({ handleCloseLogin }) {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
+	const userType = useSelector((state) => state.userType);
 
 	const [input, setInput] = useState({
 		email: '',
@@ -34,9 +35,7 @@ export default function LoginModal({ handleCloseLogin }) {
 			input.password.trim() === ''
 		) {
 			// Display an error message or perform any other action
-			alert(
-				'Please complete all required fields with valid information before submitting.'
-			);
+			alert('Por favor complete ambos campos');
 			return; // Exit the function if validation fails
 		}
 
@@ -48,10 +47,10 @@ export default function LoginModal({ handleCloseLogin }) {
 		// Check if the token has been updated in the Redux store
 		if (token) {
 			// Store the updated token in local storage
-			if (input.email === 'example@example.com') {
+			if (userType === 'admin') {
 				localStorage.setItem('token', token);
 				dispatch(validateAdmin());
-			} else if (input.email !== '') {
+			} else if (userType === 'local') {
 				localStorage.setItem('token', token);
 				dispatch(validateUser());
 			}

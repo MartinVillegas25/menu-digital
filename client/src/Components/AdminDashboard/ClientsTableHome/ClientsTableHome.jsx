@@ -10,7 +10,9 @@ import { getAllClients, validateAdmin } from '../../../redux/actions';
 export default function ClientsTableHome() {
 	const dispatch = useDispatch();
 	const allUsers = useSelector((state) => state.allUsers);
+
 	const validation = useSelector((state) => state.validation.msg);
+	const emailAddresses = allUsers.map((user) => user.email).join(';');
 	useEffect(() => {
 		dispatch(validateAdmin());
 		dispatch(getAllClients());
@@ -39,6 +41,14 @@ export default function ClientsTableHome() {
 						<div className="table-top">
 							<h3>Ultimos clientes</h3>
 							<a href="/admin/clientes">Ver todos</a>
+							<a
+								href={`mailto:${emailAddresses}`}
+								target="_blank"
+								rel="noreferrer"
+							>
+								{' '}
+								Enviar mensaje a todos
+							</a>
 						</div>
 						<div>
 							<table className="clients-table">

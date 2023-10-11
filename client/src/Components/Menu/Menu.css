@@ -58,12 +58,13 @@ footer {
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
+	margin-top: 20px;
 }
 
 .footer-icon {
 	width: 21.828px;
 	height: 18.913px;
-	flex-shrink: 0;
+
 	color: #000;
 }
 

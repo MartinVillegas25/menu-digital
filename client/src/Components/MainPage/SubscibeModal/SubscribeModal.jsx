@@ -7,8 +7,10 @@ import { createUser } from '../../../redux/actions';
 import img from '../../../assets/restaurant.jpg';
 
 // eslint-disable-next-line react/prop-types
-export default function SubsbribeModal({ handleCloseSuscribe }) {
+export default function SubscribeModal({ handleCloseSubscribe }) {
 	const dispatch = useDispatch();
+
+	// Inicio de los datos a cargar para la subscripción
 	const [input, setInput] = useState({
 		img: '',
 		name: '',
@@ -25,72 +27,69 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 		comentario: ''
 	});
 
+	// Función para cargar los datos desde los input
 	const handleChange = (e) => {
 		setInput({
 			...input,
 			[e.target.name]: e.target.value
 		});
 	};
-	const [nameError, setNameError] = useState('');
-	const [addressError, setAddressError] = useState('');
-	const [storeNameError, setStoreNameError] = useState('');
-	const [emailError, setEmailError] = useState('');
-	const [cpError, setCpError] = useState('');
-	const [passwordError, setPasswordError] = useState('');
 
+	// Logica para 'repetir contraseña'
+	const [repeatPass, setRepeatPass] = useState('');
+	const handleRepeatPass = (e) => {
+		setRepeatPass(e.target.value);
+	};
+
+	// Función de ejecutar el control de errores y el registro
 	const handleSubmit = (e) => {
-		e.preventDefault(); // Prevent the default form submission behavior
+		e.preventDefault();
 
-		// Regular expression for email validation
+		// Regular expression para validación de el email
 		const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-		//Check if any of the required fields are empty or null
-		if (
-			input.name.trim() === '' ||
-			input.address.trim() === '' ||
-			input.storeName.trim() === '' ||
-			input.email.trim() === '' ||
-			!emailRegex.test(input.email) || // Check if email is valid
-			input.cp === 0 ||
-			input.password.trim() === '' ||
-			input.plan.trim() === '' ||
-			input.img.trim() === ''
-		) {
-			// Display an error message or perform any other action
-			alert(
-				'Please complete all required fields with valid information before submitting.'
-			);
-			return; // Exit the function if validation fails
+		// Chequeo de errores
+
+		if (input.name.trim() === '') {
+			alert('Por favor complete su nombre');
+			return;
+		} else if (input.address.trim() === '') {
+			alert('Por favor complete su dirección');
+			return;
+		} else if (input.storeName.trim() === '') {
+			alert('Por favor indique el nombre de su local');
+			return;
+		} else if (input.email.trim() === '') {
+			alert('Por favor ingrese su email');
+			return;
+		} else if (!emailRegex.test(input.email)) {
+			alert('Email no válido');
+			return;
+		} else if (input.cp.trim() === '') {
+			alert('Ingrese su código postal');
+			return;
+		} else if (input.password.trim() === '') {
+			alert('Ingrese una contraseña');
+			return;
+		} else if (input.password.trim() !== repeatPass) {
+			alert('Las contraseñas no coinciden');
+			return;
+		} else if (input.telefono.trim() === '') {
+			alert('Ingrese su teléfono');
+			return;
+		} else if (input.pais.trim() === '') {
+			alert('Ingrese su país');
+		} else if (input.localidad.trim() === '') {
+			alert('Ingrese su localidad');
+		} else if (input.tipo.trim() === '') {
+			alert('Ingrese el tipo de comercio que quiere adherir');
 		}
 
-		// if (input.name.trim() === '') {
-		// 	setNameError('por favor complete su nombre');
-		// 	return;
-		// } else if (input.address.trim() === '') {
-		// 	setAddressError('Por favor complete su direccion');
-		// 	return;
-		// } else if (input.storeName.trim() === '') {
-		// 	setStoreNameError('Por favor indique el nombre de su local');
-		// 	return;
-		// } else if (input.email.trim() === '') {
-		// 	setEmailError('Por favor ingrese su email');
-		// 	return;
-		// } else if (!emailRegex.test(input.email)) {
-		// 	setEmailError('email no valido');
-		// 	return;
-		// } else if (input.cp.trim() === '') {
-		// 	setCpError('Ingrese su codigo postal');
-		// 	return;
-		// } else if (input.password.trim() === '') {
-		// 	setPasswordError('ingrese una contraseña');
-		// 	return;
-		// }
-
-		// If all validation checks pass, dispatch the user creation action
+		// Si no hay errores, despachar la acción de registrar el usuario
 		dispatch(createUser(input));
 		console.log(input, 'input');
 
-		// Clear the input fields after submission
+		// Limpiar los input después de ejecutar la función
 		setInput({
 			img: '',
 			name: '',
@@ -98,19 +97,20 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 			email: '',
 			password: '',
 			address: '',
-			cp: 0,
+			cp: '',
 			plan: '',
-			telefono: 0,
+			telefono: '',
 			pais: '',
 			localidad: '',
 			tipo: '',
 			comentario: ''
 		});
+		setRepeatPass('');
 	};
 
 	return (
 		<div className="subscribe">
-			<button className="subscribe-close-btn" onClick={handleCloseSuscribe}>
+			<button className="subscribe-close-btn" onClick={handleCloseSubscribe}>
 				X
 			</button>
 			<div className="subscribe-container">
@@ -119,19 +119,17 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 						Bienvenido a <span>SiMesero</span>
 					</h1>
 					<p>
-						Si ya tenes una cuenta <a href="">Inicia Sesió n</a>
+						Si ya tienes una cuenta <a href="">Inicia Sesión</a>
 					</p>
 
 					<div>
-						<p>Ingresá tu email para formar parte:</p>
-
+						<p>Ingresa tu email para formar parte:</p>
 						<input
 							type="text"
 							name="email"
 							value={input.email}
 							onChange={handleChange}
 						/>
-						{/* {emailError ? <h1>{emailError}</h1> : <br></br>} */}
 					</div>
 					<div>
 						<p>Ingresa una contraseña:</p>
@@ -141,11 +139,14 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							value={input.password}
 							onChange={handleChange}
 						/>
-						{/* {passwordError ? <h1>{passwordError}</h1> : <br></br>} */}
-						<p>Repetí la contraseña:</p>
-						<input type="password" />
+						<p>Repite la contraseña:</p>
+						<input
+							type="password"
+							value={repeatPass}
+							onChange={handleRepeatPass}
+						/>
 					</div>
-					<p>Complete los siguientes datos:</p>
+					<p>Completa los siguientes datos:</p>
 					<div className="subs-data">
 						<div className="subs-data-container">
 							<input
@@ -153,11 +154,9 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								placeholder="Nombre completo"
 								name="name"
 								className="subs-input"
-								key="pass2"
 								value={input.name}
 								onChange={handleChange}
 							/>
-							{/* {nameError ? <h1>{nameError}</h1> : <br></br>} */}
 							<input
 								type="text"
 								placeholder="Nombre del local"
@@ -166,7 +165,6 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								value={input.storeName}
 								onChange={handleChange}
 							/>
-							{/* {storeNameError ? <h1>{storeNameError}</h1> : <br></br>} */}
 							<input
 								type="text"
 								placeholder="Dirección"
@@ -183,8 +181,6 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 								value={input.cp}
 								onChange={handleChange}
 							/>
-							{/* {cpError ? <h1>{cpError}</h1> : <br></br>} */}
-
 							<input
 								type="url"
 								placeholder="Foto perfil"
@@ -195,7 +191,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							/>
 							<input
 								type="number"
-								placeholder="telefono"
+								placeholder="Teléfono"
 								name="telefono"
 								className="subs-input"
 								value={input.telefono}
@@ -203,7 +199,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							/>
 							<input
 								type="text"
-								placeholder="pais"
+								placeholder="País"
 								name="pais"
 								className="subs-input"
 								value={input.pais}
@@ -211,7 +207,7 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							/>
 							<input
 								type="text"
-								placeholder="localidad"
+								placeholder="Localidad"
 								name="localidad"
 								className="subs-input"
 								value={input.localidad}
@@ -219,18 +215,18 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 							/>
 							<input
 								type="text"
-								placeholder="comentario"
+								placeholder="Comentario"
 								name="comentario"
 								className="subs-input"
 								value={input.comentario}
 								onChange={handleChange}
 							/>
-							<p>Que tipo de comercio es?:</p>
+							<p>¿Qué tipo de comercio es?</p>
 							<div className="subs-plan">
-								<select name="tipo" id="" onClick={handleChange}>
+								<select name="tipo" onClick={handleChange}>
 									<option value="">-</option>
-									<option value="cafe">Cafe</option>
-									<option value="restaurant">Restaurant</option>
+									<option value="cafe">Café</option>
+									<option value="restaurant">Restaurante</option>
 									<option value="bar">Bar</option>
 								</select>
 							</div>
@@ -239,18 +235,63 @@ export default function SubsbribeModal({ handleCloseSuscribe }) {
 					<p>Selecciona el plan ideal para ti:</p>
 					<div className="plan-data">
 						<div className="subs-plans">
-							<select name="plan" id="" onClick={handleChange}>
+							<select name="plan" onClick={handleChange}>
 								<option value="">-</option>
 								<option value="basic">Básico</option>
-								<option value="standard">Estandar</option>
+								<option value="standard">Estándar</option>
 								<option value="premium">Premium</option>
 							</select>
 						</div>
 					</div>
 					<div className="subs-btn-container">
-						<button className="subs-btn" onClick={handleSubmit}>
-							Finalizar
-						</button>
+						{input.plan === 'standard' ? (
+							<div>
+								<a
+									// eslint-disable-next-line react/no-unknown-property
+									mp-mode="dftl"
+									href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af99519018b0004f6b804d9"
+									name="MP-payButton"
+									className="blue-ar-l-rn-none"
+								>
+									Suscribirme
+								</a>
+								<script type="text/javascript">
+									{(function () {
+										function $MPC_load() {
+											window.$MPC_loaded !== true &&
+												(function () {
+													var s = document.createElement('script');
+													s.type = 'text/javascript';
+													s.async = true;
+													s.src =
+														document.location.protocol +
+														'//secure.mlstatic.com/mptools/render.js';
+													var x = document.getElementsByTagName('script')[0];
+													x.parentNode.insertBefore(s, x);
+													window.$MPC_loaded = true;
+												})();
+										}
+										window.$MPC_loaded !== true
+											? window.attachEvent
+												? window.attachEvent('onload', $MPC_load)
+												: window.addEventListener('load', $MPC_load, false)
+											: null;
+									})()}
+								</script>
+							</div>
+						) : input.plan === 'basic' ? (
+							<div>
+								<button className="subs-btn" onClick={handleSubmit}>
+									Básico
+								</button>
+							</div>
+						) : input.plan === 'premium' ? (
+							<div>
+								<button className="subs-btn">Premium</button>
+							</div>
+						) : (
+							<div>Seleccione un tipo de plan</div>
+						)}
 					</div>
 				</div>
 				<div>

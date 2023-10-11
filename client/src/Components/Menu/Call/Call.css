@@ -1,4 +1,4 @@
-/* .call-container {
+.call-container {
 	padding-top: 200px;
 	color: #000;
 	display: flex;
@@ -8,7 +8,7 @@
 }
 
 .call-container div {
-	width: 310px;
+	width: 280px;
 	height: 157px;
 	flex-shrink: 0;
 	border-radius: 15px;
@@ -23,33 +23,46 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	margin-bottom: 30px;
 }
 
-.call-container h4 {
+.call-text {
 	color: #000;
+	text-align: center;
 	font-family: Outfit;
 	font-size: 16px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 100;
 	line-height: normal;
-	margin-top: 50px;
 }
 
 .call-logo {
-	width: 57px;
+	width: 70px;
 	height: 40px;
 	flex-shrink: 0;
-}
-
-.call-logo :hover {
 	color: #ffa101;
+	transform: translateX(0);
+	animation: shake 2s ease-in-out infinite;
+}
+@keyframes shake {
+	0% {
+		transform: translateX(5px);
+	}
+	25% {
+		transform: translateX(-5px);
+	}
+	50% {
+		transform: translateX(5px);
+	}
+	75% {
+		transform: translateX(-5px);
+	}
+	100% {
+		transform: translateX(5px);
+	}
 }
 
-.selected {
-	border-bottom: solid 3px #ffa101;
+.call-btn {
+	background: none;
+	border: none;
 }
-
-.container {
-	color: #000;
-	padding-top: 50px;
-} */

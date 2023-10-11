@@ -30,8 +30,8 @@ export default function NavBar() {
 		setSubscribeOpen(false);
 	};
 
-	const actualUser = useSelector((state) => state.validation);
-	const actualUserLocal = useSelector((state) => state.validationLocal);
+	const userType = useSelector((state) => state.userType);
+	const actualUser = useSelector((state) => state.actualUser);
 
 	return (
 		<nav className="navbar">
@@ -100,7 +100,7 @@ export default function NavBar() {
 								</a>
 							</li>
 						</ul>
-						{actualUser.msg === 'admin' ? (
+						{userType === 'admin' ? (
 							<div className="navbar-btns">
 								<Link to="/admin">
 									<button className="navbar-btn">Administrador</button>
@@ -109,9 +109,9 @@ export default function NavBar() {
 									Cerrar sesion
 								</button>
 							</div>
-						) : actualUserLocal.msg === 'local' ? (
+						) : userType === 'local' ? (
 							<div className="navbar-btns">
-								<Link to={`/dashboard?email=${actualUserLocal.usuario.email}`}>
+								<Link to={`/dashboard?email=${actualUser.email}`}>
 									<button className="navbar-btn">Dashboard</button>
 								</Link>
 								<button className="navbar-btn" onClick={logOutUser}>

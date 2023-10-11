@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	getAllClients,
 	getPlans,
-	modifData,
+	// modifData,
 	planPrice,
 	validateAdmin
 } from '../../../redux/actions';
@@ -14,45 +14,45 @@ export default function AdminConfig() {
 	const dispatch = useDispatch();
 	const plans = useSelector((state) => state.plans);
 	const validation = useSelector((state) => state.validation.msg);
-	const dataAdmin = useSelector((state) => state.validation);
+	const dataAdmin = useSelector((state) => state.validation.usuario);
 	console.log(dataAdmin);
 	const [planStandardInput, setPlanStandardInput] = useState('');
 	const [planPremiumInput, setPlanPremiumInput] = useState('');
-	const [input, setInput] = useState({
-		name: '',
-		telefono: '',
-		address: ''
-	});
+	// const [input, setInput] = useState({
+	// 	name: '',
+	// 	telefono: '',
+	// 	address: ''
+	// });
 
-	const handleChangeData = (e) => {
-		setInput({
-			...input,
-			[e.target.name]: e.target.value
-		});
-	};
+	// const handleChangeData = (e) => {
+	// 	setInput({
+	// 		...input,
+	// 		[e.target.name]: e.target.value
+	// 	});
+	// };
 
-	const handleSubmitData = (e) => {
-		e.preventDefault();
-		swal({
-			title: 'Activar',
-			text: 'Esta seguro que desea modificar los datos?',
-			icon: 'warning',
-			buttons: ['No', 'Si']
-		}).then((respuesta) => {
-			if (respuesta) {
-				dispatch(modifData(input));
-				swal({
-					text: `Se han modificadao los datos`,
-					icon: 'success'
-				});
-				setTimeout(function () {
-					window.location.reload(true);
-				}, 2000);
-			} else {
-				swal({ text: 'no se han modificado los datos', icon: 'info' });
-			}
-		});
-	};
+	// const handleSubmitData = (e) => {
+	// 	e.preventDefault();
+	// 	swal({
+	// 		title: 'Activar',
+	// 		text: 'Esta seguro que desea modificar los datos?',
+	// 		icon: 'warning',
+	// 		buttons: ['No', 'Si']
+	// 	}).then((respuesta) => {
+	// 		if (respuesta) {
+	// 			dispatch(modifData(input));
+	// 			swal({
+	// 				text: `Se han modificadao los datos`,
+	// 				icon: 'success'
+	// 			});
+	// 			setTimeout(function () {
+	// 				window.location.reload(true);
+	// 			}, 2000);
+	// 		} else {
+	// 			swal({ text: 'no se han modificado los datos', icon: 'info' });
+	// 		}
+	// 	});
+	// };
 
 	const handleChangeStandard = (e) => {
 		setPlanStandardInput(e.target.value);
@@ -106,15 +106,15 @@ export default function AdminConfig() {
 		}
 	}, [plans]); // Actualiza cuando 'planes' cambie sus valores
 
-	useEffect(() => {
-		if (dataAdmin) {
-			setInput({
-				name: dataAdmin.name,
-				telefono: dataAdmin.telefono,
-				address: dataAdmin.address
-			});
-		}
-	}, [dataAdmin]);
+	// useEffect(() => {
+	// 	if (dataAdmin) {
+	// 		setInput({
+	// 			name: dataAdmin.name,
+	// 			telefono: dataAdmin.telefono,
+	// 			address: dataAdmin.address
+	// 		});
+	// 	}
+	// }, [dataAdmin]);
 
 	return (
 		<div>
@@ -122,8 +122,6 @@ export default function AdminConfig() {
 			planStandardInput === undefined ||
 			!dataAdmin ||
 			!dataAdmin.name ||
-			!dataAdmin.address ||
-			!dataAdmin.telefono ||
 			!dataAdmin.email ? (
 				<div>
 					<h1>Cargando</h1>
@@ -139,13 +137,7 @@ export default function AdminConfig() {
 									<div>
 										<h3>Nombre:</h3> <h4>{dataAdmin.name || ''}</h4>
 									</div>
-									<div>
-										<h3>Direccion:</h3> <h4>{dataAdmin.address}</h4>
-									</div>
-									<div>
-										<h3>Teléfono: </h3>
-										<h4>{dataAdmin.telefono}</h4>
-									</div>
+
 									<div>
 										<h3>Mail: </h3>
 										<h4>{dataAdmin.email}</h4>
@@ -154,7 +146,7 @@ export default function AdminConfig() {
 							</div>
 							<div className="admin-functions-panel">
 								<div className="admin-functions-panel-container">
-									<div className="admin-changedata">
+									{/* <div className="admin-changedata">
 										<h2>Modificar datos</h2>
 										<input
 											type="text"
@@ -183,7 +175,7 @@ export default function AdminConfig() {
 										>
 											Modificar
 										</button>
-									</div>
+									</div> */}
 									<div className="admin-changedata">
 										<h2>Modificar precio de planes</h2>
 										<div>

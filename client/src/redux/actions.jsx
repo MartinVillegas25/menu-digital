@@ -24,6 +24,8 @@ export const ADD_TO_MINICART = 'ADD_TO_MINICART';
 export const REMOVE_FROM_MINICART = 'REMOVE_FROM_MINICART';
 export const CREATE_ADMIN = 'CREATE_ADMIN';
 export const CHANGE_PLAN = 'CHANGE_PLAN';
+export const DELETE_CATEGORY = 'DELETE_CATEGORY';
+export const DELETE_SUBCATEGORY = 'DELETE_SUBCATEGORY';
 
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
@@ -72,10 +74,10 @@ export function logUser(payload) {
 	return async function (dispatch) {
 		try {
 			const info = await axios.post('http://localhost:3000/login', payload);
-
+			console.log(info.data);
 			return dispatch({
 				type: LOG_USER,
-				payload: info.data.token
+				payload: info.data
 			});
 		} catch (error) {
 			console.log(error);
@@ -349,24 +351,7 @@ export function createSubCategory(payload) {
 	};
 }
 
-// cambiar el plan
-// export function changePlan(payload) {
-// 	return async function (dispatch) {
-// 		try {
-// 			const info = await axios.put(
-// 				'localhost:3000/dashboard/actulizar-plan',
-// 				payload
-// 			);
-
-// 			return dispatch({
-// 				type: CHANGE_PLAN,
-// 				payload: info.data
-// 			});
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	};
-// }
+// funcion para cambiar el plan como usuario
 export function changePlan(payload) {
 	return async function (dispatch) {
 		try {
@@ -474,8 +459,67 @@ export function createProduct(payload) {
 	};
 }
 
+// Funcion para eliminar categoria
+export function deleteCategory(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.delete(
+					`http://localhost:3000/dashboard/items/borrar-categoria`,
+					payload,
+					{
+						headers
+					}
+				)
+
+				.then((response) => {
+					return dispatch({
+						type: DELETE_CATEGORY,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+// Funcion para eliminar subcategoria
+export function deleteSubCategory(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.delete(
+					`http://localhost:3000/dashboard/items/borrar-subcategoria`,
+					payload,
+					{
+						headers
+					}
+				)
+
+				.then((response) => {
+					return dispatch({
+						type: DELETE_SUBCATEGORY,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
 // funcion para mostrar los productos del local
-//localhost:3000/dashboard/items?email=franbosco12@gmail.com
+
 export function getProducts(payload) {
 	return async function (dispatch) {
 		try {

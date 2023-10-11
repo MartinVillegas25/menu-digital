@@ -7,9 +7,12 @@ import {
 	createCategory,
 	createProduct,
 	createSubCategory,
+	deleteCategory,
+	deleteSubCategory,
 	getCategories,
 	getSubCategories
 } from '../../../redux/actions';
+import swal from 'sweetalert';
 import { useEffect, useState } from 'react';
 import ClientMenuConfig from './ClientMenuConfig';
 
@@ -105,6 +108,54 @@ export default function ClientMenu() {
 		});
 	};
 
+	const handleDeleteCategory = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: `Esta seguro que desea eliminar la categoria ${categorySelected} ?`,
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(deleteCategory({ nombre_categoria: categorySelected }));
+				swal({
+					text: `Se ha eliminado la categoria ${categorySelected}`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha eliminado la categoria', icon: 'info' });
+			}
+		});
+	};
+
+	const handleDeleteSubCategory = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: `Esta seguro que desea eliminar la subcategoria ${subCategorySelected} ?`,
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(
+					deleteSubCategory({ nombre_subcategoria: subCategorySelected })
+				);
+				swal({
+					text: `Se ha eliminado la subcategoria ${subCategorySelected}`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha eliminado la subcategoria', icon: 'info' });
+			}
+		});
+	};
+
 	console.log(input);
 
 	return (
@@ -144,7 +195,10 @@ export default function ClientMenu() {
 								))}
 							</select>
 						</div>
-						<button className="create-menu-delete-btn">
+						<button
+							className="create-menu-delete-btn"
+							onClick={handleDeleteCategory}
+						>
 							<AiOutlineDelete className="create-menu-delete-icon" />
 						</button>
 					</div>
@@ -186,16 +240,19 @@ export default function ClientMenu() {
 					<div className="create-menu-input create-menu-select">
 						<div>
 							<label htmlFor="">Subcategorias existentes: </label>
-							<select name="" id="">
+							<select name="" id="" onChange={handleselectSubCategory}>
 								<option value="">-</option>
 								{subcategories?.map((a) => (
-									<option value="" key={a}>
+									<option value={a.nombre_subcategoria} key={a}>
 										{a.nombre_subcategoria}
 									</option>
 								))}
 							</select>
 						</div>
-						<button className="create-menu-delete-btn">
+						<button
+							className="create-menu-delete-btn"
+							onClick={handleDeleteSubCategory}
+						>
 							<AiOutlineDelete className="create-menu-delete-icon" />
 						</button>
 					</div>

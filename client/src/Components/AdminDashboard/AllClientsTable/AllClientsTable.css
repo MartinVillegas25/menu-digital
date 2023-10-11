@@ -1,14 +1,13 @@
 .act-container {
 	margin-top: 159px;
 	display: flex;
-
 	margin-left: 30px;
 }
 
 .act-total-clients {
 	width: 90%;
 	max-width: 350px;
-	height: 455px;
+	height: 100%;
 }
 
 .act-page {
@@ -16,7 +15,7 @@
 }
 
 .act-total-clients :nth-child(2) {
-	height: 455px;
+	height: 20px;
 	text-align: center;
 }
 
@@ -49,12 +48,11 @@
 .act-table-container {
 	width: 60%;
 	min-width: fit-content;
-	height: fit-content;
-	min-height: 70%;
-	max-height: 878px;
+	height: 500px;
+	overflow-y: scroll;
 	flex-shrink: 0;
 	text-align: center;
-	border-radius: 56px;
+	border-radius: 30px;
 	background: #f1f1f1;
 	color: #000;
 	padding: 15px;

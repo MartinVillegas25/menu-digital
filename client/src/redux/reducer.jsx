@@ -26,7 +26,9 @@ let initialState = {
 	localSubcategories: [],
 	localProducts: [],
 	menuCategories: [],
-	productsAdeedToMinicart: []
+	productsAdeedToMinicart: [],
+	userType: '',
+	actualUser: {}
 };
 
 function rootReducer(state = initialState, action) {
@@ -34,7 +36,9 @@ function rootReducer(state = initialState, action) {
 		case LOG_USER:
 			return {
 				...state,
-				token: action.payload
+				token: action.payload.token,
+				userType: action.payload.msg,
+				actualUser: action.payload.usuario
 			};
 		case GET_PLANS:
 			return {

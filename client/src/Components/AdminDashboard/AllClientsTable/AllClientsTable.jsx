@@ -19,6 +19,7 @@ export default function AllClientsTable() {
 	const dispatch = useDispatch();
 	const allUsers = useSelector((state) => state.allUsers);
 	const validation = useSelector((state) => state.validation.msg);
+	const emailAddresses = allUsers.map((user) => user.email).join(';');
 
 	const handleSubmitSuspend = (e) => {
 		e.preventDefault();
@@ -113,6 +114,16 @@ export default function AllClientsTable() {
 										className="act-table-filter-btn"
 									>
 										Ver todos
+									</button>
+									<button className="act-table-filter-btn">
+										<a
+											href={`mailto:${emailAddresses}`}
+											target="_blank"
+											rel="noreferrer"
+										>
+											{' '}
+											Enviar mensaje a todos
+										</a>
 									</button>
 								</div>
 							</div>

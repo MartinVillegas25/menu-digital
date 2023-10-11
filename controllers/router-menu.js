@@ -37,6 +37,7 @@ const mostrarMenu = async (req, res = response) => {
     `;
 
     const [rows] = await pool.query(query, [emailUsuario]);
+   
     // Organizar los resultados en una estructura jerárquica
     const result = [];
     rows.forEach(row => {
@@ -490,28 +491,32 @@ const mostrarsubCategoriasMenu = async (req, res) => {
 
 const mostrarPedidos = async (req, res) => {
 const emailUsuario = req.email
+console.log(emailUsuario);
 
 const query = 'SELECT * FROM pedidos WHERE usuario_email = ?';
-try {
-  const result = await pool.query(query, [emailUsuario]);
-  const pedidos = result[0][0];
-  res.status(200).json({
-    pedidos
-  });
-} catch (error) {
-  res.status(500).json({
-    error,
-    msg: 'error en mostrar los pedidos'
-  })
-}
+  try {
+    const result = await pool.query(query, [emailUsuario]);
+    console.log(query);
+    console.log(result);
+    const pedidos = result[0];
+    res.status(200).json({
+      pedidos
+    });
+  } catch (error) {
+    res.status(500).json({
+      error,
+      msg: 'error en mostrar los pedidos'
+    })
+  }
 
 }
+
 
 
 //realizar pedido desde el menu
 const realizarPedidos = async (req, res) => {
-  const email = req.params.email
- const mesa = req.params.mesa
+  const {email, mesa} = req.query
+ 
  const {pedido, comentarios, nombre, total} = req.body;
 
  const query = 'INSERT INTO pedidos (mesa,pedido, comentarios, nombre, total, usuario_email) VALUES (?, ?, ?, ?, ?, ?)';

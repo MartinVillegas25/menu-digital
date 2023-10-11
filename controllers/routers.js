@@ -11,7 +11,7 @@ const fs = require('fs-extra');
 //rutas payments
 
 // const PaymentService = require("../services/paymentServices");
-const sendEmail = require('./nodemailer');
+const {sendEmail, confirmarPlan, confirmarPago, nuevoValoresCorreo} = require('./nodemailer');
 
 const cloudinary = require('cloudinary').v2
 cloudinary.config( process.env.CLOUDINARY_URL );
@@ -119,10 +119,15 @@ const loginUsuario = async (req, res = response) => {
         if(resultGeneralLength != 0){
             user = resultGeneral[0][0];
             msg = "local";
+             //validad si el primer pago esta confirmado
+             if(user.pagoConfirmado === 0){
+                return res.status(404).redirect('/');
+             }
             //validar el estado, si es falso, el usuario esta supendido y no puede ingresar
             if(user.status === 0){
                return res.status(404).redirect('/');
            }
+          
         }else{
             user = resultAdmin[0][0];
             msg = "admin";
@@ -312,14 +317,15 @@ const gracias = (req, res )=>{
 // ruta confirmar pago
 const confimarPago = async(req, res)=>{
 
-    const email = req.email
+    const emailAdmin = req.email;
 
-    const {usuario} = req.query
+    const email = req.body.email;
 
     const query = 'UPDATE usuarios SET pagoConfirmado = true WHERE email = ?' 
     try {
-        const result = await pool.query(query, usuario);
-        res.status(200).json("confirmacion de pago realizada");
+        const result = await pool.query(query, [email]);
+        confirmarPago(email);
+        res.status(200).json({ message: " Confirmacion de pago realizada, mail mandado al cliente"});
 
 
     } catch (error) {
@@ -354,7 +360,16 @@ const mostrarUsuarioConfirmar = async(req, res) => {
     }
 
 }
+const mostrarUsuarioConfirmarPlan = async(req, res) => {
+    const query = 'SELECT * FROM usuarios where pagoCambioPlan = 0';
+    try {
+        const result = await pool.query(query);
+        res.json(result[0]);
+    } catch (error) {
+        console.log(error, "error en obtener datos")
+    }
 
+}
 
 //ruta para mostrar usuario por estado 
 
@@ -610,31 +625,40 @@ const mejorarPlan = async (req, res) => {
 // ruta confirmar pago
 const confimarPagoPlan = async(req, res)=>{
 
-    const email = req.email
+    const emailAdmin = req.email;
 
-    const {usuario} = req.query
+    const email = req.body.email;
 
-    const query = 'UPDATE usuarios SET pagoCambioPlan = true WHERE email = ?' 
+    const query = 'UPDATE usuarios SET pagoCambioPlan = 1 WHERE email = ?' 
     try {
-        const result = await pool.query(query, usuario);
-        res.status(200).json("confirmacion de pago para cambio de plan confirmada");
+        const result = await pool.query(query, [email]);
+        console.log(result);
+        confirmarPlan(email);
+        res.status(200).json({ message: " Confirmacion de cambio de plan realizada, mail mandado al cliente"});
 
 
     } catch (error) {
         console.log(error, "error en obtener datos")
     }
-
-
 }
 //actualizar valores de planes 
 const nuevosValores = async (req, res)=>{
     const dataActualizada = req.body;
     const usuarioAdmin = req.email
 
-    const query2 = 'SELECT * FROM planes'
+    const query2 = 'SELECT * FROM planes';
+    const query3 = 'SELECT email FROM usuarios';
+    const query4 = 'SELECT * from planes';
     
 
     try {
+        const resultEmails = await pool.query(query3); 
+       const email = resultEmails[0];
+
+      
+       
+       
+       
 
         //actulizar solos los campos que se pusieron
         let sql = `UPDATE planes SET`;
@@ -669,10 +693,19 @@ const nuevosValores = async (req, res)=>{
             }
             sql = sql.slice(0, -2);
          
-
+            const resultEmails = await pool.query(query3); 
+            const email = resultEmails[0];
+        
             const nuevosPlanes = await pool.query(sql2, values2);
+            for (let i = 0; i < email.length; i++) {
+                console.log("mail a mandar", email[i].email);
+                nuevoValoresCorreo(email[i],nuevosPlanes.standard, nuevosPlanes.premium )
+                i++;
+            
+           }
             res.status(201).json({
-                nuevosPlanes
+                nuevosPlanes,
+                
             })
         }
         else{
@@ -833,7 +866,8 @@ mostrarUsuarioConfirmar,
 mejorarPlan,
 confimarPagoPlan,
 cambiarImagenAdmin,
-cambiarImagenLocal
+cambiarImagenLocal,
+mostrarUsuarioConfirmarPlan
 
 
 

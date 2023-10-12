@@ -24,7 +24,8 @@ const { homeGet,
     mejorarPlan,
     confimarPagoPlan,
     cambiarImagenAdmin,
-    cambiarImagenLocal} = require('../controllers/routers');
+    cambiarImagenLocal,
+    mostrarUsuarioConfirmarPlan} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 
@@ -79,7 +80,9 @@ router.put('/admin/confirmar-pago',[
 router.get("/gracias", gracias)
 // router.post("/webhook", receiveWebhook);
 //mostrar usuario a confirmar 
-router.get("/confirmar", mostrarUsuarioConfirmar)
+router.get("/confirmar", mostrarUsuarioConfirmar);
+//mostrar usuario para confirmar plan
+router.get('/confimar-plan', mostrarUsuarioConfirmarPlan)
 
 //ruta get para crear administrador 
 router.get('/admin-boss', loginAdminGet);
@@ -158,7 +161,7 @@ router.put('/dashboard/items',[
     validarJWT
 ], actualizarMenu)
 
-router.post('/dashboard/:email/items',[
+router.post('/dashboard/items',[
     validarJWT
 ], agregarProducto);
 
@@ -193,7 +196,7 @@ router.post('/dashboard/newsubcategoria',[
 
 //manejos de pedidos local
 
-router.get('/dashboard/:email/pedidos',[
+router.get('/dashboard/pedidos',[
     validarJWT
 ], mostrarPedidos);
 router.delete('/liberar-pedido',[
@@ -205,7 +208,7 @@ router.delete('/liberar-pedido',[
 
 
 //****************RUTAS DEL MENU******************
-router.post('/:email/:mesa/pedido', realizarPedidos);
+router.post('/pedido', realizarPedidos);
 router.get('/menu/subcategorias' , mostrarsubCategoriasMenu);
 router.get('/menu/categorias' , mostrarCategoriasMenu);
 

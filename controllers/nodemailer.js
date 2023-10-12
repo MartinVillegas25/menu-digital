@@ -1,6 +1,8 @@
 const nodemailer = require('nodemailer');
 const nodemailerSendgrid = require('nodemailer-sendgrid');
 const mailClave = require('../templateEmail/recuperarClave');
+const confirmar = require('../templateEmail/mailConfirmar');
+const confirmarPlanEmail = require('../templateEmail/confirmarPlanEmail');
 
 
 // const createTrans = ()=>{
@@ -62,8 +64,62 @@ function sendEmail (correo){
 
 }
 
+function confirmarPago(correo){
+    transporter.sendMail({
+      from: "martinvillegas90@hotmail.com", // verified sender email
+      to: correo, // recipient email
+      subject: "Confirmacion de suscripcion", // Subject line
+      text: "Equipo de Si Mesero", // plain text body
+      html: confirmar, // html body
+    }, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        
+        console.log('Email sent: ' + info.response);
+      }
+    });
+}
+function confirmarPlan(correo){
+  transporter.sendMail({
+    from: "martinvillegas90@hotmail.com", // verified sender email
+    to: correo, // recipient email
+    subject: "Confirmacion cambio de plan", // Subject line
+    text: "Equipo de Si Mesero", // plain text body
+    html: confirmarPlanEmail, // html body
+  }, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
 
-module.exports = sendEmail
+function nuevoValoresCorreo(correo, standard, premium){
+  transporter.sendMail({
+    from: "martinvillegas90@hotmail.com", // verified sender email
+    to: correo, // recipient email
+    subject: "Nuevos Valores de Suscripcion", // Subject line
+    text: "Equipo de Si Mesero", // plain text body
+    html: nuevoValoresEmail(standard, premium), // html body
+  }, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
+module.exports = {
+  sendEmail,
+  confirmarPago,
+  confirmarPlan,
+  nuevoValoresCorreo
+}
 
 
 

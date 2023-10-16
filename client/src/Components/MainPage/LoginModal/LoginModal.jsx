@@ -10,6 +10,7 @@ export default function LoginModal({ handleCloseLogin }) {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const userType = useSelector((state) => state.userType);
+	console.log(userType);
 
 	const [input, setInput] = useState({
 		email: '',

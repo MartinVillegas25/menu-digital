@@ -55,3 +55,41 @@
 	max-height: 400px;
 	border: solid 2px orange;
 }
+
+/* Estilo para el pop-up */
+.popup-container {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	padding: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	z-index: 999; /* Asegúrate de que el pop-up esté en la parte superior */
+	color: #000;
+}
+
+/* Estilo para el fondo desenfocado en el pop-up */
+.popup-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+	z-index: 998; /* Un nivel detrás del pop-up */
+}
+
+/* Estilo para cerrar el pop-up */
+.popup-close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+	font-size: 24px;
+}
+
+/* Estilo para el contenido del pop-up */
+.popup-content {
+	/* Agrega estilos personalizados para el contenido del pop-up si es necesario */
+}

@@ -1,11 +1,18 @@
-import { removeFromMinicart } from '../../../redux/actions';
+import { ordering, removeFromMinicart } from '../../../redux/actions';
+import { useLocation } from 'react-router-dom';
 import './Cart.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import swal from 'sweetalert';
 
 export default function Cart() {
 	const micart = useSelector((state) => state.productsAdeedToMinicart);
-	console.log(micart);
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
 	const dispatch = useDispatch();
+	const userEmail = searchParams.get('email');
+	const mesa = searchParams.get('mesa');
+	const nombresProductos = micart.map((producto) => producto.nombre).join(', ');
 
 	// Calcular la suma de los precios
 	const totalPrice = micart.reduce(
@@ -17,8 +24,58 @@ export default function Cart() {
 		dispatch(removeFromMinicart(e.target.value));
 	};
 
+	const [userName, setUserName] = useState('');
+	const handleUserName = (e) => {
+		setUserName(e.target.value);
+	};
+
+	const [comment, setComment] = useState('');
+	const handleComment = (e) => {
+		setComment(e.target.value);
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: 'Desea enviar este pedido?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(
+					ordering(userEmail, mesa, {
+						pedido: nombresProductos,
+						nombre: userName,
+						total: totalPrice,
+						comentarios: comment
+					})
+				);
+				swal({
+					text: `Se ha enviado el pedido`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha enviado el pedido', icon: 'info' });
+			}
+		});
+	};
+
 	return (
 		<div className="cart-container">
+			<div className="name-area-container">
+				<h4>Indique su nombre para realizar el pedido</h4>
+				<input
+					type="text"
+					name=""
+					id=""
+					value={userName}
+					onChange={handleUserName}
+				/>
+			</div>
 			{micart.map((product, index) => (
 				<div key={index}>
 					<div className="minicart-product">
@@ -45,14 +102,23 @@ export default function Cart() {
 						cols="36"
 						rows="6"
 						className="comment-area"
+						value={comment}
+						onChange={handleComment}
 					></textarea>
 				</div>
-				<div>
-					<button>Enviar pedido</button>
+				<div className="submit-order-container">
+					{userName === '' ? (
+						<div>Ingrese su nombre</div>
+					) : micart.length === 0 ? (
+						<div>Seleccione un producto</div>
+					) : (
+						<div>
+							<button onClick={handleSubmit}>Enviar pedido</button>
+						</div>
+					)}
 				</div>
 			</div>
 			<h2 className="minicart-total-price">Total: $ {totalPrice}</h2>{' '}
-			{/* Muestra la suma total */}
 		</div>
 	);
 }

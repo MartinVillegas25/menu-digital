@@ -12,7 +12,8 @@ import {
 	GET_PRODUCTS,
 	GET_MENU_CATEGORIES,
 	ADD_TO_MINICART,
-	REMOVE_FROM_MINICART
+	REMOVE_FROM_MINICART,
+	GET_PEDIDOS
 } from './actions';
 
 let initialState = {
@@ -28,7 +29,8 @@ let initialState = {
 	menuCategories: [],
 	productsAdeedToMinicart: [],
 	userType: '',
-	actualUser: {}
+	actualUser: {},
+	pedidos: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -86,6 +88,11 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				localProducts: action.payload
+			};
+		case GET_PEDIDOS:
+			return {
+				...state,
+				pedidos: action.payload
 			};
 		case GET_MENU_CATEGORIES:
 			return {

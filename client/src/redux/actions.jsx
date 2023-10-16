@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import axios from 'axios';
 
 export const CREATE_USER = 'CREATE_USER';
@@ -26,7 +27,10 @@ export const CREATE_ADMIN = 'CREATE_ADMIN';
 export const CHANGE_PLAN = 'CHANGE_PLAN';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
 export const DELETE_SUBCATEGORY = 'DELETE_SUBCATEGORY';
-
+export const GET_PEDIDOS = 'GET_PEDIDOS';
+export const ORDER = 'ORDER';
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
+export const DELETE_PEDIDOS = 'DELETE_PEDIDOS';
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
 // Funcion para el registro del usuario, en el cual, detalla sus datos y elige el tipo de plan a adquirir.
@@ -74,7 +78,7 @@ export function logUser(payload) {
 	return async function (dispatch) {
 		try {
 			const info = await axios.post('http://localhost:3000/login', payload);
-			console.log(info.data);
+
 			return dispatch({
 				type: LOG_USER,
 				payload: info.data
@@ -518,6 +522,61 @@ export function deleteSubCategory(payload) {
 	};
 }
 
+// Funcion para eliminar un producto
+export function deleteProduct(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.delete(
+					`http://localhost:3000/dashboard/items?id=${payload}`,
+					payload,
+					{
+						headers
+					}
+				)
+
+				.then((response) => {
+					return dispatch({
+						type: DELETE_PRODUCT,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+//Funcion para mostar los pedidos del local
+export function getPedidos() {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.get(`http://localhost:3000/dashboard/pedidos`, {
+					headers
+				})
+				.then((response) => {
+					return dispatch({
+						type: GET_PEDIDOS,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
 // funcion para mostrar los productos del local
 
 export function getProducts(payload) {
@@ -536,7 +595,7 @@ export function getProducts(payload) {
 		}
 	};
 }
-
+// Funcion para mostrar las categorias del menu
 export function getMenuCategories(payload) {
 	return async function (dispatch) {
 		try {
@@ -553,17 +612,69 @@ export function getMenuCategories(payload) {
 		}
 	};
 }
-
+// Funcion para agregar productos al carrito
 export function addToMinicart(payload) {
 	return {
 		type: ADD_TO_MINICART,
 		payload: payload
 	};
 }
-
+//Funcion para quitar productos del carrito
 export function removeFromMinicart(payload) {
 	return {
 		type: REMOVE_FROM_MINICART,
 		payload: payload
+	};
+}
+
+// Funcion para realizar el pedido
+
+export function ordering(email, mesa, payload) {
+	return async function (dispatch) {
+		console.log(payload);
+		try {
+			axios
+				.post(
+					`http://localhost:3000/pedido?email=${email}&mesa=${mesa}`,
+					payload
+				)
+				.then((response) => {
+					return dispatch({
+						type: ORDER,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+//Funcion para eliminar pedido
+//localhost:3000/liberar-pedido?mesa=12&nombre=juan
+export function deletePedido(mesa, nombre) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.delete(
+					`http://localhost:3000/liberar-pedido?mesa=${mesa}&nombre=${nombre}`,
+					{
+						headers
+					}
+				)
+				.then((response) => {
+					return dispatch({
+						type: DELETE_PEDIDOS,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 }

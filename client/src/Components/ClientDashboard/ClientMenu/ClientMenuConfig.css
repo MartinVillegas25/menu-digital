@@ -31,7 +31,7 @@
 	margin: 0;
 	border: #000 solid 2px;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: space-around;
 	margin-bottom: 20px;
 	margin-left: 10px;
@@ -120,4 +120,30 @@
 .selected-category {
 	border-radius: 5px;
 	background: #ffa101; /* Cambia esto al color deseado */
+}
+
+.product-list-display {
+	display: flex;
+	flex-direction: flex;
+}
+
+.product-edit-popup {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #000;
+}
+
+.admin-product-btn {
+	height: 70%;
+	margin-top: 15%;
+	margin-right: 2px;
+	background-color: #ffa101;
+	border-radius: 10px;
+}
+
+.admin-product-btn:hover {
+	cursor: pointer;
+	background-color: #b37203;
 }

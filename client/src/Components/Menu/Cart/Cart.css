@@ -80,4 +80,49 @@
 
 .comment-area {
 	background-color: white;
+	color: #000;
+}
+
+.submit-order-container {
+	color: #000;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.name-area-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #000;
+}
+
+.name-area-container h4 {
+	width: 280px;
+	height: 110px;
+	flex-shrink: 0;
+	border-radius: 15px;
+	background: #f4eeee;
+	box-shadow: 0px 2.76726px 2.21381px 0px rgba(0, 0, 0, 0.02),
+		0px 6.6501px 5.32008px 0px rgba(0, 0, 0, 0.03),
+		0px 12.52155px 10.01724px 0px rgba(0, 0, 0, 0.04),
+		0px 22.33631px 17.86905px 0px rgba(0, 0, 0, 0.04),
+		0px 41.77761px 33.42209px 0px rgba(0, 0, 0, 0.05),
+		0px 100px 80px 0px rgba(0, 0, 0, 0.07);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.name-area-container input {
+	background-color: white;
+	margin-bottom: 30px;
+	height: 20px;
+	border: black solid 1px;
+	border-radius: 10px;
+	width: 250px;
+	color: #000;
 }

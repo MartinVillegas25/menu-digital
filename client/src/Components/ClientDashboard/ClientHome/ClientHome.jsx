@@ -1,165 +1,29 @@
 import io from 'socket.io-client';
-
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './ClientHome.css';
 import { useLocation } from 'react-router-dom';
+import { deletePedido, getPedidos } from '../../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import swal from 'sweetalert';
 
 const socket = io();
 export default function ClientHome() {
-	const aux = [
-		{
-			Mesa: '1',
-			Pedido: 'Pizza y refresco',
-			Entregado: true,
-			Nombre: 'Juan',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '2',
-			Pedido: 'Hamburguesa y papas',
-			Entregado: true,
-			Nombre: 'María',
-			PidioCuenta: true,
-			LLamoCamarera: false
-		},
-		{
-			Mesa: '3',
-			Pedido: 'Ensalada y agua',
-			Entregado: false,
-			Nombre: 'Carlos',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '1',
-			Pedido: 'Pizza y refresco',
-			Entregado: true,
-			Nombre: 'Juan',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '2',
-			Pedido: 'Hamburguesa y papas',
-			Entregado: true,
-			Nombre: 'María',
-			PidioCuenta: true,
-			LLamoCamarera: false
-		},
-		{
-			Mesa: '3',
-			Pedido: 'Ensalada y agua',
-			Entregado: false,
-			Nombre: 'Carlos',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '1',
-			Pedido: 'Pizza y refresco',
-			Entregado: true,
-			Nombre: 'Juan',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '2',
-			Pedido: 'Hamburguesa y papas',
-			Entregado: true,
-			Nombre: 'María',
-			PidioCuenta: true,
-			LLamoCamarera: false
-		},
-		{
-			Mesa: '3',
-			Pedido: 'Ensalada y agua',
-			Entregado: false,
-			Nombre: 'Carlos',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '1',
-			Pedido: 'Pizza y refresco',
-			Entregado: true,
-			Nombre: 'Juan',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '2',
-			Pedido: 'Hamburguesa y papas',
-			Entregado: true,
-			Nombre: 'María',
-			PidioCuenta: true,
-			LLamoCamarera: false
-		},
-		{
-			Mesa: '3',
-			Pedido: 'Ensalada y agua',
-			Entregado: false,
-			Nombre: 'Carlos',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '1',
-			Pedido: 'Pizza y refresco',
-			Entregado: true,
-			Nombre: 'Juan',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '2',
-			Pedido: 'Hamburguesa y papas',
-			Entregado: true,
-			Nombre: 'María',
-			PidioCuenta: true,
-			LLamoCamarera: false
-		},
-		{
-			Mesa: '3',
-			Pedido: 'Ensalada y agua',
-			Entregado: false,
-			Nombre: 'Carlos',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '1',
-			Pedido: 'Pizza y refresco',
-			Entregado: true,
-			Nombre: 'Juan',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		},
-		{
-			Mesa: '2',
-			Pedido: 'Hamburguesa y papas',
-			Entregado: true,
-			Nombre: 'María',
-			PidioCuenta: true,
-			LLamoCamarera: false
-		},
-		{
-			Mesa: '3',
-			Pedido: 'Ensalada y agua',
-			Entregado: false,
-			Nombre: 'Carlos',
-			PidioCuenta: false,
-			LLamoCamarera: true
-		}
-	];
+	const [popUp, setPopUp] = useState(false);
+	const [selectedPedidoId, setSelectedPedidoId] = useState(null);
+
+	const handleOpenPopUp = (orderId) => {
+		setSelectedPedidoId(orderId);
+		setPopUp(!popUp);
+	};
+	const pedidos = useSelector((state) => state.pedidos.pedidos);
+
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const userEmail = searchParams.get('email');
-	console.log(userEmail, 'desdeHOME');
-	const cantidadMesas = 40;
-	const mesasLibres = cantidadMesas - aux.length;
-	const mesasOcupadas = aux.length;
+
 	useEffect(() => {
+		dispatch(getPedidos());
 		socket.on('connect', () => {
 			console.log('conectado a la sala' + userEmail);
 			socket.emit('join-room', { room: userEmail + '-llamar-camarera' });
@@ -197,16 +61,39 @@ export default function ClientHome() {
 		});
 	}, []);
 
+	const handleDelete = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: 'Esta seguro que desea liberar la mesa?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(deletePedido(e.target.name, e.target.value));
+				swal({
+					text: `Se ha liberado la mesa`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha liberado la mesa', icon: 'info' });
+			}
+		});
+	};
+
 	return (
 		<main>
 			<div className="client-home-container">
 				<div>
 					<div>
 						<h2>Monitoreo del salon</h2>
-						<h3>
+						{/* <h3>
 							Mesas ocupadas: <span>{mesasOcupadas}</span> | Mesas libres :
 							<span>{mesasLibres} </span>
-						</h3>
+						</h3> */}
 					</div>
 				</div>
 				<div className="client-home">
@@ -224,16 +111,25 @@ export default function ClientHome() {
 								</tr>
 							</thead>
 							<tbody className="client-table-body">
-								{aux?.map((c, index) => {
+								{pedidos?.map((c) => {
 									return (
-										<tr key={c.Mesa + index}>
-											<td>{c.Mesa}</td>
-											<td>{c.Nombre}</td>
-											<td>Ver</td>
-											<td>0</td>
+										<tr key={c.id}>
+											<td>{c.mesa}</td>
+											<td>{c.nombre}</td>
+											<td>
+												<button onClick={() => handleOpenPopUp(c.id)}>
+													Ver
+												</button>
+											</td>
+											<td>$ {c.total}</td>
 											<td>alerta</td>
 											<td>
-												<button className="client-home-table-btn">
+												<button
+													name={c.mesa}
+													value={c.nombre}
+													className="client-home-table-btn"
+													onClick={handleDelete}
+												>
 													Liberar mesa
 												</button>
 											</td>
@@ -241,6 +137,49 @@ export default function ClientHome() {
 									);
 								})}
 							</tbody>
+							{popUp && selectedPedidoId !== null && (
+								<div className="popup-background">
+									<div className="popup-container">
+										<span
+											className="popup-close"
+											onClick={() => handleOpenPopUp(null)}
+										>
+											&times;
+										</span>
+										<div className="popup-content">
+											<h3>Detalles del Pedido</h3>
+											<p>
+												Mesa:{' '}
+												{
+													pedidos.find((order) => order.id === selectedPedidoId)
+														.mesa
+												}
+											</p>
+											<p>
+												Nombre:{' '}
+												{
+													pedidos.find((order) => order.id === selectedPedidoId)
+														.nombre
+												}
+											</p>
+											<p>
+												Pedido:{' '}
+												{
+													pedidos.find((order) => order.id === selectedPedidoId)
+														.pedido
+												}
+											</p>
+											<p>
+												Comentarios:{' '}
+												{
+													pedidos.find((order) => order.id === selectedPedidoId)
+														.comentarios
+												}
+											</p>
+										</div>
+									</div>
+								</div>
+							)}
 						</table>
 					</div>
 					<div className="client-home-alerts">

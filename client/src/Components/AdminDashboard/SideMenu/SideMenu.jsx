@@ -4,13 +4,52 @@ import { FaMoneyBillWave } from 'react-icons/fa';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { IoMdSettings } from 'react-icons/io';
 import { VscSignOut } from 'react-icons/vsc';
-import CEO from '../../../assets/CEO.jpg';
+
 import logo from '../../../assets/logos/Logo1.png';
 import { useState } from 'react';
 import { BsArrowRightCircle } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeAdminImg } from '../../../redux/actions';
+import swal from 'sweetalert';
 
 export default function SideMenu() {
+	const dispatch = useDispatch();
 	const [menuOpen, setMenuOpen] = useState(false);
+	const [imgInput, setImgInput] = useState(false);
+	const [newImg, setNewImg] = useState('');
+	const dataAdmin = useSelector((state) => state.validation.usuario);
+
+	const handleOpenInput = () => {
+		setImgInput(true);
+	};
+
+	const handleImg = (e) => {
+		setNewImg(e.target.files[0]); // Use e.target.files[0] to get the selected file
+	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: 'Esta seguro que desea  cambiar la imagen de perfil?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				const formData = new FormData();
+				formData.append('newImagen', newImg); // Use the correct field name expected by the backend
+				dispatch(changeAdminImg(formData));
+				swal({
+					text: `Se ha modificado la imagen de perfil`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha modificado la imagen', icon: 'info' });
+			}
+		});
+	};
 
 	return (
 		<div className="menu-admin-container">
@@ -47,8 +86,21 @@ export default function SideMenu() {
 							<a href="/">Salir</a>
 						</div>
 						<div className="admin-side-img">
-							<img src={CEO} alt="" />
-							<p>Cambiar foto</p>
+							<img src={dataAdmin?.img} alt="" />
+							<button onClick={handleOpenInput}>Cambiar imagen</button>
+							{imgInput ? (
+								<div className="admin-side-img-change">
+									<input
+										type="file"
+										id="newImg"
+										accept="image/*"
+										onChange={handleImg}
+									/>
+									<button onClick={handleSubmit}>Cambiar</button>
+								</div>
+							) : (
+								<div></div>
+							)}
 						</div>
 					</div>
 				</aside>
@@ -117,8 +169,21 @@ export default function SideMenu() {
 							<a href="">Salir</a>
 						</div>
 						<div className="admin-side-img">
-							<img src={CEO} alt="" />
-							<p>Cambiar foto</p>
+							<img src={dataAdmin?.img} alt="" />
+							<button onClick={handleOpenInput}>Cambiar imagen</button>
+							{imgInput ? (
+								<div className="admin-side-img-change">
+									<input
+										type="file"
+										id="newImg"
+										accept="image/*"
+										onChange={handleImg}
+									/>
+									<button onClick={handleSubmit}>Cambiar</button>
+								</div>
+							) : (
+								<div></div>
+							)}
 						</div>
 					</div>
 				</div>

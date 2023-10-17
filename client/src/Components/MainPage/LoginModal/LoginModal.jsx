@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import './LoginModal.css';
 import img from '../../../assets/CAMARERA.jpg';
@@ -10,44 +9,67 @@ export default function LoginModal({ handleCloseLogin }) {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const userType = useSelector((state) => state.userType);
-	console.log(userType);
 
 	const [input, setInput] = useState({
 		email: '',
-		password: ''
+		password: '',
+		rememberMe: false // Initialize rememberMe as false
 	});
+
+	// Load saved credentials from local storage when the component mounts
+	useEffect(() => {
+		const savedCredentials = localStorage.getItem('savedCredentials');
+		if (savedCredentials) {
+			const { email, password } = JSON.parse(savedCredentials);
+			setInput({
+				...input,
+				email,
+				password,
+				rememberMe: true // Set rememberMe to true if saved credentials exist
+			});
+		}
+	}, []);
+
 	const handleChange = (e) => {
+		const { name, value, type, checked } = e.target;
+		const newValue = type === 'checkbox' ? checked : value;
 		setInput({
 			...input,
-			[e.target.name]: e.target.value
+			[name]: newValue
 		});
 	};
 
 	const handleSubmit = async (e) => {
-		e.preventDefault(); // Prevent the default form submission behavior
+		e.preventDefault();
 
-		// Regular expression for email validation
 		const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-		// Check if any of the required fields are empty or null
 		if (
 			input.email.trim() === '' ||
-			!emailRegex.test(input.email) || // Check if email is valid
+			!emailRegex.test(input.email) ||
 			input.password.trim() === ''
 		) {
-			// Display an error message or perform any other action
 			alert('Por favor complete ambos campos');
-			return; // Exit the function if validation fails
+			return;
 		}
 
-		// If all validation checks pass, dispatch the user creation action
+		// If rememberMe is enabled, save credentials to local storage
+		if (input.rememberMe) {
+			const savedCredentials = JSON.stringify({
+				email: input.email,
+				password: input.password
+			});
+			localStorage.setItem('savedCredentials', savedCredentials);
+		} else {
+			localStorage.removeItem('savedCredentials'); // Remove saved credentials if rememberMe is not enabled
+		}
+
 		await dispatch(logUser(input));
 		dispatch(handleCloseLogin());
 	};
+
 	useEffect(() => {
-		// Check if the token has been updated in the Redux store
 		if (token) {
-			// Store the updated token in local storage
 			if (userType === 'admin') {
 				localStorage.setItem('token', token);
 				dispatch(validateAdmin());
@@ -91,7 +113,13 @@ export default function LoginModal({ handleCloseLogin }) {
 					</div>
 					<div className="remember">
 						<div>
-							<input type="checkbox" /> <h3>Recordarme</h3>
+							<input
+								type="checkbox"
+								name="rememberMe"
+								checked={input.rememberMe}
+								onChange={handleChange}
+							/>{' '}
+							<h3>Recordarme</h3>
 						</div>
 						<a href="">Olvidaste la contraseña?</a>
 					</div>

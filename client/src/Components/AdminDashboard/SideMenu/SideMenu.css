@@ -65,6 +65,33 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	color: #000;
+}
+
+.admin-side-img button {
+	margin-top: 10px;
+	margin-top: 10px;
+	background-color: transparent;
+	color: #000;
+}
+
+.admin-side-img-change {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.admin-side-img-change input {
+	background: transparent;
+	margin-top: 20px;
+}
+
+.admin-side-img-change button {
+	margin-top: 10px;
+	background-color: transparent;
+	margin-bottom: 20px;
+	color: #000;
 }
 
 .admin-menu-mobile {

@@ -3,6 +3,7 @@ import './AdminConfig.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	getAllClients,
+	getClientsToConfirm,
 	getPlans,
 	// modifData,
 	planPrice,
@@ -15,44 +16,11 @@ export default function AdminConfig() {
 	const plans = useSelector((state) => state.plans);
 	const validation = useSelector((state) => state.validation.msg);
 	const dataAdmin = useSelector((state) => state.validation.usuario);
-	console.log(dataAdmin);
+	const clientsToConfirm = useSelector((state) => state.clientsToConfirm0);
+	console.log(clientsToConfirm);
+
 	const [planStandardInput, setPlanStandardInput] = useState('');
 	const [planPremiumInput, setPlanPremiumInput] = useState('');
-	// const [input, setInput] = useState({
-	// 	name: '',
-	// 	telefono: '',
-	// 	address: ''
-	// });
-
-	// const handleChangeData = (e) => {
-	// 	setInput({
-	// 		...input,
-	// 		[e.target.name]: e.target.value
-	// 	});
-	// };
-
-	// const handleSubmitData = (e) => {
-	// 	e.preventDefault();
-	// 	swal({
-	// 		title: 'Activar',
-	// 		text: 'Esta seguro que desea modificar los datos?',
-	// 		icon: 'warning',
-	// 		buttons: ['No', 'Si']
-	// 	}).then((respuesta) => {
-	// 		if (respuesta) {
-	// 			dispatch(modifData(input));
-	// 			swal({
-	// 				text: `Se han modificadao los datos`,
-	// 				icon: 'success'
-	// 			});
-	// 			setTimeout(function () {
-	// 				window.location.reload(true);
-	// 			}, 2000);
-	// 		} else {
-	// 			swal({ text: 'no se han modificado los datos', icon: 'info' });
-	// 		}
-	// 	});
-	// };
 
 	const handleChangeStandard = (e) => {
 		setPlanStandardInput(e.target.value);
@@ -96,6 +64,7 @@ export default function AdminConfig() {
 		dispatch(getAllClients());
 		dispatch(validateAdmin());
 		dispatch(getPlans());
+		dispatch(getClientsToConfirm());
 	}, []);
 
 	// Actualiza el valor de los input siempre que se modifiquen los planes

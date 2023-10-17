@@ -31,6 +31,9 @@ export const GET_PEDIDOS = 'GET_PEDIDOS';
 export const ORDER = 'ORDER';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const DELETE_PEDIDOS = 'DELETE_PEDIDOS';
+export const CHANGE_ADMIN_IMG = 'CHANGE_ADMIN_IMG';
+export const GET_CLIENTS_TO_CONFIRM = 'GET_CLIENTS_TO_CONFIRM';
+export const CHANGE_LOCAL_IMG = 'CHANGE_LOCAL_IMG';
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
 // Funcion para el registro del usuario, en el cual, detalla sus datos y elige el tipo de plan a adquirir.
@@ -175,6 +178,21 @@ export function suspendUser(payload) {
 	};
 }
 
+//Funcion para traer los clientes que aun no tienen confirmado su pago
+export function getClientsToConfirm() {
+	return async function (dispatch) {
+		try {
+			const info = await axios.post('http://localhost:3000/confimar-plan');
+			return dispatch({
+				type: GET_CLIENTS_TO_CONFIRM,
+				payload: info.data
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
 // funcion para activar una cuenta suspendida de usuario
 export function activateUser(payload) {
 	return async function (dispatch) {
@@ -277,6 +295,32 @@ export function modifData(payload) {
 	};
 }
 
+// Funcion para cambiar la imagen del admin
+
+export function changeAdminImg(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.put('http://localhost:3000/actualizar-imagen', payload, {
+					headers
+				})
+				.then((response) => {
+					return dispatch({
+						type: CHANGE_ADMIN_IMG,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
 //FUNCIONALIDADES DE DASHBOARD DE CLIENTE
 
 //funcionalidad para traer los datos del local
@@ -296,6 +340,32 @@ export function getLocalData(email) {
 				.then((response) => {
 					return dispatch({
 						type: GET_LOCAL_DATA,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+export function changeLocalImg(payload) {
+	return async function (dispatch) {
+		console.log('entro');
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.put('http://localhost:3000/actualizar-img', payload, {
+					headers
+				})
+				.then((response) => {
+					console.log(payload);
+					return dispatch({
+						type: CHANGE_LOCAL_IMG,
 						payload: response.data
 					});
 				});

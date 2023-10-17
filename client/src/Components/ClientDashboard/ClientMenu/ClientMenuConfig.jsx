@@ -119,7 +119,7 @@ export default function ClientMenuConfig() {
 					{prods === undefined ? (
 						<h3>Cargando</h3>
 					) : (
-						prods.map((categoria, index) => (
+						products.map((categoria, index) => (
 							<div key={categoria.categoria + index}>
 								{selectedCategory === null ||
 								selectedCategory === categoria.categoria ? (

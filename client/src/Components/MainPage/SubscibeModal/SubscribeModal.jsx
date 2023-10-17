@@ -106,6 +106,7 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 			comentario: ''
 		});
 		setRepeatPass('');
+		dispatch(handleCloseSubscribe);
 	};
 
 	return (
@@ -249,7 +250,7 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 								<a
 									// eslint-disable-next-line react/no-unknown-property
 									mp-mode="dftl"
-									href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af99519018b0004f6b804d9"
+									href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848ae746f0018af1220de80617"
 									name="MP-payButton"
 									className="blue-ar-l-rn-none"
 								>
@@ -277,6 +278,14 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 												: window.addEventListener('load', $MPC_load, false)
 											: null;
 									})()}
+									{/* ;  // to receive event with message when closing modal from
+									congrants back to site function $MPC_message(event){' '}
+									{
+										// onclose modal ->CALLBACK FUNCTION
+										// !!!!!!!!FUNCTION_CALLBACK HERE Received message: {event.data} preapproval_id !!!!!!!!
+									}
+									window.$MPC_loaded !== true ?
+									(window.addEventListener("message", $MPC_message)) : null;  */}
 								</script>
 							</div>
 						) : input.plan === 'basic' ? (
@@ -287,7 +296,47 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 							</div>
 						) : input.plan === 'premium' ? (
 							<div>
-								<button className="subs-btn">Premium</button>
+								<a
+									// eslint-disable-next-line react/no-unknown-property
+									mp-mode="dftl"
+									href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af994d0018b02039da906a5"
+									name="MP-payButton"
+									className="blue-ar-l-rn-none"
+								>
+									Suscribirme
+								</a>
+								<script type="text/javascript">
+									{(function () {
+										function $MPC_load() {
+											window.$MPC_loaded !== true &&
+												(function () {
+													var s = document.createElement('script');
+													s.type = 'text/javascript';
+													s.async = true;
+													s.src =
+														document.location.protocol +
+														'//secure.mlstatic.com/mptools/render.js';
+													var x = document.getElementsByTagName('script')[0];
+													x.parentNode.insertBefore(s, x);
+													window.$MPC_loaded = true;
+												})();
+										}
+										window.$MPC_loaded !== true
+											? window.attachEvent
+												? window.attachEvent('onload', $MPC_load)
+												: window.addEventListener('load', $MPC_load, false)
+											: null;
+									})()}
+									;
+									{/*
+        // to receive event with message when closing modal from congrants back to site
+        function $MPC_message(event) {
+          // onclose modal ->CALLBACK FUNCTION
+         // !!!!!!!!FUNCTION_CALLBACK HERE Received message: {event.data} preapproval_id !!!!!!!!
+        }
+        window.$MPC_loaded !== true ? (window.addEventListener("message", $MPC_message)) : null;
+        */}
+								</script>
 							</div>
 						) : (
 							<div>Seleccione un tipo de plan</div>

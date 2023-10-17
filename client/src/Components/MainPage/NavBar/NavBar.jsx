@@ -148,7 +148,7 @@ export default function NavBar() {
 				}
 			>
 				<div className="modalSubs-container">
-					<SubsbribeModal handleCloseSuscribe={handleCloseSubscribe} />
+					<SubsbribeModal handleCloseSubscribe={handleCloseSubscribe} />
 				</div>
 			</article>
 		</nav>

@@ -3,18 +3,65 @@ import { IoRestaurantOutline } from 'react-icons/io5';
 import { MdMenuBook } from 'react-icons/md';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { VscSignOut } from 'react-icons/vsc';
-import CEO from '../../../assets/CEO.jpg';
+
 import logo from '../../../assets/logos/Logo1.png';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { BsArrowRightCircle } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeLocalImg } from '../../../redux/actions';
+import swal from 'sweetalert';
 
 export default function ClientSideMenu() {
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const userEmail = searchParams.get('email');
+	const dataLocal = useSelector((state) => state.localData.usuario);
+
+	console.log(dataLocal);
+	const dispatch = useDispatch();
 
 	const [menuOpen, setMenuOpen] = useState(false);
+	const [imgInput, setImgInput] = useState(false);
+	const [newImg, setNewImg] = useState('');
+
+	const handleOpenInput = () => {
+		setImgInput(true);
+	};
+
+	const handleImg = (e) => {
+		setNewImg(e.target.files[0]); // Use e.target.files[0] to get the selected file
+	};
+	// const handleSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	const formData = new FormData();
+	// 	formData.append('newImagen', newImg); // Use the correct field name expected by the backend
+	// 	dispatch(changeLocalImg(formData));
+	// };
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: 'Esta seguro que desea  cambiar la imagen de perfil?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				const formData = new FormData();
+				formData.append('newImagen', newImg); // Use the correct field name expected by the backend
+				dispatch(changeLocalImg(formData));
+				swal({
+					text: `Se ha modificado la imagen de perfil`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha modificado la imagen', icon: 'info' });
+			}
+		});
+	};
 
 	return (
 		<div>
@@ -48,15 +95,28 @@ export default function ClientSideMenu() {
 							<a href="">Salir</a>
 						</div>
 						<div className="client-side-img">
-							<img src={CEO} alt="" />
-							<p>Cambiar foto</p>
+							<img src={dataLocal?.img} alt="" />
+							<button onClick={handleOpenInput}>Cambiar imagen</button>
+							{imgInput ? (
+								<div className="admin-side-img-change">
+									<input
+										type="file"
+										id="newImg"
+										accept="image/*"
+										onChange={handleImg}
+									/>
+									<button onClick={handleSubmit}>Cambiar</button>
+								</div>
+							) : (
+								<div></div>
+							)}
 						</div>
 					</div>
 				</aside>
 			) : (
 				<div className="sideMenuClosed"></div>
 			)}
-			<nav className="client-menu-mobile">
+			{/* <nav className="client-menu-mobile">
 				<div className="client-menu-mobile-top">
 					<div>
 						<button onClick={() => setMenuOpen(!menuOpen)}>
@@ -97,7 +157,7 @@ export default function ClientSideMenu() {
 					<div className="client-side-container">
 						<div className="client-side-link">
 							<IoRestaurantOutline />
-							<a href="/salon">Salon</a>
+							<a href="/salon">Salonnnnn</a>
 						</div>
 						<div className="client-side-link">
 							<MdMenuBook />
@@ -113,12 +173,25 @@ export default function ClientSideMenu() {
 							<a href="">Salir</a>
 						</div>
 						<div className="client-side-img">
-							<img src={CEO} alt="" />
-							<p>Cambiar foto</p>
+							<img src={dataLocal?.img} alt="" />
+							<button onClick={handleOpenInput}>Cambiar imagen</button>
+							{imgInput ? (
+								<div className="admin-side-img-change">
+									<input
+										type="file"
+										id="newImg"
+										accept="image/*"
+										onChange={handleImg}
+									/>
+									<button onClick={handleSubmit}>Cambiar</button>
+								</div>
+							) : (
+								<div></div>
+							)}
 						</div>
 					</div>
 				</div>
-			</nav>
+			</nav> */}
 		</div>
 	);
 }

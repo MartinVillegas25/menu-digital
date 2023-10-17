@@ -24,10 +24,22 @@ export default function FirstView() {
 						</p>
 						<div className="circles">
 							<div className="circle">
-								<BsInstagram />
+								<a
+									href="https://instagram.com/simesero?igshid=MzRlODBiNWFlZA=="
+									target="_blank"
+									rel="noreferrer"
+								>
+									<BsInstagram />
+								</a>
 							</div>
 							<div className="circle">
-								<FaFacebook />
+								<a
+									href="https://www.facebook.com/profile.php?id=61552535904934&mibextid=ZbWKwL"
+									target="_blank"
+									rel="noreferrer"
+								>
+									<FaFacebook />
+								</a>
 							</div>
 							<div className="circle">
 								<BsWhatsapp />

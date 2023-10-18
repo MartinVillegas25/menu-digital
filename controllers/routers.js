@@ -232,10 +232,11 @@ const postUsuario = async(req, res = response) => {
            const emailReg = resultEmailRegistrado[0][0];
            if(resultEmailRegistrado[0].length > 0 && emailReg.pagoConfirmado==0) {
                 return res.status(404).json({
-                    message: `el mail ${email} ya esta registrado, por favor realiza el pago de la suscripcion para poder acceder al dashboard`
+                    message: `el mail ${email} ya esta registrado, por favor realiza el pago de la suscripcion para poder acceder al dashboard, contactase al siguiente mail contacto@simesero.com`
                 })
            }
        }
+
        
        
        
@@ -587,7 +588,7 @@ const actualizarDatos =async (req, res)=>{
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            message: 'error en la actualizacion de usuario'
+            msg: 'error en la actualizacion de usuario'
         })
         
     }
@@ -607,8 +608,7 @@ const mejorarPlan = async (req, res) => {
     try {
         const result = await pool.query(query, [plan, email]);
         const response = {
-            message: "Plan actualizado, el administrador confirmara el pago para darle acceso a nuevas opciones",
-            redirectTo: "/"
+            msg: "Plan actualizado, el administrador confirmara el pago para darle acceso a nuevas opciones",
         };
         res.status(200).json(response);
 
@@ -634,7 +634,7 @@ const confimarPagoPlan = async(req, res)=>{
         const result = await pool.query(query, [email]);
         console.log(result);
         confirmarPlan(email);
-        res.status(200).json({ message: " Confirmacion de cambio de plan realizada, mail mandado al cliente"});
+        res.status(200).json({ msg: " Confirmacion de cambio de plan realizada, mail mandado al cliente"});
 
 
     } catch (error) {
@@ -839,6 +839,12 @@ const cambiarImagenLocal = async (req, res) => {
 
 }
 
+const getChatLocal = (req, res) => {
+    res.json({ 
+        msg: "chat desde el local"
+    })
+}
+
 
 module.exports = {
 homeGet,
@@ -867,7 +873,8 @@ mejorarPlan,
 confimarPagoPlan,
 cambiarImagenAdmin,
 cambiarImagenLocal,
-mostrarUsuarioConfirmarPlan
+mostrarUsuarioConfirmarPlan,
+getChatLocal
 
 
 

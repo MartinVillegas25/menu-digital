@@ -25,7 +25,8 @@ const { homeGet,
     confimarPagoPlan,
     cambiarImagenAdmin,
     cambiarImagenLocal,
-    mostrarUsuarioConfirmarPlan} = require('../controllers/routers');
+    mostrarUsuarioConfirmarPlan,
+    getChatLocal} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 
@@ -47,7 +48,9 @@ const { mostrarMenu,
     borrarCategoria,
     borrarSubCategoria,
     mostrarsubCategoriasMenu,
-    mostrarCategoriasMenu} = require('../controllers/router-menu');
+    mostrarCategoriasMenu,
+    mostrarPlan,
+    getChatMenu} = require('../controllers/router-menu');
 
 
 
@@ -204,6 +207,11 @@ router.delete('/liberar-pedido',[
 ], liberarPedido);
 
 
+//chat local
+router.get('/dashboard/chat', [
+    validarJWT
+], getChatLocal);
+
 
 
 
@@ -211,6 +219,8 @@ router.delete('/liberar-pedido',[
 router.post('/pedido', realizarPedidos);
 router.get('/menu/subcategorias' , mostrarsubCategoriasMenu);
 router.get('/menu/categorias' , mostrarCategoriasMenu);
+router.get('/menu', mostrarPlan);
+router.get('/menu/chat' ,getChatMenu);
 
 module.exports = router;
 

@@ -513,6 +513,7 @@ const query = 'SELECT * FROM pedidos WHERE usuario_email = ?';
 
 
 
+
 //realizar pedido desde el menu
 const realizarPedidos = async (req, res) => {
   const {email, mesa} = req.query
@@ -556,6 +557,34 @@ try {
 }
 }
 
+
+const mostrarPlan = async (req, res) => {
+
+  const email = req.query.email;
+
+  const query = 'SELECT plan FROM usuarios WHERE email = ?'
+
+  try {
+      const result = await pool.query(query, [email]);
+      const plan = result[0][0].plan;
+      res.status(200).json(plan);
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        msg: ' no se encontro plan para este usuario'
+      })
+  }
+
+
+}
+
+const getChatMenu = (req, res) => {
+  res.json({ 
+    msg: "chat desde el menu"
+})
+
+
+}
 module.exports ={
   mostrarMenu,
   agregarProducto,
@@ -571,6 +600,8 @@ module.exports ={
   borrarCategoria,
   borrarSubCategoria,
   mostrarsubCategoriasMenu,
-  mostrarCategoriasMenu
+  mostrarCategoriasMenu,
+  mostrarPlan,
+  getChatMenu
 }
   

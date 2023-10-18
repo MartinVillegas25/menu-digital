@@ -65,7 +65,7 @@ CREATE TABLE items (
   id_subcategoria INT NULL,
   precio INT NOT NULL,
   emailusuario VARCHAR(100) NOT NULL,
- 
+  id_producto varchar(100) NOT NULL;
   FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
   FOREIGN KEY (id_subcategoria) REFERENCES subcategorias(id_subcategoria)
 )
@@ -78,6 +78,7 @@ CREATE TABLE categorias (
     emailusuario VARCHAR(100) NOT NULL,
     nombre_categoria VARCHAR(50)
 )
+
 
 CREATE TABLE subcategorias (
     id_subcategoria INT PRIMARY KEY AUTO_INCREMENT,

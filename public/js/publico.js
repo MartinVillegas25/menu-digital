@@ -147,17 +147,17 @@ function scrollBottom() {
     }
 }
 
-divUsuarios.addEventListener('click', (event) => {
-    // Buscar el elemento <a> más cercano al elemento en el que se hizo clic
-    const closestA = event.target.closest('a');
+// divUsuarios.addEventListener('click', (event) => {
+//     // Buscar el elemento <a> más cercano al elemento en el que se hizo clic
+//     const closestA = event.target.closest('a');
     
-    if (closestA) {
-        const id = closestA.dataset.id;
-        if (id) {
-            console.log(id);
-        }
-    }
-});
+//     if (closestA) {
+//         const id = closestA.dataset.id;
+//         if (id) {
+//             console.log(id);
+//         }
+//     }
+// });
 
 formEnviar.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -195,7 +195,7 @@ socket.on('listaPersona', (personas) => {
     renderizarUsuarios(personas);
 });
 
-// Mensajes privados
-socket.on('mensajePrivado', (mensaje) => {
-    console.log('Mensaje Privado:', mensaje);
-});
+// // Mensajes privados
+// socket.on('mensajePrivado', (mensaje) => {
+//     console.log('Mensaje Privado:', mensaje);
+// });

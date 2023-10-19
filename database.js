@@ -11,7 +11,9 @@ const config = {
     database: process.env.DATABASE,
 }
 
-const pool = mysql.createPool(config);
+const pool = mysql.createPool(config, ()=>{
+    console.log('base de datos conectada')
+});
 
 
   

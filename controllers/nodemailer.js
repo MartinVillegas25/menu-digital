@@ -3,6 +3,8 @@ const nodemailerSendgrid = require('nodemailer-sendgrid');
 const mailClave = require('../templateEmail/recuperarClave');
 const confirmar = require('../templateEmail/mailConfirmar');
 const confirmarPlanEmail = require('../templateEmail/confirmarPlanEmail');
+const nuevoValoresEmail = require('../templateEmail/nuevoplanEmail');
+const cancelarSuscripcion = require('../templateEmail/CancerlarPlan');
 
 
 // const createTrans = ()=>{
@@ -114,11 +116,29 @@ function nuevoValoresCorreo(correo, standard, premium){
   });
 }
 
+function cancelarsuscripcion(correo){
+  transporter.sendMail({
+    from: "martinvillegas90@hotmail.com", // verified sender email
+    to: "contacto@simesero.com", // recipient email
+    subject: "Cancelacion de suscripcion", // Subject line
+    text: correo + "quiere cancelar la suscripcion", // plain text body
+    html: cancelarSuscripcion(correo), // html body
+  }, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
 module.exports = {
   sendEmail,
   confirmarPago,
   confirmarPlan,
-  nuevoValoresCorreo
+  nuevoValoresCorreo,
+  cancelarsuscripcion
 }
 
 

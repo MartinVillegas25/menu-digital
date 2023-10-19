@@ -1,4 +1,4 @@
-const nuevoValoresEmail = (standard, premium)=>{ `<div class="es-wrapper-color">
+const cancelarSuscripcion = (email)=>{ `<div class="es-wrapper-color">
 
 <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0">
     <tbody>
@@ -53,20 +53,19 @@ const nuevoValoresEmail = (standard, premium)=>{ `<div class="es-wrapper-color">
                                                                         
                                                                         <tr>
                                                                             <td class="esd-block-text es-p35r es-p40l" align="center">
-                                                                                <p>Planes actualizados</p>
+                                                                                <p>Pedido de Cancelacion de plan</p>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td class="esd-block-text es-p25t es-p40r es-p40l" align="center">
-                                                                                <p>Los precios de los planes han sido actualizados, seran efectivos desde el dia de la fecha</p>
+                                                                                <p>El siguiente usuario creo una peticion para cancelar el plan</p>
                                                                                 <ul style= "list-style:none">
-                                                                                    <li> Basic : Gratis </li>
-                                                                                    <li> Standard : ${standard} </li>
-                                                                                    <li> Premium: ${premium}</li>
+                                                                                    <li> Email : {email} </li>
+                                                                                   
                                                                 
                                         
                                                                                 </ul>
-                                                                                <p> por cualquier consulta o reclamo por favor comuniquese al nuestro correo de contacto : contact@simesero.com</p> 
+                                                                                <p> Luego de Cancelar la suscripcion suspenda al usuario para que el mismo deje de tener acceso al dashboard</p> 
                                                                             </td>
                                                                         </tr>
                                                                         
@@ -141,4 +140,4 @@ const nuevoValoresEmail = (standard, premium)=>{ `<div class="es-wrapper-color">
 </div>
 `
 };
-module.exports = nuevoValoresEmail;
+module.exports = cancelarSuscripcion;

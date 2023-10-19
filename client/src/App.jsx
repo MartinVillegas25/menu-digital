@@ -12,6 +12,7 @@ import QrGenerator from './Components/ClientDashboard/ClientConfig/QrGenerator';
 import Gracias from './Components/MainPage/Gracias/gracias';
 import LoginAdmin from './Components/MainPage/LoginAdmin/loginAdmin';
 import AlertChart from './Components/Menu/AlertChart/AlertChart';
+import ClientChat from './Components/ClientDashboard/ClientChat/ClientChat';
 function App() {
 	return (
 		<BrowserRouter>
@@ -19,6 +20,7 @@ function App() {
 				<Routes>
 					{/* Ruta de pagina principal  */}
 					<Route path="/" element={<MainPage />} />
+					<Route path="/home" element={<MainPage />} />
 					<Route path="/gracias" element={<Gracias />} />
 					<Route path="/admin-boss" element={<LoginAdmin />} />
 					{/* Rutas del panel de administrador */}
@@ -35,6 +37,7 @@ function App() {
 						path="/dashboard/configuracion"
 						element={<ClientDashboardConfig />}
 					/>
+					<Route path="/dashboard/chat" element={<ClientChat />} />
 					<Route path="/dashboard/qrgenerator" element={<QrGenerator />} />
 					{/* Ruta del menu */}
 					<Route path="/menulocal" element={<Menu />} />

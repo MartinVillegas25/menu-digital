@@ -21,6 +21,7 @@ export default function Cart() {
 	);
 
 	const handleQuit = (e) => {
+		console.log('quit');
 		dispatch(removeFromMinicart(e.target.value));
 	};
 
@@ -85,7 +86,7 @@ export default function Cart() {
 
 						<button
 							value={product.id}
-							onClick={(e) => handleQuit(e)}
+							onClick={handleQuit}
 							className="cart-quit-btn"
 						>
 							X

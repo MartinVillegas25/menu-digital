@@ -14,7 +14,8 @@ import {
 	ADD_TO_MINICART,
 	REMOVE_FROM_MINICART,
 	GET_PEDIDOS,
-	GET_CLIENTS_TO_CONFIRM
+	GET_CLIENTS_TO_CONFIRM,
+	GET_CLIENTS_TO_CONFIRM_PLAN
 } from './actions';
 
 let initialState = {
@@ -32,7 +33,8 @@ let initialState = {
 	userType: '',
 	actualUser: {},
 	pedidos: [],
-	clientsToConfirm: []
+	clientsToConfirm: [],
+	clientsToConfirmPlan: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -66,6 +68,11 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				clientsToConfirm: action.payload
+			};
+		case GET_CLIENTS_TO_CONFIRM_PLAN:
+			return {
+				...state,
+				clientsToConfirmPlan: action.payload
 			};
 		case VALIDATE_ADMIN:
 			return {

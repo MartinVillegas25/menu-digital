@@ -34,6 +34,10 @@ export const DELETE_PEDIDOS = 'DELETE_PEDIDOS';
 export const CHANGE_ADMIN_IMG = 'CHANGE_ADMIN_IMG';
 export const GET_CLIENTS_TO_CONFIRM = 'GET_CLIENTS_TO_CONFIRM';
 export const CHANGE_LOCAL_IMG = 'CHANGE_LOCAL_IMG';
+export const MODIFY_PRODUCT = 'MODIFY_PRODUCT';
+export const CONFIRM_USER_PAYMENT = 'CONFIRM_USER_PAYMENT';
+export const GET_CLIENTS_TO_CONFIRM_PLAN = 'GET_CLIENTS_TO_CONFIRM_PLAN';
+export const CONFIRM_USER_NEW_PLAN = 'CONFIRM_USER_NEW_PLAN';
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
 // Funcion para el registro del usuario, en el cual, detalla sus datos y elige el tipo de plan a adquirir.
@@ -147,6 +151,89 @@ export function getAllClients() {
 	};
 }
 
+//Funcion para traer los clientes que no tienen confirmado el pago
+
+export function getClientsToConfirm() {
+	return async function (dispatch) {
+		try {
+			const info = await axios.get('http://localhost:3000/confirmar');
+			return dispatch({
+				type: GET_CLIENTS_TO_CONFIRM,
+				payload: info.data
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+// Funcion para traer los clientes que no tienen confirmado un cambio de plan
+export function getClientsToConfirmPlan() {
+	return async function (dispatch) {
+		try {
+			const info = await axios.get('http://localhost:3000/confimar-plan');
+			return dispatch({
+				type: GET_CLIENTS_TO_CONFIRM_PLAN,
+				payload: info.data
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+//Funcion para confirmar el pago de un usuario
+export function confirmUserPayment(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.put('http://localhost:3000/admin/confirmar-pago', payload, {
+					headers
+				})
+				.then((response) => {
+					console.log(payload);
+					return dispatch({
+						type: CONFIRM_USER_PAYMENT,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+//funcion para confirmar el cambio de plan
+export function confirmUserNewPlan(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.put('http://localhost:3000/admin/confirmar-plan', payload, {
+					headers
+				})
+				.then((response) => {
+					console.log(payload);
+					return dispatch({
+						type: CONFIRM_USER_NEW_PLAN,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
 //funcion para traer solo los usuarios suspendidos.
 export function getSuspendedClients() {
 	return async function (dispatch) {
@@ -170,21 +257,6 @@ export function suspendUser(payload) {
 
 			return dispatch({
 				type: SUSPEND_USER,
-				payload: info.data
-			});
-		} catch (error) {
-			console.log(error);
-		}
-	};
-}
-
-//Funcion para traer los clientes que aun no tienen confirmado su pago
-export function getClientsToConfirm() {
-	return async function (dispatch) {
-		try {
-			const info = await axios.post('http://localhost:3000/confimar-plan');
-			return dispatch({
-				type: GET_CLIENTS_TO_CONFIRM,
 				payload: info.data
 			});
 		} catch (error) {
@@ -537,6 +609,7 @@ export function createProduct(payload) {
 export function deleteCategory(payload) {
 	return async function (dispatch) {
 		try {
+			console.log('entrando');
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
 
 			const headers = {
@@ -552,6 +625,7 @@ export function deleteCategory(payload) {
 				)
 
 				.then((response) => {
+					console.log(response.data);
 					return dispatch({
 						type: DELETE_CATEGORY,
 						payload: response.data
@@ -613,6 +687,34 @@ export function deleteProduct(payload) {
 				.then((response) => {
 					return dispatch({
 						type: DELETE_PRODUCT,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+//Funcion para editar los datos de un producto
+
+export function modifyProduct(payload, id) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.put(`http://localhost:3000/dashboard/items?id=${id}`, payload, {
+					headers
+				})
+				.then((response) => {
+					console.log(response.data);
+					console.log(payload);
+					return dispatch({
+						type: MODIFY_PRODUCT,
 						payload: response.data
 					});
 				});

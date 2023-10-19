@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import './AdminConfig.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+	confirmUserNewPlan,
+	confirmUserPayment,
 	getAllClients,
 	getClientsToConfirm,
+	getClientsToConfirmPlan,
 	getPlans,
-	// modifData,
 	planPrice,
 	validateAdmin
 } from '../../../redux/actions';
@@ -15,10 +17,12 @@ export default function AdminConfig() {
 	const dispatch = useDispatch();
 	const plans = useSelector((state) => state.plans);
 	const validation = useSelector((state) => state.validation.msg);
-	const dataAdmin = useSelector((state) => state.validation.usuario);
-	const clientsToConfirm = useSelector((state) => state.clientsToConfirm0);
+	const clientsToConfirm = useSelector((state) => state.clientsToConfirm);
+	const clientsToConfirmPlan = useSelector(
+		(state) => state.clientsToConfirmPlan
+	);
 	console.log(clientsToConfirm);
-
+	console.log(clientsToConfirmPlan);
 	const [planStandardInput, setPlanStandardInput] = useState('');
 	const [planPremiumInput, setPlanPremiumInput] = useState('');
 
@@ -60,11 +64,58 @@ export default function AdminConfig() {
 		});
 	};
 
+	const handleConfirmPayment = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: `Esta seguro que desea confirmar el pago del usuario ${e.target.value} ?`,
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(confirmUserPayment({ email: e.target.value }));
+				swal({
+					text: `Se ha confirmado el pago de ${e.target.value}`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha confirmado el pago', icon: 'info' });
+			}
+		});
+	};
+
+	const handleConfirmPlanChange = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Activar',
+			text: `Esta seguro que desea confirmar el pago del usuario  ${e.target.value} por cambio de plan ?`,
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(confirmUserNewPlan({ email: e.target.value }));
+				swal({
+					text: `Se ha confirmado el pago de ${e.target.value}`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'no se ha confirmado el pago', icon: 'info' });
+			}
+		});
+	};
+
 	useEffect(() => {
 		dispatch(getAllClients());
 		dispatch(validateAdmin());
 		dispatch(getPlans());
 		dispatch(getClientsToConfirm());
+		dispatch(getClientsToConfirmPlan());
 	}, []);
 
 	// Actualiza el valor de los input siempre que se modifiquen los planes
@@ -75,106 +126,113 @@ export default function AdminConfig() {
 		}
 	}, [plans]); // Actualiza cuando 'planes' cambie sus valores
 
-	// useEffect(() => {
-	// 	if (dataAdmin) {
-	// 		setInput({
-	// 			name: dataAdmin.name,
-	// 			telefono: dataAdmin.telefono,
-	// 			address: dataAdmin.address
-	// 		});
-	// 	}
-	// }, [dataAdmin]);
-
 	return (
 		<div>
-			{planPremiumInput === undefined ||
-			planStandardInput === undefined ||
-			!dataAdmin ||
-			!dataAdmin.name ||
-			!dataAdmin.email ? (
-				<div>
-					<h1>Cargando</h1>
-				</div>
+			{validation !== 'admin' ? (
+				<h1>Usted no tiene acceso </h1>
 			) : (
-				<>
-					{validation !== 'admin' ? (
-						<h1>Usted no tiene acceso </h1>
-					) : (
-						<main className="admin-config-container">
-							<div>
-								<div className="admin-config-info">
-									<div>
-										<h3>Nombre:</h3> <h4>{dataAdmin.name || ''}</h4>
-									</div>
+				<main className="admin-config-container">
+					<div>
+						<h3>Usuarios a confirmar el pago</h3>
+						<table className="act-table">
+							<thead className="">
+								<tr>
+									<th>Nombre</th>
+									<th>Mail</th>
+									<th>Activar</th>
+								</tr>
+							</thead>
+							<tbody className="act-table-body">
+								{clientsToConfirm?.map((c) => {
+									return (
+										<tr key={c.id}>
+											<td>{c.name}</td>
+											<td>{c.email}</td>
 
-									<div>
-										<h3>Mail: </h3>
-										<h4>{dataAdmin.email}</h4>
-									</div>
+											{c.pagoConfirmado === 0 ? (
+												<td>
+													<button
+														value={c.email}
+														onClick={handleConfirmPayment}
+													>
+														Confirmar
+													</button>
+												</td>
+											) : (
+												<td>Confirmado</td>
+											)}
+										</tr>
+									);
+								})}
+							</tbody>
+						</table>
+					</div>
+					<div>
+						<h3>Usuarios a confirmar el cambio de plan</h3>
+						<table className="act-table">
+							<thead className="">
+								<tr>
+									<th>Nombre</th>
+									<th>Mail</th>
+									<th>Activar</th>
+								</tr>
+							</thead>
+							<tbody className="act-table-body">
+								{clientsToConfirmPlan?.map((c) => {
+									return (
+										<tr key={c.id}>
+											<td>{c.name}</td>
+											<td>{c.email}</td>
+
+											{c.pagoCambioPlan === 0 ? (
+												<td>
+													<button
+														value={c.email}
+														onClick={handleConfirmPlanChange}
+													>
+														Confirmar
+													</button>
+												</td>
+											) : (
+												<td>Confirmado</td>
+											)}
+										</tr>
+									);
+								})}
+							</tbody>
+						</table>
+					</div>
+					<div></div>
+					<div className="admin-functions-panel">
+						<div className="admin-functions-panel-container">
+							<div className="admin-changedata">
+								<h2>Modificar precio de planes</h2>
+								<div>
+									<label>Estandar: </label>
+									<input
+										type="text"
+										value={planStandardInput}
+										onChange={handleChangeStandard}
+									/>
 								</div>
-							</div>
-							<div className="admin-functions-panel">
-								<div className="admin-functions-panel-container">
-									{/* <div className="admin-changedata">
-										<h2>Modificar datos</h2>
-										<input
-											type="text"
-											placeholder="Nombre"
-											name="name"
-											value={input.name}
-											onChange={handleChangeData}
-										/>
-										<input
-											type="text"
-											placeholder="Direccion"
-											name="address"
-											value={input.address}
-											onChange={handleChangeData}
-										/>
-										<input
-											type="text"
-											placeholder="Telefono"
-											name="telefono"
-											value={input.telefono}
-											onChange={handleChangeData}
-										/>
-										<button
-											className="admin-config-submit-btn"
-											onClick={handleSubmitData}
-										>
-											Modificar
-										</button>
-									</div> */}
-									<div className="admin-changedata">
-										<h2>Modificar precio de planes</h2>
-										<div>
-											<label>Estandar: </label>
-											<input
-												type="text"
-												value={planStandardInput}
-												onChange={handleChangeStandard}
-											/>
-										</div>
-										<div>
-											<label>Premium:</label>
-											<input
-												type="text"
-												value={planPremiumInput}
-												onChange={handleChangePremium}
-											/>
-										</div>
-										<button
-											onClick={handleSubmitPlan}
-											className="admin-config-submit-btn"
-										>
-											Modificar
-										</button>
-									</div>
+								<div>
+									<label>Premium:</label>
+									<input
+										type="text"
+										value={planPremiumInput}
+										onChange={handleChangePremium}
+									/>
 								</div>
+								<button
+									onClick={handleSubmitPlan}
+									className="admin-config-submit-btn"
+								>
+									Modificar
+								</button>
 							</div>
-						</main>
-					)}
-				</>
+						</div>
+					</div>
+				</main>
 			)}
 		</div>
 	);

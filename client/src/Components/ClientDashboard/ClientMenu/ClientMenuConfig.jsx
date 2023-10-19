@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	deleteProduct,
 	getMenuCategories,
-	getProducts
+	getProducts,
+	modifyProduct
 } from '../../../redux/actions';
 import queryString from 'query-string';
 import './ClientMenuConfig.css';
@@ -13,7 +14,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 export default function ClientMenuConfig() {
 	const dispatch = useDispatch();
 	const [selectedCategory, setSelectedCategory] = useState(null);
-	const [selectedProductForEdit, setSelectedProductForEdit] = useState(null);
+	const [selectedProductForEdit, setSelectedProductForEdit] = useState({});
 
 	const reorder = (list, startIndex, endIndex) => {
 		const result = [...list];
@@ -33,9 +34,6 @@ export default function ClientMenuConfig() {
 	const [prods, setProds] = useState(products);
 
 	const categories = useSelector((state) => state.menuCategories.categorias);
-	console.log(products);
-
-	console.log(prods);
 
 	const handleCategorySelection = (categoryName) => {
 		setSelectedCategory(categoryName);
@@ -70,6 +68,24 @@ export default function ClientMenuConfig() {
 
 	const handleEditPopUp = (product) => {
 		setSelectedProductForEdit(product);
+	};
+
+	const [input, setInput] = useState({
+		nombre: '',
+		precio: 0,
+		img: ''
+	});
+
+	const handleChangeProduct = (e) => {
+		setInput((prevInput) => ({
+			...prevInput,
+			[e.target.name]: e.target.value
+		}));
+	};
+
+	const handleSubmitChanges = (e) => {
+		e.preventDefault();
+		dispatch(modifyProduct(selectedProductForEdit.id, input));
 	};
 
 	return (
@@ -189,26 +205,44 @@ export default function ClientMenuConfig() {
 																					{selectedProductForEdit ===
 																					producto ? (
 																						<div className="product-edit-popup">
-																							<label htmlFor="">Nombre:</label>
-																							<input
-																								type="text"
-																								name=""
-																								id=""
-																								placeholder={producto.nombre}
-																							/>
-																							<label htmlFor="">Precio:</label>
-																							<input
-																								type="text"
-																								name=""
-																								id=""
-																								placeholder={producto.precio}
-																							/>
-																							<label htmlFor="">Imagen:</label>
-																							<input
-																								type="text"
-																								name=""
-																								id=""
-																							/>
+																							<form
+																								action=""
+																								onChange={handleChangeProduct}
+																							>
+																								<label htmlFor="">
+																									Nombre:
+																								</label>
+																								<input
+																									type="text"
+																									name="nombre"
+																									id=""
+																									value={input.nombre}
+																								/>
+																								<label htmlFor="">
+																									Precio:
+																								</label>
+																								<input
+																									type="number"
+																									name="precio"
+																									id=""
+																									value={input.precio}
+																								/>
+																								<label htmlFor="">
+																									Imagen:
+																								</label>
+																								<input
+																									type="file"
+																									name=""
+																									id=""
+																									value={input.img}
+																								/>
+																								<button
+																									type="submit"
+																									onClick={handleSubmitChanges}
+																								>
+																									Realizar cambios
+																								</button>
+																							</form>
 
 																							<button
 																								onClick={() =>

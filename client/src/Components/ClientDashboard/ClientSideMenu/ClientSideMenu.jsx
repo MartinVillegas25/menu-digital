@@ -32,6 +32,7 @@ export default function ClientSideMenu() {
 	const handleImg = (e) => {
 		setNewImg(e.target.files[0]); // Use e.target.files[0] to get the selected file
 	};
+
 	// const handleSubmit = (e) => {
 	// 	e.preventDefault();
 	// 	const formData = new FormData();
@@ -91,8 +92,12 @@ export default function ClientSideMenu() {
 							</a>
 						</div>
 						<div className="client-side-link">
+							<BsFillPersonFill />
+							<a href={`/dashboard/chat?email=${userEmail}`}>Chat</a>
+						</div>
+						<div className="client-side-link">
 							<VscSignOut />
-							<a href="">Salir</a>
+							<a href="/">Salir</a>
 						</div>
 						<div className="client-side-img">
 							<img src={dataLocal?.img} alt="" />

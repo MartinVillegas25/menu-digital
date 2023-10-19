@@ -18,6 +18,7 @@ import swal from 'sweetalert';
 export default function AllClientsTable() {
 	const dispatch = useDispatch();
 	const allUsers = useSelector((state) => state.allUsers);
+	console.log(allUsers);
 	const validation = useSelector((state) => state.validation.msg);
 	const emailAddresses = allUsers.map((user) => user.email).join(';');
 
@@ -135,6 +136,8 @@ export default function AllClientsTable() {
 									<th>Fecha de alta</th>
 									<th>Plan</th>
 									<th>Estado</th>
+									<th>Pago</th>
+									<th>Cambio Plan</th>
 									<th>Mensaje</th>
 									<th>Activar</th>
 									<th>Suspender</th>
@@ -156,6 +159,8 @@ export default function AllClientsTable() {
 													<BsXCircle className="X-icon" />
 												</td>
 											)}
+											{c.pagoConfirmado === 1 ? <td>SI</td> : <td>NO</td>}
+											{c.pagoCambioPlan === 1 ? <td>SI</td> : <td>NO</td>}
 											<td>
 												<a
 													href={`mailto:${c.email}`}

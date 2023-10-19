@@ -15,7 +15,6 @@ export default function ClientHome() {
 		setSelectedPedidoId(orderId);
 		setPopUp(!popUp);
 	};
-	const pedidos = useSelector((state) => state.pedidos.pedidos);
 
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -60,6 +59,7 @@ export default function ClientHome() {
 			}
 		});
 	}, []);
+	const pedidos = useSelector((state) => state.pedidos.pedidos);
 
 	const handleDelete = (e) => {
 		e.preventDefault();
@@ -106,7 +106,6 @@ export default function ClientHome() {
 									<th>Pedido</th>
 									<th>Total</th>
 									<th>Alertas</th>
-
 									<th>-</th>
 								</tr>
 							</thead>
@@ -138,47 +137,7 @@ export default function ClientHome() {
 								})}
 							</tbody>
 							{popUp && selectedPedidoId !== null && (
-								<div className="popup-background">
-									<div className="popup-container">
-										<span
-											className="popup-close"
-											onClick={() => handleOpenPopUp(null)}
-										>
-											&times;
-										</span>
-										<div className="popup-content">
-											<h3>Detalles del Pedido</h3>
-											<p>
-												Mesa:{' '}
-												{
-													pedidos.find((order) => order.id === selectedPedidoId)
-														.mesa
-												}
-											</p>
-											<p>
-												Nombre:{' '}
-												{
-													pedidos.find((order) => order.id === selectedPedidoId)
-														.nombre
-												}
-											</p>
-											<p>
-												Pedido:{' '}
-												{
-													pedidos.find((order) => order.id === selectedPedidoId)
-														.pedido
-												}
-											</p>
-											<p>
-												Comentarios:{' '}
-												{
-													pedidos.find((order) => order.id === selectedPedidoId)
-														.comentarios
-												}
-											</p>
-										</div>
-									</div>
-								</div>
+								<div className="popup-background">{/* ... */}</div>
 							)}
 						</table>
 					</div>

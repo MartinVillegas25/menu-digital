@@ -15,6 +15,7 @@
 		"@dnd-kit/utilities": "^3.2.1",
 		"axios": "^1.4.0",
 		"html2canvas": "^1.4.1",
+		"html2pdf.js": "^0.10.1",
 		"jspdf": "^2.5.1",
 		"pdfmake": "^0.2.7",
 		"qrcode.react": "^3.1.0",

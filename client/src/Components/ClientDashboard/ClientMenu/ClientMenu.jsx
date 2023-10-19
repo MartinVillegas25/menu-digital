@@ -22,7 +22,6 @@ export default function ClientMenu() {
 		dispatch(getCategories());
 	}, []);
 	const categories = useSelector((state) => state.localCategories.categorias);
-	console.log(categories);
 
 	const [newCategory, setNewCategory] = useState('');
 
@@ -63,7 +62,6 @@ export default function ClientMenu() {
 	const subcategories = useSelector(
 		(state) => state.localSubcategories.subcategorias
 	);
-	console.log(subcategories);
 
 	const handleCreateSubCategory = () => {
 		dispatch(
@@ -155,8 +153,6 @@ export default function ClientMenu() {
 			}
 		});
 	};
-
-	console.log(input);
 
 	return (
 		<main className="client-create-menu-container">

@@ -11,7 +11,7 @@ const fs = require('fs-extra');
 //rutas payments
 
 // const PaymentService = require("../services/paymentServices");
-const {sendEmail, confirmarPlan, confirmarPago, nuevoValoresCorreo} = require('./nodemailer');
+const {sendEmail, confirmarPlan, confirmarPago, nuevoValoresCorreo, cancelarsuscripcion} = require('./nodemailer');
 
 const cloudinary = require('cloudinary').v2
 cloudinary.config( process.env.CLOUDINARY_URL );
@@ -98,6 +98,20 @@ const loginUsuario = async (req, res = response) => {
 
     const query = 'SELECT * FROM usuarios WHERE email = ?';
     const queryAdmin = 'SELECT * FROM administradores WHERE email = ? '
+
+    //verificar si ya hizo la cuenta pero no realizo el pago
+    const emailRegistrado = 'select * from usuarios where email = ?'
+    const resultEmailRegistrado = await pool.query(emailRegistrado, [email]);
+
+    if(resultEmailRegistrado[0].length > 0){
+        
+        const emailReg = resultEmailRegistrado[0][0];
+        if(resultEmailRegistrado[0].length > 0 && emailReg.pagoConfirmado==0) {
+             return res.status(404).json({
+                 msg: `el mail ${email} ya esta registrado, por favor realiza el pago de la suscripcion para poder acceder al dashboard, contactase al siguiente mail contacto@simesero.com`
+             })
+        }
+    }
    
     try {
         const resultGeneral = await pool.query(query, [email]);
@@ -232,7 +246,7 @@ const postUsuario = async(req, res = response) => {
            const emailReg = resultEmailRegistrado[0][0];
            if(resultEmailRegistrado[0].length > 0 && emailReg.pagoConfirmado==0) {
                 return res.status(404).json({
-                    message: `el mail ${email} ya esta registrado, por favor realiza el pago de la suscripcion para poder acceder al dashboard, contactase al siguiente mail contacto@simesero.com`
+                    msg: `el mail ${email} ya esta registrado, por favor realiza el pago de la suscripcion para poder acceder al dashboard, contactase al siguiente mail contacto@simesero.com`
                 })
            }
        }
@@ -604,9 +618,11 @@ const mejorarPlan = async (req, res) => {
     const {plan} = req.body;
 
     const query = 'UPDATE usuarios SET plan = ? WHERE email =?'
+    const query2 = 'UPDATE usuarios SET pagoCambioPlan = 0 WHERE email = ?';
 
     try {
         const result = await pool.query(query, [plan, email]);
+        const result2 = await pool.query(query2, [email]);
         const response = {
             msg: "Plan actualizado, el administrador confirmara el pago para darle acceso a nuevas opciones",
         };
@@ -697,6 +713,7 @@ const nuevosValores = async (req, res)=>{
             const email = resultEmails[0];
         
             const nuevosPlanes = await pool.query(sql2, values2);
+           
             for (let i = 0; i < email.length; i++) {
                 console.log("mail a mandar", email[i].email);
                 nuevoValoresCorreo(email[i],nuevosPlanes.standard, nuevosPlanes.premium )
@@ -710,6 +727,17 @@ const nuevosValores = async (req, res)=>{
         }
         else{
             const planesActulizados = await pool.query(query2)
+            const standard = planesActulizados[0][0].standard;
+            const premium = planesActulizados[0][0].premium;
+            const resultEmails = await pool.query(query3); 
+            const email = resultEmails[0];  
+            for (let i = 0; i < email.length; i++) {
+                console.log("mail a mandar", email[i].email);
+                nuevoValoresCorreo(email[i].email ,standard, premium )
+           }
+
+
+            
             res.status(200).json(planesActulizados[0][0]);
             
         }
@@ -839,9 +867,43 @@ const cambiarImagenLocal = async (req, res) => {
 
 }
 
-const getChatLocal = (req, res) => {
-    res.json({ 
-        msg: "chat desde el local"
+const getChatLocal = async(req, res) => {
+    const email = req.email;
+
+    const query1 = 'select pagoCambioPlan from Usuarios where email= ? ';
+    const query2 = 'select plan from Usuarios where email= ? ';
+
+    try {
+       const result1 = await pool.query(query1, [email]);
+        const result2 = await pool.query(query2, [email]);
+        const pago = result1[0][0].pagoCambioPlan;
+        const plan = result2[0][0].plan
+        
+        if(pago == 0 || plan != "premium") {
+            return res.status(400).json({
+                msg:"Mejore su plan para poder acceder a esta opcion"
+            })
+        }
+        
+        res.status(200).json({
+            msg: "accedio al chat"
+        })
+    } catch (error) {
+        console.log(error, "error");
+        res.status(500).json({
+            msg: "error al ingresar al chat"
+        })
+    }
+
+    
+}
+
+const cancelarPlan = (req, res) => {
+    const email = req.email;
+    cancelarsuscripcion(email);
+
+    res.status(200).json({
+        msg:'mensaje enviado al administrado, tu plan se dara de baja'
     })
 }
 
@@ -874,7 +936,8 @@ confimarPagoPlan,
 cambiarImagenAdmin,
 cambiarImagenLocal,
 mostrarUsuarioConfirmarPlan,
-getChatLocal
+getChatLocal,
+cancelarPlan
 
 
 

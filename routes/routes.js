@@ -26,7 +26,8 @@ const { homeGet,
     cambiarImagenAdmin,
     cambiarImagenLocal,
     mostrarUsuarioConfirmarPlan,
-    getChatLocal} = require('../controllers/routers');
+    getChatLocal,
+    cancelarPlan} = require('../controllers/routers');
 
 const { check } = require('express-validator');
 
@@ -211,6 +212,11 @@ router.delete('/liberar-pedido',[
 router.get('/dashboard/chat', [
     validarJWT
 ], getChatLocal);
+
+//cancerlar cuenta
+router.get('/dashboard/cancelar',[
+    validarJWT
+],cancelarPlan)
 
 
 

@@ -7,15 +7,22 @@
 .about-container1 {
 	display: flex;
 	justify-content: center;
+	width: 100%;
+	max-width: 1300px;
+	margin: auto;
+	padding: 0 25px;
 }
 .about-container2 {
 	display: flex;
 	justify-content: center;
 	margin-left: 100px;
+	max-width: 1300px;
+	margin: auto;
+	padding: 0 25px;
 }
 
 .about-text1 {
-	width: 500px;
+	width: 60%;
 	display: flex;
 	flex-direction: column;
 	align-items: start;
@@ -23,6 +30,8 @@
 }
 .about-text1 :nth-child(1) {
 	margin: 0;
+	font-size: 50px;
+	font-weight: 700;
 }
 .about-title1 {
 	font-size: 25px;
@@ -34,43 +43,34 @@ span {
 }
 .about-text1 p {
 	color: white;
-	width: 500px;
-	font-size: 18px;
 }
 .about-img1 {
-	width: 350px;
-	height: 300px;
+	width: 550px;
+	height: 400px;
 }
 
 .about-title2 {
-	font-size: 25px;
 	color: white;
+}
+.about-title2 span {
+	font-size: 50px;
+	font-weight: 700;
 }
 
 .about-text2 {
-	width: 600px;
+	width: 60%;
 	display: flex;
 	flex-direction: column;
 	align-items: start;
 	margin-left: 50px;
 }
 
-.about-text2 p {
-	width: 400px;
-	font-size: 18px;
-}
-
 .about-img2,
 .about-img3 {
-	width: 250px;
-	height: 200px;
+	width: 350px;
+	height: 250px;
 	border-radius: 10%;
 	box-shadow: 0 0 20px rgb(234, 128, 7);
-}
-
-.about-container2 :nth-child(1) {
-	display: flex;
-	flex-direction: column;
 }
 
 .about-img2 {
@@ -95,6 +95,7 @@ span {
 	}
 
 	.about-container1 {
+		width: auto;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -102,13 +103,15 @@ span {
 	}
 	.about-container2 {
 		display: flex;
+		width: auto;
 		justify-content: center;
 		flex-direction: column;
-		margin-left: 0px;
+		margin: auto;
+		padding: 0 20px;
 	}
 
 	.about-text1 {
-		width: 300px;
+		width: auto;
 		margin-right: 0px;
 		display: flex;
 		flex-direction: column;
@@ -116,16 +119,20 @@ span {
 	}
 	.about-text1 :nth-child(1) {
 		margin: 0;
+		font-size: 30px;
 	}
 	.about-title1 {
 		text-align: center;
+	}
+	.about-title2 span {
+		font-size: 30px;
 	}
 	span {
 		color: orange;
 	}
 	.about-text1 p {
 		color: white;
-		width: 300px;
+		width: 100%;
 		font-size: 18px;
 		text-align: center;
 	}
@@ -136,7 +143,7 @@ span {
 	}
 
 	.about-text2 {
-		width: 300px;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -145,7 +152,7 @@ span {
 	}
 
 	.about-text2 p {
-		width: 300px;
+		width: 100%;
 		font-size: 18px;
 	}
 
@@ -165,8 +172,7 @@ span {
 	.about-imgs {
 		display: flex;
 		justify-content: center;
-		margin-left: 25px;
-		margin-top: 50px;
+		margin: auto;
 
 		z-index: -1;
 	}
@@ -202,6 +208,4 @@ span {
 		background-repeat: no-repeat;
 		rotate: -20deg;
 	}
-}
-@media screen and (max-width: 450px) {
 }

@@ -87,10 +87,10 @@ export default function LoginModal({ handleCloseLogin }) {
 			</button>
 			<div className="login-container">
 				<div className="login-input">
-					<h1>
+					<h3>
 						Si <span>Mesero</span>
-					</h1>
-					<h2>Bienvenido/a de vuelta</h2>
+					</h3>
+					<h4>Bienvenido/a de vuelta</h4>
 
 					<p>Ingresá con tu email y contraseña</p>
 					<div>
@@ -119,7 +119,7 @@ export default function LoginModal({ handleCloseLogin }) {
 								checked={input.rememberMe}
 								onChange={handleChange}
 							/>{' '}
-							<h3>Recordarme</h3>
+							<p>Recordarme</p>
 						</div>
 						<a href="">Olvidaste la contraseña?</a>
 					</div>
@@ -127,7 +127,7 @@ export default function LoginModal({ handleCloseLogin }) {
 						Iniciar sesión
 					</button>
 					<div className="login-to-register">
-						<h4>No tienes una cuenta?</h4>
+						<p>No tienes una cuenta?</p>
 						<a href="">Registrate</a>
 					</div>
 				</div>

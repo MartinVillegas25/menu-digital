@@ -1,29 +1,29 @@
 .testimonials {
-	margin-top: 100px;
 	margin-bottom: 40px;
-	height: 100vh;
+	height: 80vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
 
 .testimonials h2,
-h1 {
-	display: flex;
-	justify-content: center;
-}
-
-.testimonials h1 {
-	margin-bottom: 40px;
+h3 {
+	display: block;
+	text-align: center;
+	margin: 10px 0;
 }
 
 .test-container {
+	width: 100%;
+	max-width: 1300px;
+	margin: 0 auto;
 	display: flex;
+	align-items: center;
 	justify-content: center;
 }
 
 .test-testimonial {
-	width: 450px;
+	width: 50%;
 }
 
 .test-circles {
@@ -60,9 +60,8 @@ h1 {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 350px;
-	height: 250px;
-	background-color: #ff9800;
+	width: 330px;
+	height: auto;
 	border-radius: 40% 40% 40% 0%;
 }
 

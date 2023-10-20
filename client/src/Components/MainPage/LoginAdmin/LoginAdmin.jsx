@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import './LoginAdmin.css';
 import { useState } from 'react';
 import { createAdmin } from '../../../redux/actions';
+
 //Vista de testimonios de clientes
 export default function LoginAdmin() {
 	const dispatch = useDispatch();
@@ -27,9 +28,7 @@ export default function LoginAdmin() {
 
 	return (
 		<div className="loginAdmin">
-			<div className="login-img-container">
-				{/* <img src={LogoRecortado} alt="" className="login-img" /> */}
-			</div>
+			<div className="login-img-container"></div>
 			<div className="form-loginadmin">
 				<form action="">
 					<h2 className="h2-login">Crea un Administrador</h2>

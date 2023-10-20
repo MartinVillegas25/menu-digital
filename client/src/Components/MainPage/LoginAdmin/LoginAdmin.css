@@ -1,9 +1,9 @@
-/* .loginAdmin {
+.loginAdmin {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: 0 10px;
+	padding: 0px 10px 50px;
 	text-align: center;
 }
 
@@ -12,7 +12,7 @@ div.form-loginadmin {
 	justify-content: center;
 }
 div.login-img-container {
-	background-image: url('../../assets/logos/LogoRecortado.png');
+	background-image: url('../../../assets/logos/Logo2.png');
 	background-repeat: no-repeat;
 	background-size: contain;
 	height: 100px;
@@ -51,7 +51,7 @@ button.submit-login:hover {
 form {
 	display: flex;
 	flex-direction: column;
-	background-color: #f1f1f1;
+	background-color: #fff;
 	padding: 40px;
 	border-radius: 20px;
 	max-width: 600px;
@@ -67,7 +67,7 @@ input {
 	width: 100%;
 	height: 50px;
 	border-radius: 10px;
-	background-color: #a1a1a1;
+	background-color: #f1f1f1;
 	color: #000;
 	margin: 10px auto 20px;
 }
@@ -87,4 +87,4 @@ label {
 button.submit-login {
 	width: 200px;
 	margin: auto;
-} */
+}

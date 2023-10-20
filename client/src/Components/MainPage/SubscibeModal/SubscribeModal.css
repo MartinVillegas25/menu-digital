@@ -1,43 +1,49 @@
 .subscribe {
 	background-color: rgba(255, 255, 255, 1);
 	color: #000;
-	width: 740px;
-	height: 450px;
+	width: 760px;
+	height: 100%;
+	padding: 30px 0;
 	position: relative;
 }
 
 .subscribe span {
 	color: orange;
 	margin-left: 10px;
+	font-size: 28px;
 }
 
-.subscribe-close-bnt {
+.subscribe-close-btn {
 	position: absolute;
 	top: 1rem;
+	left: 1rem;
+	background-color: orange;
+	border-radius: 50px;
+	border: 1px solid orange;
+	width: 30px;
+	height: 30px;
 }
 
 .subscribe-container {
 	display: flex;
-	width: 740px;
-	height: 350px;
+	width: 300px;
+	height: 500px;
 	margin-left: 30px;
+	margin-right: 30px;
 }
 
 .subscribe-img {
 	position: absolute;
 	top: 0;
-	width: 290px;
-	height: 450px;
+
+	height: 100%;
 }
 
 .subscribe-input {
 	width: 360px;
-	height: 350px;
+	height: 100%;
+	overflow-x: hidden;
 	overflow-y: scroll;
-}
-
-.subscribe-input input {
-	height: 25px;
 }
 
 .subscribe-input h1 {
@@ -69,15 +75,13 @@
 	margin: 5px 2px;
 }
 
-.subs-input {
-	height: 25px;
-}
-
 .subs-plans {
 	display: flex;
 	justify-content: start;
 }
-
+.subs-plan {
+	width: 100%;
+}
 .subs-plans div {
 	display: flex;
 	flex-direction: column;
@@ -96,7 +100,7 @@
 
 .subs-plans {
 	width: 100%;
-	height: 25px;
+
 	margin-top: 10px;
 }
 .subscribe-btn {
@@ -130,9 +134,10 @@
 .subs-btn {
 	border: solid orange;
 	background-color: orange;
-	color: black;
+	color: #fff;
 	font-weight: bold;
 	padding: 5px;
+	margin-top: 20px;
 	margin-left: 15px;
 	border-radius: 10px;
 	display: flex;
@@ -147,8 +152,23 @@
 .subs-img {
 	position: absolute;
 	top: 0;
+	right: 0;
 	width: 400px;
-	height: 450px;
+	height: 100%;
+	object-fit: cover;
+}
+
+.subs-btn-container a {
+	border: solid orange;
+	background-color: orange;
+	color: #fff;
+	font-weight: bold;
+	padding: 5px;
+	margin-top: 20px;
+	margin-left: 15px;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
 }
 
 @media (max-width: 768px) {

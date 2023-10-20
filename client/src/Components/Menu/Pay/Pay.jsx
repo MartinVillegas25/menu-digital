@@ -1,20 +1,24 @@
-import { useState } from 'react';
-
+import { useState, useEffect, useRef } from 'react';
 import './Pay.css';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
+
 const socket = io();
+
 export default function Pay() {
 	const [nombre, setNombre] = useState('');
 	const [payMethod, setPayMethod] = useState('');
 	const micart = useSelector((state) => state.productsAdeedToMinicart);
-	const totalPrice = micart.reduce(
-		(total, product) => total + product.precio,
-		0
-	);
 
-	console.log(nombre, payMethod);
+	const cachedTotalPrice = useRef(0);
+
+	useEffect(() => {
+		cachedTotalPrice.current = micart.reduce(
+			(total, product) => total + product.precio,
+			0
+		);
+	}, [micart]);
 
 	const handleSetName = (e) => {
 		setNombre(e.target.value);
@@ -26,10 +30,10 @@ export default function Pay() {
 
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
-	// Verifica qué parámetros de consulta se están pasando
 
 	const userEmail = searchParams.get('email');
 	const mesa = searchParams.get('mesa');
+
 	const payload = () => {
 		console.log('emitiendo');
 	};
@@ -52,6 +56,7 @@ export default function Pay() {
 			payload
 		);
 	};
+
 	return (
 		<div className="pay-container">
 			<div className="pay-username">
@@ -71,7 +76,7 @@ export default function Pay() {
 			</div>
 			<div className="payment-total-container">
 				<h3>Total:</h3>
-				<h4>${totalPrice}</h4>
+				<h4>${cachedTotalPrice.current}</h4>
 			</div>
 			{nombre === '' || payMethod === '' || payMethod === '-' ? (
 				<div>Ingrese su nombre y el metodo de pago</div>
@@ -80,8 +85,7 @@ export default function Pay() {
 					Pedir la cuenta
 				</button>
 			)}
-
-			<a href="">Volver al menu</a>
+			<a href="">Volver al menú</a>
 		</div>
 	);
 }

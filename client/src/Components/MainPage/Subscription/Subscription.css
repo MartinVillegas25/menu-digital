@@ -3,7 +3,9 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-top: 100px;
+	width: 100%;
+	max-width: 1300px;
+	margin: auto;
 }
 .subscription-container-web {
 	display: flex;
@@ -17,8 +19,12 @@
 }
 
 .subscription h2 {
-	font-size: 35px;
-	width: 800px;
+	max-width: 1300px;
+	text-align: center;
+}
+.subscription h2 span {
+	font-size: 50px;
+	font-weight: 700;
 }
 
 .subscription-img {
@@ -55,16 +61,6 @@
 	font-size: 12px;
 	font-weight: bold;
 	list-style: none;
-}
-.subs-btn {
-	border: solid orange;
-	background-color: orange;
-	color: black;
-	font-weight: 900;
-	font-size: 12px;
-	padding: 3px 7px;
-	margin-left: 15px;
-	border-radius: 10px;
 }
 
 .subs-btn:hover {
@@ -112,9 +108,8 @@
 		display: flex;
 	}
 
-	.subscription h2 {
-		font-size: 25px;
-		width: 300px;
+	.subscription h2 span {
+		font-size: 30px;
 	}
 
 	.subscription-img {
@@ -155,16 +150,6 @@
 		padding-inline-start: 30px;
 		padding-inline-end: 20px;
 		text-align: start;
-	}
-	.subs-btn {
-		border: solid orange;
-		background-color: orange;
-		color: black;
-		font-weight: 900;
-		font-size: 12px;
-		padding: 3px 7px;
-		margin-left: 15px;
-		border-radius: 10px;
 	}
 
 	.subs-btn:hover {

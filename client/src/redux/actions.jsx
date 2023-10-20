@@ -27,9 +27,9 @@ export const CREATE_ADMIN = 'CREATE_ADMIN';
 export const CHANGE_PLAN = 'CHANGE_PLAN';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
 export const DELETE_SUBCATEGORY = 'DELETE_SUBCATEGORY';
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const GET_PEDIDOS = 'GET_PEDIDOS';
 export const ORDER = 'ORDER';
-export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const DELETE_PEDIDOS = 'DELETE_PEDIDOS';
 export const CHANGE_ADMIN_IMG = 'CHANGE_ADMIN_IMG';
 export const GET_CLIENTS_TO_CONFIRM = 'GET_CLIENTS_TO_CONFIRM';
@@ -607,10 +607,11 @@ export function createProduct(payload) {
 }
 
 // Funcion para eliminar categoria
-export function deleteCategory(payload) {
+export function deleteCategory(categoria) {
 	return async function (dispatch) {
 		try {
 			console.log('entrando');
+			console.log(categoria);
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
 
 			const headers = {
@@ -618,13 +619,12 @@ export function deleteCategory(payload) {
 			};
 			axios
 				.delete(
-					`http://localhost:3000/dashboard/items/borrar-categoria`,
-					payload,
+					'http://localhost:3000/dashboard/items/borrar-categoria',
+					categoria,
 					{
 						headers
 					}
 				)
-
 				.then((response) => {
 					console.log(response.data);
 					return dispatch({
@@ -641,6 +641,7 @@ export function deleteCategory(payload) {
 export function deleteSubCategory(payload) {
 	return async function (dispatch) {
 		try {
+			console.log('aca');
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
 
 			const headers = {
@@ -649,13 +650,13 @@ export function deleteSubCategory(payload) {
 			axios
 				.delete(
 					`http://localhost:3000/dashboard/items/borrar-subcategoria`,
-					payload,
 					{
 						headers
-					}
+					},
+					payload
 				)
-
 				.then((response) => {
+					console.log('aca');
 					return dispatch({
 						type: DELETE_SUBCATEGORY,
 						payload: response.data
@@ -677,15 +678,12 @@ export function deleteProduct(payload) {
 				'x-token': token
 			};
 			axios
-				.delete(
-					`http://localhost:3000/dashboard/items?id=${payload}`,
-					payload,
-					{
-						headers
-					}
-				)
+				.delete(`http://localhost:3000/dashboard/items?id=${payload}`, {
+					headers
+				})
 
 				.then((response) => {
+					console.log('entra');
 					return dispatch({
 						type: DELETE_PRODUCT,
 						payload: response.data

@@ -31,6 +31,7 @@ export default function ClientMenuConfig() {
 		dispatch(getProducts(email));
 	}, []);
 	const products = useSelector((state) => state.localProducts);
+
 	const [prods, setProds] = useState(products);
 
 	const categories = useSelector((state) => state.menuCategories.categorias);

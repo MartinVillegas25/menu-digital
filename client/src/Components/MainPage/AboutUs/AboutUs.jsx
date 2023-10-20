@@ -38,7 +38,7 @@ export default function AboutUs() {
 				<div className="about-text2">
 					<div className="about-title2">
 						<h2>
-							¿Qué nos hace<span>únicos?</span>
+							¿Qué nos hace<span> únicos?</span>
 						</h2>
 					</div>
 					<p>

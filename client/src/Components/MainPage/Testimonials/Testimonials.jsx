@@ -5,8 +5,8 @@ import img from '../../../assets/img8.jpg';
 export default function Testimonials() {
 	return (
 		<div className="testimonials">
-			<h2>¿Qué dicen nuestros clientes?</h2>
-			<h1>Testimonios</h1>
+			<h3>¿Qué dicen nuestros clientes?</h3>
+			<h2>Testimonios</h2>
 			<div className="test-container">
 				<div className="test-testimonial">
 					<p>

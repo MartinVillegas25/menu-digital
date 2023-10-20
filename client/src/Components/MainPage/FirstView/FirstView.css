@@ -1,22 +1,29 @@
 .fv {
-	display: flex;
-	justify-content: center;
-	margin-top: 50px;
-	height: 100vh;
+	padding: 0 30px;
+	max-width: 1700px;
+	margin: auto;
 }
 .fv-container {
+	height: 90vh;
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 1700px;
+	padding: 0 30px;
+	margin: auto;
+}
+.fv-text {
+	width: 50%;
 }
 
 .fv-title {
-	font-size: 45px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
 
 .fv-title h2 {
-	font-weight: 1200;
+	font-size: 70px;
 	margin: 0px;
 }
 
@@ -26,8 +33,6 @@
 
 .fv-text p {
 	width: 30em;
-	font-weight: bolder;
-	font-size: 20px;
 }
 
 .circles {
@@ -41,20 +46,25 @@
 	border: 2px solid orange;
 	background-color: orange;
 	border-radius: 100%;
-	width: 45px;
-	height: 45px;
+	width: 30px;
+	height: 30px;
+	padding: 15px;
 	margin-left: 60px;
 	margin-top: 20px;
 	font-size: 30px;
 	color: white;
 }
-
+div.circle a {
+	font-size: 30px;
+}
 .fv-plan-btn {
 	display: none;
 }
 
 .fv-imgs {
 	display: flex;
+	justify-content: end;
+	width: 50%;
 	margin-top: 50px;
 	margin-left: 50px;
 	z-index: -1;
@@ -96,11 +106,13 @@
 	.fv {
 		margin-top: 50px;
 		height: auto;
+		width: auto;
 	}
 	.fv-container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding: 0;
 	}
 
 	.fv-title {
@@ -111,19 +123,20 @@
 
 	.fv-title h2 {
 		margin: 0px;
+		font-size: 38px;
 	}
 
 	.fv-text {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		width: 100%;
 		align-items: center;
 		line-height: 40px;
 	}
 
 	.fv-text p {
 		text-align: center;
-		width: 300px;
+		width: 100%;
 		font-weight: bold;
 	}
 
@@ -139,8 +152,9 @@
 		border: 2px solid orange;
 		background-color: orange;
 		border-radius: 100%;
-		width: 45px;
-		height: 45px;
+		width: 30px;
+		height: 30px;
+		padding: 10px;
 		margin-left: 0px;
 		margin-top: 20px;
 		font-size: 30px;
@@ -171,7 +185,8 @@
 		height: 40px;
 		border: solid orange;
 		background-color: orange;
-		color: black;
+		color: #fff;
+		padding: 5px 15px;
 		font-weight: bold;
 		margin-top: 40px;
 

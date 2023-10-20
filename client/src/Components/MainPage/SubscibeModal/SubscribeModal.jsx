@@ -116,9 +116,9 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 			</button>
 			<div className="subscribe-container">
 				<div className="subscribe-input">
-					<h1>
+					<h2>
 						Bienvenido a <span>SiMesero</span>
-					</h1>
+					</h2>
 					<p>
 						Si ya tienes una cuenta <a href="">Inicia Sesión</a>
 					</p>

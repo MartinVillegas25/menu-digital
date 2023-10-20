@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import { changePlan, getLocalData, modifData } from '../../../redux/actions';
+import {
+	changePlan,
+	getLocalData,
+	getPlans,
+	modifData
+} from '../../../redux/actions';
 import './ClientConfig.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -8,6 +13,8 @@ import swal from 'sweetalert';
 
 export default function ClientConfig() {
 	const user = useSelector((state) => state.localData.usuario);
+	const plans = useSelector((state) => state.plans);
+	console.log(plans);
 
 	useEffect(() => {
 		if (user) {
@@ -41,6 +48,7 @@ export default function ClientConfig() {
 
 	useEffect(() => {
 		dispatch(getLocalData(userEmail));
+		dispatch(getPlans());
 	}, []);
 
 	const handleChangeData = (e) => {
@@ -92,6 +100,7 @@ export default function ClientConfig() {
 					icon: 'success'
 				});
 			} else {
+				console.log(newPlan);
 				swal({ text: 'no se han modificado su plan', icon: 'info' });
 			}
 		});
@@ -253,7 +262,7 @@ export default function ClientConfig() {
 								mp-mode="dftl"
 								href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af994d0018b02039da906a5"
 								name="MP-payButton"
-								className="blue-ar-l-rn-none"
+								className="subs-btn"
 							>
 								Continuar a pago
 							</a>
@@ -295,6 +304,10 @@ export default function ClientConfig() {
 					)}
 				</div>
 			</div>
+			<p>Precio de los planes:</p>
+			<p>Basico: Gratuito</p>
+			<p>Estandar: ${plans.standard}</p>
+			<p>Premuim: ${plans.premium}</p>
 		</main>
 	);
 }

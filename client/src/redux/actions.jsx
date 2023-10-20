@@ -38,6 +38,7 @@ export const MODIFY_PRODUCT = 'MODIFY_PRODUCT';
 export const CONFIRM_USER_PAYMENT = 'CONFIRM_USER_PAYMENT';
 export const GET_CLIENTS_TO_CONFIRM_PLAN = 'GET_CLIENTS_TO_CONFIRM_PLAN';
 export const CONFIRM_USER_NEW_PLAN = 'CONFIRM_USER_NEW_PLAN';
+export const SET_PRICE = 'SET_PRICE';
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
 // Funcion para el registro del usuario, en el cual, detalla sus datos y elige el tipo de plan a adquirir.

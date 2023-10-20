@@ -1,7 +1,6 @@
 import './Footer.css';
 import { BsInstagram } from 'react-icons/bs';
-import { FaFacebook } from 'react-icons/fa';
-import { FaLinkedin } from 'react-icons/fa';
+
 //Pie de pagina
 export default function Footer() {
 	return (
@@ -16,14 +15,12 @@ export default function Footer() {
 						<h3>2023 Todos los derechos reservados. Duwoh Developers</h3>
 					</div>
 					<div className="footer-socials">
-						<a href="">
+						<a
+							href="https://instagram.com/duwohdev?igshid=MzMyNGUyNmU2YQ=="
+							target="_blank"
+							rel="noreferrer"
+						>
 							<BsInstagram />
-						</a>
-						<a href="">
-							<FaFacebook />
-						</a>
-						<a href="">
-							<FaLinkedin />
 						</a>
 					</div>
 				</div>

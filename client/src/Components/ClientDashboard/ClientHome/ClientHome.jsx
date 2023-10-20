@@ -10,6 +10,13 @@ const socket = io();
 export default function ClientHome() {
 	const [popUp, setPopUp] = useState(false);
 	const [selectedPedidoId, setSelectedPedidoId] = useState(null);
+	const [newAlert, setNewAlert] = useState(false);
+	const handleNewAlert = () => {
+		setNewAlert(true);
+	};
+	const handleCheckAlert = () => {
+		setNewAlert(false);
+	};
 
 	const handleOpenPopUp = (orderId) => {
 		setSelectedPedidoId(orderId);
@@ -43,18 +50,22 @@ export default function ClientHome() {
 			console.log(payload[email][0]);
 
 			if (payload[email][0]) {
+				handleNewAlert();
 				document.getElementById('lblTicket1').innerText = payload[email][0];
 			}
 
 			if (payload[email][1]) {
+				handleNewAlert();
 				document.getElementById('lblTicket2').innerText = payload[email][1];
 			}
 
 			if (payload[email][2]) {
+				handleNewAlert();
 				document.getElementById('lblTicket3').innerText = payload[email][2];
 			}
 
 			if (payload[email][3]) {
+				handleNewAlert();
 				document.getElementById('lblTicket4').innerText = payload[email][3];
 			}
 		});
@@ -141,9 +152,14 @@ export default function ClientHome() {
 							)}
 						</table>
 					</div>
-					<div className="client-home-alerts">
+					<div
+						className={
+							newAlert ? 'client-home-alerts-active' : 'client-home-alerts'
+						}
+					>
 						<div>
 							<h1>SALA</h1>
+							<button onClick={handleCheckAlert}>Alerta Vista</button>
 							<table>
 								<tbody>
 									<tr>

@@ -42,7 +42,13 @@ export default function FirstView() {
 								</a>
 							</div>
 							<div className="circle">
-								<BsWhatsapp />
+								<a
+									href="https://wa.link/vkaxvw"
+									target="_blank"
+									rel="noreferrer"
+								>
+									<BsWhatsapp />
+								</a>
 							</div>
 						</div>
 					</div>

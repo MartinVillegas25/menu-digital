@@ -1,22 +1,20 @@
 import { useState } from 'react';
-import { BsPlusCircle } from 'react-icons/bs';
-import { BsDashCircle } from 'react-icons/bs';
+
 import './Pay.css';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
+import { useSelector } from 'react-redux';
 const socket = io();
 export default function Pay() {
-	const [number, setNumber] = useState(0);
 	const [nombre, setNombre] = useState('');
 	const [payMethod, setPayMethod] = useState('');
+	const micart = useSelector((state) => state.productsAdeedToMinicart);
+	const totalPrice = micart.reduce(
+		(total, product) => total + product.precio,
+		0
+	);
 
 	console.log(nombre, payMethod);
-	const handleAdd = () => {
-		setNumber(number + 1);
-	};
-	const handleQuit = () => {
-		setNumber(number - 1);
-	};
 
 	const handleSetName = (e) => {
 		setNombre(e.target.value);
@@ -28,8 +26,7 @@ export default function Pay() {
 
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
-	console.log('location:', location);
-	console.log('searchParams:', searchParams.toString()); // Verifica qué parámetros de consulta se están pasando
+	// Verifica qué parámetros de consulta se están pasando
 
 	const userEmail = searchParams.get('email');
 	const mesa = searchParams.get('mesa');
@@ -61,18 +58,7 @@ export default function Pay() {
 				<label htmlFor="">Indique su nombre para continuar</label>
 				<input type="text" value={nombre} onChange={handleSetName} />
 			</div>
-			<div className="pay-square">
-				<p>Seleccione el numero de comensales para dividir</p>
-			</div>
-			<div className="amount-dinners">
-				<button onClick={handleQuit}>
-					<BsDashCircle className="dinner-btn" />
-				</button>
-				<h1>{number}</h1>
-				<button onClick={handleAdd}>
-					<BsPlusCircle className="dinner-btn" />
-				</button>
-			</div>
+
 			<div className="payment-type-container">
 				<h2>Seleccione el metodo de pago</h2>
 				<select name="payment-type" id="" onClick={handleSetMethod}>
@@ -85,7 +71,7 @@ export default function Pay() {
 			</div>
 			<div className="payment-total-container">
 				<h3>Total:</h3>
-				<h4>$0000</h4>
+				<h4>${totalPrice}</h4>
 			</div>
 			{nombre === '' || payMethod === '' || payMethod === '-' ? (
 				<div>Ingrese su nombre y el metodo de pago</div>

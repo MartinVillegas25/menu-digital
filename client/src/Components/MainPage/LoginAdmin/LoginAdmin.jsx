@@ -4,7 +4,6 @@ import './LoginAdmin.css';
 import { useState } from 'react';
 import { createAdmin } from '../../../redux/actions';
 
-//Vista de testimonios de clientes
 export default function LoginAdmin() {
 	const dispatch = useDispatch();
 	const [input, setInput] = useState({

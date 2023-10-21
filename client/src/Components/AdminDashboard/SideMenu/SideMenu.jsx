@@ -14,17 +14,18 @@ import swal from 'sweetalert';
 
 export default function SideMenu() {
 	const dispatch = useDispatch();
+	const dataAdmin = useSelector((state) => state.validation.usuario);
+	// Abrir menu
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [imgInput, setImgInput] = useState(false);
-	const [newImg, setNewImg] = useState('');
-	const dataAdmin = useSelector((state) => state.validation.usuario);
-
+	//Abrir input de cambio de imagen
 	const handleOpenInput = () => {
 		setImgInput(true);
 	};
-
+	// Cambio de imagen de perfil
+	const [newImg, setNewImg] = useState('');
 	const handleImg = (e) => {
-		setNewImg(e.target.files[0]); // Use e.target.files[0] to get the selected file
+		setNewImg(e.target.files[0]);
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();

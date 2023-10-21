@@ -24,7 +24,7 @@ export default function Subscription() {
 	];
 	const [index, setIndex] = useState(0);
 
-	// functions to move de slides
+	// Funcion para el slider de imagenes mobile
 	const leftSlide = () => {
 		const newIndex = index === 0 ? plans.length - 1 : index - 1;
 		setIndex(newIndex);

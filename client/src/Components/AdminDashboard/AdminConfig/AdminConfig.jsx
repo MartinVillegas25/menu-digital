@@ -17,12 +17,12 @@ export default function AdminConfig() {
 	const dispatch = useDispatch();
 	const plans = useSelector((state) => state.plans);
 	const validation = useSelector((state) => state.validation.msg);
+	//Datos para las tablas de usuarios
 	const clientsToConfirm = useSelector((state) => state.clientsToConfirm);
 	const clientsToConfirmPlan = useSelector(
 		(state) => state.clientsToConfirmPlan
 	);
-	console.log(clientsToConfirm);
-	console.log(clientsToConfirmPlan);
+	// Cambio de precio de planes
 	const [planStandardInput, setPlanStandardInput] = useState('');
 	const [planPremiumInput, setPlanPremiumInput] = useState('');
 

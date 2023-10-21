@@ -1,7 +1,6 @@
 import './Footer.css';
 import { BsInstagram } from 'react-icons/bs';
 
-//Pie de pagina
 export default function Footer() {
 	return (
 		<div>

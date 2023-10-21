@@ -12,7 +12,9 @@ import { useLocation } from 'react-router-dom';
 import swal from 'sweetalert';
 
 export default function ClientConfig() {
+	// Datos del usuario
 	const user = useSelector((state) => state.localData.usuario);
+	// Precio de planes
 	const plans = useSelector((state) => state.plans);
 	console.log(plans);
 
@@ -25,6 +27,7 @@ export default function ClientConfig() {
 			});
 		}
 	}, [user]);
+
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const userEmail = searchParams.get('email');
@@ -50,13 +53,14 @@ export default function ClientConfig() {
 		dispatch(getLocalData(userEmail));
 		dispatch(getPlans());
 	}, []);
-
+	// Cambio de datos del usuario
 	const handleChangeData = (e) => {
 		setInput({
 			...input,
 			[e.target.name]: e.target.value
 		});
 	};
+	//Cambio de plan
 	const [newPlan, setNewPlan] = useState();
 	const handleChangePlan = (e) => {
 		setNewPlan(e.target.value);

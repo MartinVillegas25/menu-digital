@@ -10,10 +10,12 @@ const socket = io();
 export default function ClientHome() {
 	const [popUp, setPopUp] = useState(false);
 	const [selectedPedidoId, setSelectedPedidoId] = useState(null);
+	// Funcion para cuando llega una nueva notificacion
 	const [newAlert, setNewAlert] = useState(false);
 	const handleNewAlert = () => {
 		setNewAlert(true);
 	};
+	// Funcion para marcar las alertas como vistas
 	const handleCheckAlert = () => {
 		setNewAlert(false);
 	};
@@ -27,7 +29,7 @@ export default function ClientHome() {
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const userEmail = searchParams.get('email');
-
+	// Funcion para recibir y renderizar las alertas cuando se emiten desde las mesas
 	useEffect(() => {
 		dispatch(getPedidos());
 		socket.on('connect', () => {
@@ -101,10 +103,6 @@ export default function ClientHome() {
 				<div>
 					<div>
 						<h2>Monitoreo del salon</h2>
-						{/* <h3>
-							Mesas ocupadas: <span>{mesasOcupadas}</span> | Mesas libres :
-							<span>{mesasLibres} </span>
-						</h3> */}
 					</div>
 				</div>
 				<div className="client-home">

@@ -8,7 +8,7 @@ export default function AlertChart() {
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const userEmail = searchParams.get('email');
-
+	// Funcion para emitir las alertas al dashboard del bar
 	useEffect(() => {
 		socket.on('connect', () => {
 			console.log('conectado a la sala' + userEmail);

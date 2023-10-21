@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import './Gracias.css';
 
-//Vista de testimonios de clientes
 export default function Gracias() {
 	return (
 		<div className="gracias">

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import './Testimonials.css';
 import img from '../../../assets/img8.jpg';
-//Vista de testimonios de clientes
+
 export default function Testimonials() {
 	return (
 		<div className="testimonials">

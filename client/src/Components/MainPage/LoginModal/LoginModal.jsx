@@ -13,10 +13,10 @@ export default function LoginModal({ handleCloseLogin }) {
 	const [input, setInput] = useState({
 		email: '',
 		password: '',
-		rememberMe: false // Initialize rememberMe as false
+		rememberMe: false
 	});
 
-	// Load saved credentials from local storage when the component mounts
+	// Si hay credenciales en el local storage las carga
 	useEffect(() => {
 		const savedCredentials = localStorage.getItem('savedCredentials');
 		if (savedCredentials) {
@@ -25,7 +25,7 @@ export default function LoginModal({ handleCloseLogin }) {
 				...input,
 				email,
 				password,
-				rememberMe: true // Set rememberMe to true if saved credentials exist
+				rememberMe: true
 			});
 		}
 	}, []);
@@ -53,7 +53,7 @@ export default function LoginModal({ handleCloseLogin }) {
 			return;
 		}
 
-		// If rememberMe is enabled, save credentials to local storage
+		// Si el input de recuerdame esta seleccionado guarda los datos en local storage
 		if (input.rememberMe) {
 			const savedCredentials = JSON.stringify({
 				email: input.email,
@@ -61,13 +61,13 @@ export default function LoginModal({ handleCloseLogin }) {
 			});
 			localStorage.setItem('savedCredentials', savedCredentials);
 		} else {
-			localStorage.removeItem('savedCredentials'); // Remove saved credentials if rememberMe is not enabled
+			localStorage.removeItem('savedCredentials'); // Si no esta activo el input, borra las credenciales de localStorage
 		}
 
 		await dispatch(logUser(input));
 		dispatch(handleCloseLogin());
 	};
-
+	//Validaciones de tipo de usuario, para renderizado condicional de botones de acceso a los diferentes dashboard
 	useEffect(() => {
 		if (token) {
 			if (userType === 'admin') {

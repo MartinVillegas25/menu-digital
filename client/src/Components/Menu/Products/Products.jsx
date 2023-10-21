@@ -23,20 +23,18 @@ export default function Products() {
 
 	const categories = useSelector((state) => state.menuCategories.categorias);
 	const products = useSelector((state) => state.localProducts);
-	console.log(products);
-
+	// Funcion para mostrar solo los productos correspondientes a la categoria seleccionada
 	const handleCategorySelection = (categoryName) => {
 		setSelectedCategory(categoryName);
 	};
-
+	// Funcion para mostrar todas las categorias
 	const handleShowAll = () => {
-		setSelectedCategory(null); // Reset selected category to show all products
+		setSelectedCategory(null);
 	};
 
 	const handleAddToMinicart = (e) => {
 		const producto = JSON.parse(e.target.value); // Convierte la cadena JSON en un objeto
 
-		// Luego, puedes dispatch el objeto producto
 		dispatch(addToMinicart(producto));
 	};
 
@@ -96,7 +94,7 @@ export default function Products() {
 													</div>
 													<div className="product-add">
 														<button
-															value={JSON.stringify(producto)} // Convierte el objeto a una cadena JSON
+															value={JSON.stringify(producto)}
 															onClick={handleAddToMinicart}
 														>
 															+

@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logOutUser } from '../../../redux/actions';
 
-//barra de navegacion en la parte superior de la web
 export default function NavBar() {
 	//manejo de estado de la barra de navegacion
 	const dispatch = useDispatch();
@@ -34,7 +33,7 @@ export default function NavBar() {
 		dispatch(logOutUser());
 		window.location.reload(true);
 	};
-
+	// Caracteristicas del usuario logueado
 	const userType = useSelector((state) => state.userType);
 	const actualUser = useSelector((state) => state.actualUser);
 

@@ -183,13 +183,15 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 								onChange={handleChange}
 							/>
 							<input
-								type="url"
+								type="file"
 								placeholder="Foto perfil"
+								accept="image/*"
 								name="img"
 								className="subs-input"
 								value={input.img}
 								onChange={handleChange}
 							/>
+
 							<input
 								type="number"
 								placeholder="Teléfono"

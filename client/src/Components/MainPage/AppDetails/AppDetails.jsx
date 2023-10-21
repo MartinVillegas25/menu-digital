@@ -2,7 +2,7 @@ import './AppDetails.css';
 import mobile1 from '../../../assets/mobile1.png';
 import mobile2 from '../../../assets/mobile2.png';
 import mobile3 from '../../../assets/mobile4.png';
-//Vista de la app mobile para los bares/restaurantes
+
 export default function AppDetails() {
 	return (
 		<div className="appdet">

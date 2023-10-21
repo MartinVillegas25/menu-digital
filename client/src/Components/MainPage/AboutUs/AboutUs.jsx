@@ -2,7 +2,7 @@ import img1 from '../../../assets/img4.jpeg';
 import img2 from '../../../assets/img5.jpeg';
 import img3 from '../../../assets/img6.jpeg';
 import './AboutUs.css';
-//Vista de la web, con información principal acerca de la compañía
+
 export default function AboutUs() {
 	return (
 		<div className="about">

@@ -13,6 +13,7 @@ export default function QrGenerator() {
 	const [firstCode, setFirstCode] = useState(0);
 	const [generate, setGenerate] = useState(false);
 	const numbers = [];
+	// Funcion para setear la cantidad de codigos QR a imprimir
 	for (
 		let i = parseInt(firstCode, 10);
 		i <= parseInt(firstCode, 10) + parseInt(totalCodes, 10) - 1;
@@ -21,11 +22,11 @@ export default function QrGenerator() {
 		numbers.push(i);
 	}
 	console.log(numbers);
-
+	// Total de codigos para imprimir
 	const handleChangeTotalCodes = (e) => {
 		setTotalCodes(e.target.value);
 	};
-
+	// Primer numero de codigo a imprimir
 	const handleChangeFirstCode = (e) => {
 		setFirstCode(e.target.value);
 	};
@@ -34,7 +35,7 @@ export default function QrGenerator() {
 		e.preventDefault();
 		setGenerate(!generate);
 	};
-
+	// Funcion para setear y descargar los codigos Qr en pdf
 	const handleDownloadPDF = () => {
 		const qrCodeContainer = document.getElementById('qrCodeContainer');
 
@@ -104,9 +105,7 @@ export default function QrGenerator() {
 						{numbers.map((mesa, index) => (
 							<div key={mesa} className="qrCode" id="qrCodeContainer">
 								<div>
-									<p>
-										Mesa: {mesa} {email}
-									</p>
+									<p>Mesa: {index + 1}</p>
 									<QRcode
 										value={`http://127.0.0.1:5173/menulocal?email=${email}&mesa=${mesa}`}
 										className="qr"

@@ -3,7 +3,6 @@ import { BsInstagram } from 'react-icons/bs';
 import { FaFacebook } from 'react-icons/fa';
 import { BsWhatsapp } from 'react-icons/bs';
 
-//Primera vista de la página web
 export default function FirstView() {
 	return (
 		<main className="fv">

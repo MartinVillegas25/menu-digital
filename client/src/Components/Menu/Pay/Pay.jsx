@@ -1,24 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import './Pay.css';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
-import { useSelector } from 'react-redux';
 
 const socket = io();
 
 export default function Pay() {
 	const [nombre, setNombre] = useState('');
 	const [payMethod, setPayMethod] = useState('');
-	const micart = useSelector((state) => state.productsAdeedToMinicart);
-
-	const cachedTotalPrice = useRef(0);
-
-	useEffect(() => {
-		cachedTotalPrice.current = micart.reduce(
-			(total, product) => total + product.precio,
-			0
-		);
-	}, [micart]);
 
 	const handleSetName = (e) => {
 		setNombre(e.target.value);
@@ -46,9 +35,8 @@ export default function Pay() {
 		email: userEmail,
 		mesa: mesa
 	};
-
+	// Enviar el pedido de cuenta al dashboard del cliente
 	const handleSubmit = () => {
-		console.log('user', usuario);
 		socket.emit(
 			'pedir-cuenta',
 			usuario,
@@ -74,10 +62,7 @@ export default function Pay() {
 					<option value="otro">Otro</option>
 				</select>
 			</div>
-			<div className="payment-total-container">
-				<h3>Total:</h3>
-				<h4>${cachedTotalPrice.current}</h4>
-			</div>
+
 			{nombre === '' || payMethod === '' || payMethod === '-' ? (
 				<div>Ingrese su nombre y el metodo de pago</div>
 			) : (

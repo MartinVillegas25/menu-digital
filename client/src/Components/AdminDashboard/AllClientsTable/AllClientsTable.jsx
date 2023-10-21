@@ -17,9 +17,11 @@ import swal from 'sweetalert';
 
 export default function AllClientsTable() {
 	const dispatch = useDispatch();
+	// Estado de redux con todos los usuarios cargados
 	const allUsers = useSelector((state) => state.allUsers);
-	console.log(allUsers);
+
 	const validation = useSelector((state) => state.validation.msg);
+	// Array con todos los mails de los usuarios para poder mandar un mensaje general
 	const emailAddresses = allUsers.map((user) => user.email).join(';');
 
 	const handleSubmitSuspend = (e) => {

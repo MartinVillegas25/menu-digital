@@ -19,12 +19,12 @@ export default function Cart() {
 		(total, product) => total + product.precio,
 		0
 	);
-
+	// Quitar un producto del carrito
 	const handleQuit = (e) => {
 		console.log('quit');
 		dispatch(removeFromMinicart(e.target.value));
 	};
-
+	// Poner el nombre de usuario
 	const [userName, setUserName] = useState('');
 	const handleUserName = (e) => {
 		setUserName(e.target.value);
@@ -34,7 +34,7 @@ export default function Cart() {
 	const handleComment = (e) => {
 		setComment(e.target.value);
 	};
-
+	// Realizar el pedido
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		swal({

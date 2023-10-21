@@ -11,6 +11,7 @@ export default function Call() {
 
 	const userEmail = searchParams.get('email');
 	const mesa = searchParams.get('mesa');
+
 	const payload = () => {
 		console.log('emitiendo');
 	};
@@ -23,7 +24,7 @@ export default function Call() {
 		email: userEmail,
 		mesa: mesa
 	};
-
+	// Funcion para enviar la alerta de llamar camarera
 	const handleSubmit = () => {
 		socket.emit('llamar-camarera', usuario, payload);
 	};

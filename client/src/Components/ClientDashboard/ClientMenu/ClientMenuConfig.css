@@ -8,11 +8,13 @@
 	width: 100%;
 	display: flex;
 	overflow-x: scroll;
+	padding: 0 10px;
 }
 
 .menu-config-admin-btn {
 	border-radius: 5px;
 	background: #dedcdc;
+	border: none;
 	width: fit-content;
 	color: #000;
 	font-family: Outfit;
@@ -22,6 +24,8 @@
 	line-height: normal;
 	margin-right: 10px;
 	margin-bottom: 10px;
+	padding: 5px 10px;
+	cursor: pointer;
 }
 
 /* Estilo para la página principal */
@@ -119,6 +123,8 @@
 
 .selected-category {
 	border-radius: 5px;
+	color: #fff;
+	border: none;
 	background: #ffa101; /* Cambia esto al color deseado */
 }
 

@@ -62,23 +62,55 @@ export default function ClientMenuConfig() {
 		setSelectedProductForEdit(product);
 	};
 
-	const [input, setInput] = useState({
-		nombre: '',
-		precio: 0,
-		img: ''
-	});
+	const [nombre, setNombre] = useState('');
+	const [precio, setPrecio] = useState(0);
+	const [image, setImage] = useState(null);
 
-	const handleChangeProduct = (e) => {
-		setInput((prevInput) => ({
-			...prevInput,
-			[e.target.name]: e.target.value
-		}));
+	const handleChangeNombre = (e) => {
+		setNombre(e.target.value);
+	};
+
+	const handleChangePrecio = (e) => {
+		setPrecio(e.target.value);
+	};
+
+	const handleImg = (e) => {
+		// Handle the file input change and store the selected file
+		setImage(e.target.files[0]);
 	};
 
 	const handleSubmitChanges = (e) => {
 		e.preventDefault();
-		console.log(input);
-		dispatch(modifyProduct(selectedProductForEdit.id, input));
+		swal({
+			title: 'Activar',
+			text: 'Desea modificar este producto?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				// Create a FormData object to send the image
+				const formData = new FormData();
+
+				formData.append('img', image);
+
+				dispatch(
+					modifyProduct(selectedProductForEdit.id, {
+						nombre: nombre,
+						precio: precio,
+						img: formData
+					})
+				);
+				swal({
+					text: `Se ha modificado el producto`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'No se ha modificado el producto', icon: 'info' });
+			}
+		});
 	};
 
 	return (
@@ -160,30 +192,29 @@ export default function ClientMenuConfig() {
 															</div>
 															{selectedProductForEdit === producto ? (
 																<div className="product-edit-popup">
-																	<form
-																		action=""
-																		onChange={handleChangeProduct}
-																	>
+																	<form action="">
 																		<label htmlFor="">Nombre:</label>
 																		<input
 																			type="text"
 																			name="nombre"
 																			id=""
-																			value={input.nombre}
+																			value={nombre}
+																			onChange={handleChangeNombre}
 																		/>
 																		<label htmlFor="">Precio:</label>
 																		<input
 																			type="number"
 																			name="precio"
 																			id=""
-																			value={input.precio}
+																			value={precio}
+																			onChange={handleChangePrecio}
 																		/>
 																		<label htmlFor="">Imagen:</label>
 																		<input
 																			type="file"
-																			name="img"
-																			id=""
-																			value={input.img}
+																			id="newImg"
+																			accept="image/*"
+																			onChange={handleImg}
 																		/>
 																		<button
 																			type="submit"

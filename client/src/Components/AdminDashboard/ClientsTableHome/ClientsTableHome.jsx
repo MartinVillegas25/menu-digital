@@ -9,11 +9,9 @@ import { getAllClients, validateAdmin } from '../../../redux/actions';
 
 export default function ClientsTableHome() {
 	const dispatch = useDispatch();
-	// Estado de redux con todos los clientes
 	const allUsers = useSelector((state) => state.allUsers);
 
 	const validation = useSelector((state) => state.validation.msg);
-	// Array de todos los emails de clientes para poder enviar un mensaje general
 	const emailAddresses = allUsers.map((user) => user.email).join(';');
 	useEffect(() => {
 		dispatch(validateAdmin());
@@ -98,11 +96,11 @@ export default function ClientsTableHome() {
 					<div className="state-reference">
 						<div>
 							<BsCheckCircle className="check-icon" />
-							<p>Al dia</p>
+							<p>Activo</p>
 						</div>
 						<div>
 							<BsXCircle className="X-icon" />
-							<p>Deuda</p>
+							<p>Suspendido</p>
 						</div>
 					</div>
 				</div>

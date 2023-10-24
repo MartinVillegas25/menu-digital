@@ -142,7 +142,7 @@ export default function ClientMenu() {
 		e.preventDefault();
 		swal({
 			title: 'Activar',
-			text: `Esta seguro que desea eliminar la subcategoria ${subCategorySelected} ?`,
+			text: `Esta seguro que desea eliminar la subcategoria ${categorySelected} - ${subCategorySelected} ?`,
 			icon: 'warning',
 			buttons: ['No', 'Si']
 		}).then((respuesta) => {
@@ -151,7 +151,7 @@ export default function ClientMenu() {
 					deleteSubCategory(subCategorySelected, categorySelected, userEmail)
 				);
 				swal({
-					text: `Se ha eliminado la subcategoria ${subCategorySelected}`,
+					text: `Se ha eliminado la subcategoria ${categorySelected} - ${subCategorySelected}`,
 					icon: 'success'
 				});
 				setTimeout(function () {
@@ -166,24 +166,24 @@ export default function ClientMenu() {
 	return (
 		<main className="client-create-menu-container">
 			<div className="create-menu-container">
-				<h2 className="create-menu-tittle">Creacion del menu</h2>
-				<h4>Titulo del menu:</h4>
+				<h2 className="create-menu-tittle">Menu</h2>
 				<div>
-					<div className="create-menu-add-btn">
-						<span></span>
-						Añadir nueva categoria{' '}
-						<button onClick={handleCreateCateg}>
-							<MdAddCircle className="create-menu-add-icon" />
-						</button>
-					</div>
+					<h4 className="h4-menu">Nueva Categoria</h4>
 					<div className="create-menu-input">
 						<label htmlFor="">Titulo de la categoria: </label>
-						<input
-							type="text"
-							value={newCategory}
-							onChange={handleChangeCategory}
-						/>
+						<div className="section-form">
+							<input
+								type="text"
+								value={newCategory}
+								onChange={handleChangeCategory}
+							/>
+							<button className="btn-agregar" onClick={handleCreateCateg}>
+								<MdAddCircle className="create-menu-add-icon" />
+							</button>
+						</div>
 					</div>
+
+					<h4 className="h4-menu">Borrar Categoria</h4>
 					<div className="create-menu-input create-menu-select">
 						<div>
 							<label htmlFor="">Categorias existentes: </label>
@@ -208,17 +208,8 @@ export default function ClientMenu() {
 						</button>
 					</div>
 				</div>
+				<h4 className="h4-menu">Nueva Subcategoria</h4>
 				<div>
-					<button
-						className="create-menu-add-btn"
-						onClick={handleCreateSubCategory}
-					>
-						<span></span>
-						Añadir sub categoria
-						<span>
-							<MdAddCircle className="create-menu-add-icon" />
-						</span>
-					</button>
 					<div className="create-menu-input">
 						<label htmlFor="">Titulo de la categoria: </label>
 						<select name="" id="" onChange={handleselectCategoryToSub}>
@@ -235,12 +226,21 @@ export default function ClientMenu() {
 						</select>{' '}
 					</div>
 					<label htmlFor="">Añadir sub categoria: </label>
-					<input
-						type="text"
-						className="add-subC-input"
-						value={newSubCategory}
-						onChange={handleChangeSubCategory}
-					/>
+					<div className="section-form">
+						<input
+							type="text"
+							className="add-subC-input"
+							value={newSubCategory}
+							onChange={handleChangeSubCategory}
+						/>
+						<button className="btn-agregar" onClick={handleCreateSubCategory}>
+							<span>
+								<MdAddCircle className="create-menu-add-icon" />
+							</span>
+						</button>
+					</div>
+
+					<h4 className="h4-menu">Borrar Subcategoria</h4>
 
 					<div className="create-menu-input create-menu-select">
 						<div>
@@ -262,14 +262,8 @@ export default function ClientMenu() {
 						</button>
 					</div>
 				</div>
+				<h4 className="h4-menu">Agregar Producto</h4>
 				<div>
-					<button className="create-menu-add-btn" onClick={handleCreateProdcut}>
-						<span></span>
-						Añadir nuevo producto{' '}
-						<span>
-							<MdAddCircle className="create-menu-add-icon" />
-						</span>
-					</button>
 					<div className="create-menu-input">
 						<label htmlFor="">Categoria: </label>
 						<select
@@ -336,20 +330,17 @@ export default function ClientMenu() {
 							onChange={handleChange}
 						/>
 					</div>
+					<div className="btn-add-product">
+						<button
+							className="create-menu-add-product"
+							onClick={handleCreateProdcut}
+						>
+							<span>Agregar</span>
+						</button>
+					</div>
 				</div>
 			</div>
 			<div className="menu-mobile-admin">
-				{/* <h1>Nombre empresa</h1>
-				<div className="menu-mobile-admin-categories">
-					{categories?.map((c, index) => (
-						<button
-							className="menu-mobile-admin-btn"
-							key={c.nombre_categoria + index}
-						>
-							{c.nombre_categoria}
-						</button>
-					))}
-				</div> */}
 				<ClientMenuConfig />
 			</div>
 		</main>

@@ -109,8 +109,8 @@ export default function NavBar() {
 								<Link to="/admin">
 									<button className="navbar-btn">Administrador</button>
 								</Link>
-								<button className="navbar-btn" onClick={handleLogOut}>
-									Cerrar sesion
+								<button className="navbar-btn">
+									<a href="/">Cerrar sesion</a>
 								</button>
 							</div>
 						) : userType === 'local' ? (
@@ -118,8 +118,8 @@ export default function NavBar() {
 								<Link to={`/dashboard?email=${actualUser.email}`}>
 									<button className="navbar-btn">Dashboard</button>
 								</Link>
-								<button className="navbar-btn" onClick={handleLogOut}>
-									Cerrar sesion
+								<button className="navbar-btn">
+									<a href="/">Cerrar sesion</a>
 								</button>
 							</div>
 						) : (

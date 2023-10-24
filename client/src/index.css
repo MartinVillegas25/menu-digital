@@ -14,11 +14,12 @@ h3 {
 	font-family: 'Oswald', sans-serif;
 	font-weight: 500;
 	font-size: 28px;
+	text-transform: uppercase;
 }
 h4 {
 	font-family: 'Oswald', sans-serif;
 	font-weight: 500;
-	font-size: 25px;
+	font-size: 22px;
 }
 @media only screen and (max-width: 768px) {
 	h1 {
@@ -30,6 +31,7 @@ h4 {
 	h3,
 	h4 {
 		font-size: 18px;
+		text-transform: uppercase;
 	}
 }
 p,
@@ -71,6 +73,7 @@ body {
 	/* min-width: 320px;
 	min-height: 100vh; */
 }
+
 /* 
 h1 {
 	font-size: 3.2em;

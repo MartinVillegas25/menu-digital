@@ -70,6 +70,7 @@ export default function Pay() {
 							<option value="efectivo">Efectivo</option>
 							<option value="debito">Debito</option>
 							<option value="credito">Credito</option>
+							<option value="Mercado Pago">Mercado Pago</option>
 							<option value="otro">Otro</option>
 						</select>
 					</div>

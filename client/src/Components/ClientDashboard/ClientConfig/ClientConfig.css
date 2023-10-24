@@ -19,7 +19,15 @@
 	); /* Ajusta el valor de desenfoque según tus preferencias */
 	/* Asegúrate de que esté por encima del contenido */
 }
-
+.h4-plan {
+	background-color: #fff;
+	color: #ffa101;
+	line-height: 120px;
+	text-transform: uppercase;
+}
+button {
+	cursor: pointer;
+}
 .client-config-container {
 	height: 300px;
 	display: flex;
@@ -40,10 +48,10 @@
 
 .client-config-personal h3 {
 	color: #fff;
-	font-family: Outfit;
-	font-size: 24px;
+	text-transform: uppercase;
+
 	font-style: normal;
-	font-weight: 500;
+
 	line-height: normal;
 }
 
@@ -73,13 +81,18 @@
 }
 
 .client-config-btn {
-	width: 152px;
-	height: 50px;
+	width: 100%;
+	padding: 15px 20px;
 	flex-shrink: 0;
 	border-radius: 18px;
-	background: #fff;
-	color: #000;
-	font-weight: bold;
+	background: #ffa101;
+	color: #fff;
+	text-transform: uppercase;
+	border: none;
+}
+.client-config-btn:hover {
+	background-color: #fff;
+	color: #ffa101;
 }
 
 .client-config-qr-label {
@@ -172,6 +185,13 @@
 	text-align: center;
 	font-size: large;
 }
+.subs-btn-container-plan div {
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin: auto;
+}
 
 .client-plan-popup {
 	background-color: rgba(255, 255, 255, 1);
@@ -179,7 +199,8 @@
 	border: solid 4px orange;
 	color: #000;
 	width: 400px;
-	height: 150px;
+	height: auto;
+	max-height: 200px;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -208,4 +229,31 @@
 	color: white;
 	display: flex;
 	justify-content: center;
+}
+.precios-planes {
+	display: flex;
+	width: 100%;
+	max-width: 600px;
+	justify-content: space-around;
+	position: absolute;
+	bottom: 20px;
+}
+.precios-planes p {
+	font-size: 12px;
+}
+
+.subs-btn-newPlan {
+	background-color: #ffa101;
+	padding: 12px 0;
+	border: none;
+	color: #fff;
+	width: 100%;
+	min-width: 150px;
+	text-align: center;
+	margin-top: 10px;
+	border-radius: 10px;
+}
+.subs-btn-newPlan:hover {
+	background-color: #fff;
+	color: #ffa101;
 }

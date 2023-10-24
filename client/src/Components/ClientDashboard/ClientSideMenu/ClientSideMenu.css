@@ -9,6 +9,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	transition: all 2s ease;
 }
 
 .client-side-menu-web h1 {
@@ -31,6 +32,7 @@
 	margin-bottom: 40px;
 	width: max-content;
 	display: flex;
+	text-transform: uppercase;
 }
 
 .client-side-link :hover {
@@ -39,10 +41,10 @@
 
 .client-side-link a {
 	color: #000;
-	font-family: Outfit;
+
 	font-size: 20px;
 	font-style: normal;
-	font-weight: 700;
+
 	line-height: normal;
 	text-decoration: none;
 }
@@ -86,6 +88,8 @@
 	background: none;
 	border: none;
 	color: black;
+	cursor: pointer;
+	transition: all 1s ease-in-out;
 }
 
 .openSideBtn .menuBtn {
@@ -98,6 +102,8 @@
 	left: 20px;
 	background: none;
 	border: none;
+	cursor: pointer;
+	transition: all 0.5s ease-in-out;
 }
 .menuBtn {
 	width: 30px;
@@ -105,6 +111,14 @@
 	color: black;
 	background: none;
 	border: none;
+}
+
+.cambiarimg-btn {
+	background-color: #fff;
+	color: #ffa101;
+	height: 30px;
+	margin-top: 10px;
+	border: 1px solid #fff;
 }
 
 @media screen and (max-width: 850px) {
@@ -116,7 +130,7 @@
 		display: block;
 		position: fixed;
 		height: 60px;
-		background-color: orange;
+		background-color: #ffa101;
 		width: 100%;
 	}
 

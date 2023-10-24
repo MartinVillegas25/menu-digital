@@ -17,12 +17,11 @@ export default function AdminConfig() {
 	const dispatch = useDispatch();
 	const plans = useSelector((state) => state.plans);
 	const validation = useSelector((state) => state.validation.msg);
-	//Datos para las tablas de usuarios
 	const clientsToConfirm = useSelector((state) => state.clientsToConfirm);
 	const clientsToConfirmPlan = useSelector(
 		(state) => state.clientsToConfirmPlan
 	);
-	// Cambio de precio de planes
+
 	const [planStandardInput, setPlanStandardInput] = useState('');
 	const [planPremiumInput, setPlanPremiumInput] = useState('');
 
@@ -132,81 +131,79 @@ export default function AdminConfig() {
 				<h1>Usted no tiene acceso </h1>
 			) : (
 				<main className="admin-config-container">
-					<div>
-						<h3>Usuarios a confirmar el pago</h3>
-						<table className="act-table">
-							<thead className="">
-								<tr>
-									<th>Nombre</th>
-									<th>Mail</th>
-									<th>Activar</th>
-								</tr>
-							</thead>
-							<tbody className="act-table-body">
-								{clientsToConfirm?.map((c) => {
-									return (
-										<tr key={c.id}>
-											<td>{c.name}</td>
-											<td>{c.email}</td>
+					<div className="tablas">
+						<div className="primer-pago">
+							<h3>Usuarios a confirmar el pago</h3>
+							<table className="act-table">
+								<thead className="">
+									<tr>
+										<th>Mail</th>
+										<th>Activar</th>
+									</tr>
+								</thead>
+								<tbody className="act-table-body">
+									{clientsToConfirm?.map((c) => {
+										return (
+											<tr key={c.id}>
+												<td>{c.email}</td>
 
-											{c.pagoConfirmado === 0 ? (
-												<td>
-													<button
-														value={c.email}
-														onClick={handleConfirmPayment}
-													>
-														Confirmar
-													</button>
-												</td>
-											) : (
-												<td>Confirmado</td>
-											)}
-										</tr>
-									);
-								})}
-							</tbody>
-						</table>
-					</div>
-					<div>
-						<h3>Usuarios a confirmar el cambio de plan</h3>
-						<table className="act-table">
-							<thead className="">
-								<tr>
-									<th>Nombre</th>
-									<th>Mail</th>
-									<th>Activar</th>
-								</tr>
-							</thead>
-							<tbody className="act-table-body">
-								{clientsToConfirmPlan?.map((c) => {
-									return (
-										<tr key={c.id}>
-											<td>{c.name}</td>
-											<td>{c.email}</td>
+												{c.pagoConfirmado === 0 ? (
+													<td>
+														<button
+															value={c.email}
+															onClick={handleConfirmPayment}
+														>
+															Confirmar
+														</button>
+													</td>
+												) : (
+													<td>Confirmado</td>
+												)}
+											</tr>
+										);
+									})}
+								</tbody>
+							</table>
+						</div>
+						<div className="pago-plan">
+							<h3>Usuarios a confirmar el cambio de plan</h3>
+							<table className="act-table">
+								<thead className="">
+									<tr>
+										<th>Mail</th>
+										<th>Activar</th>
+									</tr>
+								</thead>
+								<tbody className="act-table-body">
+									{clientsToConfirmPlan?.map((c) => {
+										return (
+											<tr key={c.id}>
+												<td>{c.email}</td>
 
-											{c.pagoCambioPlan === 0 ? (
-												<td>
-													<button
-														value={c.email}
-														onClick={handleConfirmPlanChange}
-													>
-														Confirmar
-													</button>
-												</td>
-											) : (
-												<td>Confirmado</td>
-											)}
-										</tr>
-									);
-								})}
-							</tbody>
-						</table>
+												{c.pagoCambioPlan === 0 ? (
+													<td>
+														<button
+															value={c.email}
+															onClick={handleConfirmPlanChange}
+														>
+															Confirmar
+														</button>
+													</td>
+												) : (
+													<td>Confirmado</td>
+												)}
+											</tr>
+										);
+									})}
+								</tbody>
+							</table>
+						</div>
 					</div>
 					<div></div>
 					<div className="admin-functions-panel">
 						<div className="admin-functions-panel-container">
 							<div className="admin-changedata">
-								<h2>Modificar precio de planes</h2>
+								<h3>Modificar precio de planes</h3>
 								<div>
 									<label>Estandar: </label>
 									<input

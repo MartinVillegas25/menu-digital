@@ -119,7 +119,7 @@ export default function ClientConfig() {
 						<div className="client-data-popup-btn">
 							<button onClick={handlepopUp}>X</button>
 						</div>
-						<h1>Modificar datos</h1>
+						<h3>Modificar datos</h3>
 						<label htmlFor="">Nuevo nombre del local:</label>
 						<input
 							type="text"
@@ -170,7 +170,7 @@ export default function ClientConfig() {
 
 					<div className="client-config-plan">
 						<h3>Plan adquirido</h3>
-						<h4>{user?.plan}</h4>
+						<h4 className="h4-plan">{user?.plan}</h4>
 						<button className="client-config-btn" onClick={handlePlanPopUp}>
 							Actualizar plan
 						</button>
@@ -201,21 +201,28 @@ export default function ClientConfig() {
 						<option value="premium">Premium</option>
 					</select>
 				</div>
-				<div className="subs-btn-container">
+				<div className="subs-btn-container-plan">
 					{newPlan === 'standard' ? (
 						<div>
-							<button onClick={handleSubmitNewPlan} className="subs-btn">
-								Actualizar plan
-							</button>
-							<a
-								// eslint-disable-next-line react/no-unknown-property
-								mp-mode="dftl"
-								href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848ae746f0018af1220de80617"
-								name="MP-payButton"
-								className="subs-btn"
-							>
-								Continuar a pago
-							</a>
+							<div>
+								<button
+									onClick={handleSubmitNewPlan}
+									className="subs-btn-newPlan"
+								>
+									Actualizar plan
+								</button>
+							</div>
+							<div>
+								<a
+									// eslint-disable-next-line react/no-unknown-property
+									mp-mode="dftl"
+									href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848ae746f0018af1220de80617"
+									name="MP-payButton"
+									className="subs-btn-newPlan"
+								>
+									Continuar a pago
+								</a>
+							</div>
 
 							<script type="text/javascript">
 								{(function () {
@@ -257,7 +264,10 @@ export default function ClientConfig() {
 						</div>
 					) : newPlan === 'premium' ? (
 						<div>
-							<button onClick={handleSubmitNewPlan} className="subs-btn">
+							<button
+								onClick={handleSubmitNewPlan}
+								className="subs-btn-newPlan"
+							>
 								Actualizar plan
 							</button>
 							<a
@@ -265,7 +275,7 @@ export default function ClientConfig() {
 								mp-mode="dftl"
 								href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af994d0018b02039da906a5"
 								name="MP-payButton"
-								className="subs-btn"
+								className="subs-btn-newPlan"
 							>
 								Continuar a pago
 							</a>
@@ -307,10 +317,11 @@ export default function ClientConfig() {
 					)}
 				</div>
 			</div>
-			<p>Precio de los planes:</p>
-			<p>Basico: Gratuito</p>
-			<p>Estandar: ${plans.standard}</p>
-			<p>Premuim: ${plans.premium}</p>
+			<div className="precios-planes">
+				<p>Basico: Gratuito</p>
+				<p>Estandar: ${plans.standard}</p>
+				<p>Premuim: ${plans.premium}</p>
+			</div>
 		</main>
 	);
 }

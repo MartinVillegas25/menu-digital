@@ -2,7 +2,7 @@ import './AllClientsTable.css';
 import { BsCheckCircle } from 'react-icons/bs';
 import { BsXCircle } from 'react-icons/bs';
 import { VscMail } from 'react-icons/vsc';
-import grafico from '../../../assets/grTorta.png';
+// import grafico from '../../../assets/grTorta.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
@@ -17,11 +17,9 @@ import swal from 'sweetalert';
 
 export default function AllClientsTable() {
 	const dispatch = useDispatch();
-	// Estado de redux con todos los usuarios cargados
 	const allUsers = useSelector((state) => state.allUsers);
 
 	const validation = useSelector((state) => state.validation.msg);
-	// Array con todos los mails de los usuarios para poder mandar un mensaje general
 	const emailAddresses = allUsers.map((user) => user.email).join(';');
 
 	const handleSubmitSuspend = (e) => {
@@ -89,21 +87,21 @@ export default function AllClientsTable() {
 				<h1> Usted no tiene acceso</h1>
 			) : (
 				<main className="act-container">
-					<div className="act-page">
-						<div className="act-total-clients">
-							<div className="act-graf">
+					{/* <div className="act-graf">
 								<img src={grafico} alt="" className="graf" />
-							</div>
-							<div>
-								<h1>{allUsers?.length}</h1>
-								<h2>Total Clientes</h2>
-							</div>
-						</div>
-					</div>
+							</div> */}
+
+					<h2>
+						TOTAL CLIENTES
+						<span className="total-clients">
+							{' '}
+							<br />
+							{allUsers?.length}
+						</span>
+					</h2>
 
 					<div className="act-table-container">
 						<div className="act-title">
-							<h3>Total clientes</h3>
 							<div className="act-table-filters">
 								<div>
 									<button

@@ -97,7 +97,9 @@ export default function ClientSideMenu() {
 						</div>
 						<div className="client-side-img">
 							<img src={dataLocal?.img} alt="" />
-							<button onClick={handleOpenInput}>Cambiar imagen</button>
+							<button className="cambiarimg-btn" onClick={handleOpenInput}>
+								Cambiar imagen
+							</button>
 							{imgInput ? (
 								<div className="admin-side-img-change">
 									<input
@@ -106,7 +108,9 @@ export default function ClientSideMenu() {
 										accept="image/*"
 										onChange={handleImg}
 									/>
-									<button onClick={handleSubmit}>Cambiar</button>
+									<button className="cambiarimg-btn" onClick={handleSubmit}>
+										Cambiar
+									</button>
 								</div>
 							) : (
 								<div></div>

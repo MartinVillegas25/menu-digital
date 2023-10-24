@@ -27,7 +27,7 @@ export default function AdminMenu() {
 						</div>
 						<div className={`${open ? 'panel-open' : 'panel-closed'}`}>
 							<a href="">Mi perfil</a>
-							<button>Cerrar sesion</button>
+							<a href="/">Cerrar sesion</a>
 						</div>
 					</div>
 				</div>

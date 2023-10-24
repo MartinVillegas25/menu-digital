@@ -109,7 +109,9 @@ export function logOutUser() {
 				'x-token': token
 			};
 			axios
-				.get('http://localhost:3000/logout', { headers })
+				.get('http://localhost:3000/logout', {
+					headers
+				})
 				.then((response) => {
 					return dispatch({
 						type: LOG_OUT,
@@ -198,7 +200,6 @@ export function confirmUserPayment(payload) {
 					headers
 				})
 				.then((response) => {
-					console.log(payload);
 					return dispatch({
 						type: CONFIRM_USER_PAYMENT,
 						payload: response.data

@@ -28,7 +28,7 @@ h2.h2-login {
 
 img.login-img {
 	width: 300px;
-	height: auto;
+	height: 100%;
 	border: none;
 }
 

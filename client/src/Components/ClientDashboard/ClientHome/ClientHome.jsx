@@ -71,7 +71,21 @@ export default function ClientHome() {
 				document.getElementById('lblTicket4').innerText = payload[email][3];
 			}
 		});
+
+		// Actualizar los datos de la tabla cada un minuto
+		const updateTableData = () => {
+			dispatch(getPedidos());
+		};
+
+		// Llamar a la función de actualización cada 1 minuto
+		const intervalId = setInterval(updateTableData, 60000);
+
+		// Limpieza del intervalo al desmontar el componente
+		return () => {
+			clearInterval(intervalId);
+		};
 	}, []);
+
 	const pedidos = useSelector((state) => state.pedidos.pedidos);
 
 	const handleDelete = (e) => {
@@ -156,55 +170,49 @@ export default function ClientHome() {
 						}
 					>
 						<div>
-							<h1>SALA</h1>
-							<button onClick={handleCheckAlert}>Alerta Vista</button>
+							<button className="alert-btn" onClick={handleCheckAlert}>
+								Alerta Vista
+							</button>
+
 							<table>
 								<tbody>
 									<tr>
+										<td valign="middle" className="ticket-actual">
+											<span
+												id="lblTicket1"
+												className="ticket-actual-numero"
+											></span>
+											<span
+												id="lblEscritorio1"
+												className="ticket-actual-escritorio"
+											></span>
+										</td>
+									</tr>
+									<tr>
 										<td>
-											<table>
-												<tbody>
-													<tr>
-														<td valign="middle" className="ticket-actual">
-															<span
-																id="lblTicket1"
-																className="ticket-actual-numero"
-															></span>
-															<span
-																id="lblEscritorio1"
-																className="ticket-actual-escritorio"
-															></span>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<span
-																id="lblTicket2"
-																className="ticket-secundario"
-															></span>
-															<span id="lblEscritorio2"></span>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<span
-																id="lblTicket3"
-																className="ticket-secundario"
-															></span>
-															<span id="lblEscritorio3"></span>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<span
-																id="lblTicket4"
-																className="ticket-secundario"
-															></span>
-															<span id="lblEscritorio4"></span>
-														</td>
-													</tr>
-												</tbody>
-											</table>
+											<span
+												id="lblTicket2"
+												className="ticket-secundario"
+											></span>
+											<span id="lblEscritorio2"> </span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span
+												id="lblTicket3"
+												className="ticket-secundario"
+											></span>
+											<span id="lblEscritorio3"></span>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span
+												id="lblTicket4"
+												className="ticket-secundario"
+											></span>
+											<span id="lblEscritorio4"></span>
 										</td>
 									</tr>
 								</tbody>

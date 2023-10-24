@@ -3,6 +3,7 @@ import './ClientMenu.css';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MdAddCircle } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {
 	createCategory,
 	createProduct,
@@ -15,9 +16,13 @@ import {
 import swal from 'sweetalert';
 import { useEffect, useState } from 'react';
 import ClientMenuConfig from './ClientMenuConfig';
+import { useLocation } from 'react-router-dom';
 
 export default function ClientMenu() {
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const userEmail = searchParams.get('email');
 	useEffect(() => {
 		dispatch(getCategories());
 	}, []);
@@ -32,6 +37,7 @@ export default function ClientMenu() {
 		dispatch(createCategory({ nombre_categoria: newCategory }));
 		setNewCategory('');
 		setCategorySelected('');
+		window.location.reload(true);
 	};
 
 	const [categorySelected, setCategorySelected] = useState('');
@@ -72,6 +78,7 @@ export default function ClientMenu() {
 		);
 		setCategorySelected('');
 		setNewCategory('');
+		window.location.reload(true);
 	};
 
 	const [subCategorySelected, setSubCategorySelected] = useState('');
@@ -96,7 +103,7 @@ export default function ClientMenu() {
 	};
 	const handleCreateProdcut = (e) => {
 		dispatch(createProduct(input));
-		console.log(input);
+
 		setInput({
 			nombre: '',
 			categoria: '',
@@ -104,6 +111,7 @@ export default function ClientMenu() {
 			precio: 0,
 			img: ''
 		});
+		window.location.reload(true);
 	};
 
 	const handleDeleteCategory = (e) => {
@@ -115,7 +123,8 @@ export default function ClientMenu() {
 			buttons: ['No', 'Si']
 		}).then((respuesta) => {
 			if (respuesta) {
-				dispatch(deleteCategory({ nombre_categoria: categorySelected }));
+				dispatch(deleteCategory(categorySelected, userEmail));
+
 				swal({
 					text: `Se ha eliminado la categoria ${categorySelected}`,
 					icon: 'success'
@@ -139,7 +148,7 @@ export default function ClientMenu() {
 		}).then((respuesta) => {
 			if (respuesta) {
 				dispatch(
-					deleteSubCategory({ nombre_subcategoria: subCategorySelected })
+					deleteSubCategory(subCategorySelected, categorySelected, userEmail)
 				);
 				swal({
 					text: `Se ha eliminado la subcategoria ${subCategorySelected}`,

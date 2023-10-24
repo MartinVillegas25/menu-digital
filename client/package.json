@@ -10,18 +10,12 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@dnd-kit/core": "^6.0.8",
-		"@dnd-kit/sortable": "^7.0.2",
-		"@dnd-kit/utilities": "^3.2.1",
 		"axios": "^1.4.0",
 		"html2canvas": "^1.4.1",
-		"html2pdf.js": "^0.10.1",
 		"jspdf": "^2.5.1",
-		"pdfmake": "^0.2.7",
 		"qrcode.react": "^3.1.0",
 		"query-string": "^8.1.0",
 		"react": "^18.2.0",
-		"react-beautiful-dnd": "^13.1.1",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.10.1",
 		"react-pdf": "^7.4.0",

@@ -15,7 +15,8 @@ import {
 	REMOVE_FROM_MINICART,
 	GET_PEDIDOS,
 	GET_CLIENTS_TO_CONFIRM,
-	GET_CLIENTS_TO_CONFIRM_PLAN
+	GET_CLIENTS_TO_CONFIRM_PLAN,
+	GET_PLAN_TO_MENU
 } from './actions';
 
 let initialState = {
@@ -34,7 +35,8 @@ let initialState = {
 	actualUser: {},
 	pedidos: [],
 	clientsToConfirm: [],
-	clientsToConfirmPlan: []
+	clientsToConfirmPlan: [],
+	planToMenu: ''
 };
 
 function rootReducer(state = initialState, action) {
@@ -132,6 +134,11 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				productsAdeedToMinicart: filteredProducts
+			};
+		case GET_PLAN_TO_MENU:
+			return {
+				...state,
+				planToMenu: action.payload
 			};
 		default:
 			return state;

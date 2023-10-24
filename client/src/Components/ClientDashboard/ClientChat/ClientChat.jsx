@@ -1,16 +1,25 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
+import { getLocalData } from '../../../redux/actions';
 const socket = io();
 
 export default function ClientChat() {
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
+	const dispatch = useDispatch();
 	const usuario = {
 		email: searchParams.get('email'),
 		mesa: 'Local'
 	};
+
+	const userEmail = searchParams.get('email');
+	useEffect(() => {
+		dispatch(getLocalData(userEmail));
+	}, []);
+	const user = useSelector((state) => state.localData.usuario);
 
 	const divUsuarios = document.querySelector('#divUsuarios');
 	const formEnviar = document.querySelector('#formEnviar');
@@ -146,62 +155,71 @@ export default function ClientChat() {
 
 	return (
 		<div className="container-fluid">
-			<div className="row animated fadeIn">
-				<div className="col-12">
-					<div className="card m-b-0">
-						<div className="chat-main-box">
-							<div className="chat-left-aside">
-								<div className="open-panel">
-									<i className="ti-angle-right"></i>
-								</div>
-								<div className="chat-left-inner">
-									<ul className="chatonline style-none" id="divUsuarios">
-										{' '}
-									</ul>
-								</div>
-							</div>
-
-							<div className="chat-right-aside">
-								<div className="chat-main-header">
-									<div className="p-20 b-b">
-										<h3 className="box-title">Sala de Chat </h3>
+			{user?.plan === 'basic' || user?.plan === 'standard' ? (
+				<div>
+					<h2>Actualice su plan a Premium para usar esta funcion</h2>
+					<button>
+						<a href={`/dashboard?email=${user.email}`}>Volver</a>
+					</button>
+				</div>
+			) : (
+				<div className="row animated fadeIn">
+					<div className="col-12">
+						<div className="card m-b-0">
+							<div className="chat-main-box">
+								<div className="chat-left-aside">
+									<div className="open-panel">
+										<i className="ti-angle-right"></i>
+									</div>
+									<div className="chat-left-inner">
+										<ul className="chatonline style-none" id="divUsuarios">
+											{' '}
+										</ul>
 									</div>
 								</div>
 
-								<div className="chat-rbox">
-									<ul className="chat-list p-20" id="divChatbox"></ul>
-								</div>
-								<div className="card-body b-t">
-									<form id="formEnviar">
-										<div className="row">
-											<div className="col-8">
-												<input
-													autoComplete="off"
-													id="txtMensaje"
-													placeholder="Escribe tu mensaje aquí"
-													className="form-control b-0"
-													autoFocus
-												/>
-											</div>
-											<div className="col-4 text-right">
-												<button
-													type="submit"
-													className="btn btn-info btn-circle"
-													onClick={handleSubmit}
-												>
-													Enviar
-												</button>
-											</div>
+								<div className="chat-right-aside">
+									<div className="chat-main-header">
+										<div className="p-20 b-b">
+											<h3 className="box-title">Sala de Chat </h3>
 										</div>
-									</form>
+									</div>
+
+									<div className="chat-rbox">
+										<ul className="chat-list p-20" id="divChatbox"></ul>
+									</div>
+									<div className="card-body b-t">
+										<form id="formEnviar">
+											<div className="row">
+												<div className="col-8">
+													<input
+														autoComplete="off"
+														id="txtMensaje"
+														placeholder="Escribe tu mensaje aquí"
+														className="form-control b-0"
+														autoFocus
+													/>
+												</div>
+												<div className="col-4 text-right">
+													<button
+														type="submit"
+														className="btn btn-info btn-circle"
+														onClick={handleSubmit}
+													>
+														Enviar
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+									{renderizarMensajes()}
+									{renderizarUsuarios()}
 								</div>
-								{renderizarMensajes()}
-								{renderizarUsuarios()}
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }

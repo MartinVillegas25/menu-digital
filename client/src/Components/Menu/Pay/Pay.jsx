@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Pay.css';
 import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPlanToMenu } from '../../../redux/actions';
 
 const socket = io();
 
 export default function Pay() {
 	const [nombre, setNombre] = useState('');
 	const [payMethod, setPayMethod] = useState('');
-
+	const dispatch = useDispatch();
 	const handleSetName = (e) => {
 		setNombre(e.target.value);
 	};
@@ -45,32 +47,43 @@ export default function Pay() {
 		);
 	};
 
+	useEffect(() => {
+		dispatch(getPlanToMenu(usuario.email));
+	}, []);
+	const plan = useSelector((state) => state.planToMenu);
+
 	return (
 		<div className="pay-container">
-			<div className="pay-username">
-				<label htmlFor="">Indique su nombre para continuar</label>
-				<input type="text" value={nombre} onChange={handleSetName} />
-			</div>
-
-			<div className="payment-type-container">
-				<h2>Seleccione el metodo de pago</h2>
-				<select name="payment-type" id="" onClick={handleSetMethod}>
-					<option value="-">-</option>
-					<option value="efectivo">Efectivo</option>
-					<option value="debito">Debito</option>
-					<option value="credito">Credito</option>
-					<option value="otro">Otro</option>
-				</select>
-			</div>
-
-			{nombre === '' || payMethod === '' || payMethod === '-' ? (
-				<div>Ingrese su nombre y el metodo de pago</div>
+			{plan === 'basic' ? (
+				<div>Funcionalidad sin acceso</div>
 			) : (
-				<button className="payment-btn" onClick={handleSubmit}>
-					Pedir la cuenta
-				</button>
+				<div>
+					<div className="pay-username">
+						<label htmlFor="">Indique su nombre para continuar</label>
+						<input type="text" value={nombre} onChange={handleSetName} />
+					</div>
+
+					<div className="payment-type-container">
+						<h2>Seleccione el metodo de pago</h2>
+						<select name="payment-type" id="" onClick={handleSetMethod}>
+							<option value="-">-</option>
+							<option value="efectivo">Efectivo</option>
+							<option value="debito">Debito</option>
+							<option value="credito">Credito</option>
+							<option value="otro">Otro</option>
+						</select>
+					</div>
+
+					{nombre === '' || payMethod === '' || payMethod === '-' ? (
+						<div>Ingrese su nombre y el metodo de pago</div>
+					) : (
+						<button className="payment-btn" onClick={handleSubmit}>
+							Pedir la cuenta
+						</button>
+					)}
+					<a href="">Volver al menú</a>
+				</div>
 			)}
-			<a href="">Volver al menú</a>
 		</div>
 	);
 }

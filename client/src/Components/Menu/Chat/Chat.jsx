@@ -1,9 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import io from 'socket.io-client';
+import { getPlanToMenu } from '../../../redux/actions';
 const socket = io();
 export default function Chat() {
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	console.log('searchParams:', searchParams.toString()); // Verifica qué parámetros de consulta se están pasando
@@ -135,64 +139,73 @@ export default function Chat() {
 		);
 	};
 
+	useEffect(() => {
+		dispatch(getPlanToMenu(usuario.email));
+	}, []);
+	const plan = useSelector((state) => state.planToMenu);
+
 	return (
 		<div>
-			<div className="row animated fadeIn">
-				<div className="col-12">
-					<div className="card m-b-0">
-						<div className="chat-main-box">
-							<div className="chat-left-aside">
-								<div className="open-panel">
-									<i className="ti-angle-right"></i>
-								</div>
-								<div className="chat-left-inner">
-									<ul className="chatonline style-none" id="divUsuarios">
-										{' '}
-									</ul>
-								</div>
-							</div>
-
-							<div className="chat-right-aside">
-								<div className="chat-main-header">
-									<div className="p-20 b-b">
-										<h3 className="box-title">Sala de Chat</h3>
+			{plan === 'basic' || plan === 'standard' ? (
+				<div>Funcionalidad sin acceso</div>
+			) : (
+				<div className="row animated fadeIn">
+					<div className="col-12">
+						<div className="card m-b-0">
+							<div className="chat-main-box">
+								<div className="chat-left-aside">
+									<div className="open-panel">
+										<i className="ti-angle-right"></i>
+									</div>
+									<div className="chat-left-inner">
+										<ul className="chatonline style-none" id="divUsuarios">
+											{' '}
+										</ul>
 									</div>
 								</div>
 
-								<div className="chat-rbox">
-									<ul className="chat-list p-20" id="divChatbox"></ul>
-								</div>
-								<div className="card-body b-t">
-									<form id="formEnviar" onSubmit={handleSubmit}>
-										<div className="row">
-											<div className="col-8">
-												<input
-													autoComplete="off"
-													id="txtMensaje"
-													placeholder="Escribe tu mensaje aquí"
-													className="form-control b-0"
-													autoFocus
-												/>
-											</div>
-											<div className="col-4 text-right">
-												<button
-													type="submit"
-													className="btn btn-info btn-circle"
-												>
-													{' '}
-													Enviar{' '}
-												</button>
-											</div>
+								<div className="chat-right-aside">
+									<div className="chat-main-header">
+										<div className="p-20 b-b">
+											<h3 className="box-title">Sala de Chat</h3>
 										</div>
-									</form>
-									{renderizarUsuarios()}
-									{renderizarMensajes()}
+									</div>
+
+									<div className="chat-rbox">
+										<ul className="chat-list p-20" id="divChatbox"></ul>
+									</div>
+									<div className="card-body b-t">
+										<form id="formEnviar" onSubmit={handleSubmit}>
+											<div className="row">
+												<div className="col-8">
+													<input
+														autoComplete="off"
+														id="txtMensaje"
+														placeholder="Escribe tu mensaje aquí"
+														className="form-control b-0"
+														autoFocus
+													/>
+												</div>
+												<div className="col-4 text-right">
+													<button
+														type="submit"
+														className="btn btn-info btn-circle"
+													>
+														{' '}
+														Enviar{' '}
+													</button>
+												</div>
+											</div>
+										</form>
+										{renderizarUsuarios()}
+										{renderizarMensajes()}
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }

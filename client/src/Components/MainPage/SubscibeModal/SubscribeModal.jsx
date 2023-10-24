@@ -81,8 +81,6 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 			alert('Ingrese su país');
 		} else if (input.localidad.trim() === '') {
 			alert('Ingrese su localidad');
-		} else if (input.tipo.trim() === '') {
-			alert('Ingrese el tipo de comercio que quiere adherir');
 		}
 
 		// Si no hay errores, despachar la acción de registrar el usuario

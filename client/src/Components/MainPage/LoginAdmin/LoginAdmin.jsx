@@ -13,6 +13,11 @@ export default function LoginAdmin() {
 		img: ''
 	});
 
+	const [repeatPass, setRepeatPass] = useState('');
+	const handleRepeatPass = (e) => {
+		setRepeatPass(e.target.value);
+	};
+
 	const handleChange = (e) => {
 		setInput({
 			...input,
@@ -21,8 +26,27 @@ export default function LoginAdmin() {
 	};
 
 	const handleSubmit = (e) => {
+		console.log(input);
 		e.preventDefault();
+		const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+		if (input.name.trim() === '') {
+			alert('Por favor complete su nombre');
+			return;
+		} else if (input.email.trim() === '') {
+			alert('Por favor ingrese su email');
+			return;
+		} else if (!emailRegex.test(input.email)) {
+			alert('Email no válido');
+			return;
+		} else if (input.password.trim() === '') {
+			alert('Ingrese una contraseña');
+			return;
+		} else if (input.password.trim() !== repeatPass) {
+			alert('Las contraseñas no coinciden');
+			return;
+		}
 		dispatch(createAdmin(input));
+		window.location.href = '/';
 	};
 
 	return (
@@ -56,7 +80,13 @@ export default function LoginAdmin() {
 						onChange={handleChange}
 					/>
 					<label htmlFor="">Confirmar Password</label>
-					<input type="password" name="" id="" />
+					<input
+						type="password"
+						name=""
+						id=""
+						value={repeatPass}
+						onChange={handleRepeatPass}
+					/>
 					<button className="submit-login" onClick={handleSubmit}>
 						Enviar
 					</button>

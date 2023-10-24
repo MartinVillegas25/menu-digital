@@ -39,6 +39,7 @@ export const CONFIRM_USER_PAYMENT = 'CONFIRM_USER_PAYMENT';
 export const GET_CLIENTS_TO_CONFIRM_PLAN = 'GET_CLIENTS_TO_CONFIRM_PLAN';
 export const CONFIRM_USER_NEW_PLAN = 'CONFIRM_USER_NEW_PLAN';
 export const SET_PRICE = 'SET_PRICE';
+export const GET_PLAN_TO_MENU = 'GET_PLAN_TO_MENU';
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
 // Funcion para el registro del usuario, en el cual, detalla sus datos y elige el tipo de plan a adquirir.
@@ -607,26 +608,17 @@ export function createProduct(payload) {
 }
 
 // Funcion para eliminar categoria
-export function deleteCategory(categoria) {
+export function deleteCategory(categoria, email) {
 	return async function (dispatch) {
 		try {
-			console.log('entrando');
-			console.log(categoria);
-			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
-
-			const headers = {
-				'x-token': token
-			};
 			axios
 				.delete(
-					'http://localhost:3000/dashboard/items/borrar-categoria',
-					categoria,
-					{
-						headers
-					}
+					`http://localhost:3000/dashboard/items/borrar-categoria?email=${email}&categoria=${categoria}`
+
+					// { headers }
 				)
 				.then((response) => {
-					console.log(response.data);
+					console.log(response);
 					return dispatch({
 						type: DELETE_CATEGORY,
 						payload: response.data
@@ -638,22 +630,12 @@ export function deleteCategory(categoria) {
 	};
 }
 // Funcion para eliminar subcategoria
-export function deleteSubCategory(payload) {
+export function deleteSubCategory(subcategoria, categoria, email) {
 	return async function (dispatch) {
 		try {
-			console.log('aca');
-			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
-
-			const headers = {
-				'x-token': token
-			};
 			axios
 				.delete(
-					`http://localhost:3000/dashboard/items/borrar-subcategoria`,
-					{
-						headers
-					},
-					payload
+					`http://localhost:3000/dashboard/items/borrar-subcategoria?email=${email}&categoria=${categoria}&subcategoria=${subcategoria}`
 				)
 				.then((response) => {
 					console.log('aca');
@@ -697,7 +679,7 @@ export function deleteProduct(payload) {
 
 //Funcion para editar los datos de un producto
 
-export function modifyProduct(payload, id) {
+export function modifyProduct(id, payload) {
 	return async function (dispatch) {
 		try {
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
@@ -822,7 +804,7 @@ export function ordering(email, mesa, payload) {
 }
 
 //Funcion para eliminar pedido
-//localhost:3000/liberar-pedido?mesa=12&nombre=juan
+
 export function deletePedido(mesa, nombre) {
 	return async function (dispatch) {
 		try {
@@ -841,6 +823,24 @@ export function deletePedido(mesa, nombre) {
 				.then((response) => {
 					return dispatch({
 						type: DELETE_PEDIDOS,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+//Funcion para traer el plan del cliente desde el menu
+export function getPlanToMenu(email) {
+	return async function (dispatch) {
+		try {
+			axios
+				.get(`http://localhost:3000/menu?email=${email}`)
+				.then((response) => {
+					return dispatch({
+						type: GET_PLAN_TO_MENU,
 						payload: response.data
 					});
 				});

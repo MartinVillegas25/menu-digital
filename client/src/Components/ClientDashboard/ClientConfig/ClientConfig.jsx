@@ -16,7 +16,6 @@ export default function ClientConfig() {
 	const user = useSelector((state) => state.localData.usuario);
 	// Precio de planes
 	const plans = useSelector((state) => state.plans);
-	console.log(plans);
 
 	useEffect(() => {
 		if (user) {

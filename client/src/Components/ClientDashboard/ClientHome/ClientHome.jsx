@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import swal from 'sweetalert';
 
 const socket = io();
+//const socket = io('https://menu-didactico.up.railway.app/');
 export default function ClientHome() {
 	const [popUp, setPopUp] = useState(false);
 	const [selectedPedidoId, setSelectedPedidoId] = useState(null);
+
 	// Funcion para cuando llega una nueva notificacion
 	const [newAlert, setNewAlert] = useState(false);
 	const handleNewAlert = () => {
@@ -21,6 +23,7 @@ export default function ClientHome() {
 	};
 
 	const handleOpenPopUp = (orderId) => {
+		console.log(orderId);
 		setSelectedPedidoId(orderId);
 		setPopUp(!popUp);
 	};
@@ -87,11 +90,12 @@ export default function ClientHome() {
 	}, []);
 
 	const pedidos = useSelector((state) => state.pedidos.pedidos);
+	console.log(pedidos);
 
 	const handleDelete = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Eliminar',
 			text: 'Esta seguro que desea liberar la mesa?',
 			icon: 'warning',
 			buttons: ['No', 'Si']

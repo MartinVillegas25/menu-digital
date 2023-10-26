@@ -38,7 +38,7 @@ export default function Cart() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Enviar',
 			text: 'Desea enviar este pedido?',
 			icon: 'warning',
 			buttons: ['No', 'Si']

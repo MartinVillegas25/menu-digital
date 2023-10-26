@@ -1,11 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './LoginAdmin.css';
 import { useState } from 'react';
 import { createAdmin } from '../../../redux/actions';
 
 export default function LoginAdmin() {
 	const dispatch = useDispatch();
+	const newAdmin = useSelector((state) => state.newAdmin);
+	console.log(newAdmin.msg);
 	const [input, setInput] = useState({
 		name: '',
 		email: '',
@@ -46,7 +48,6 @@ export default function LoginAdmin() {
 			return;
 		}
 		dispatch(createAdmin(input));
-		window.location.href = '/';
 	};
 
 	return (
@@ -55,6 +56,11 @@ export default function LoginAdmin() {
 			<div className="form-loginadmin">
 				<form action="">
 					<h2 className="h2-login">Crea un Administrador</h2>
+					{newAdmin?.msg === 'email existente' ? (
+						<h3>Usuario ya existente</h3>
+					) : (
+						<div></div>
+					)}
 					<label htmlFor="">Nombre</label>
 					<input
 						type="text"

@@ -5,11 +5,11 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { VscSignOut } from 'react-icons/vsc';
 
 import logo from '../../../assets/logos/Logo1.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeLocalImg } from '../../../redux/actions';
+import { changeLocalImg, getLocalData } from '../../../redux/actions';
 import swal from 'sweetalert';
 
 export default function ClientSideMenu() {
@@ -17,6 +17,10 @@ export default function ClientSideMenu() {
 	const searchParams = new URLSearchParams(location.search);
 	const userEmail = searchParams.get('email');
 	// Datos del cliente
+
+	useEffect(() => {
+		dispatch(getLocalData(userEmail));
+	}, []);
 	const dataLocal = useSelector((state) => state.localData.usuario);
 
 	const dispatch = useDispatch();
@@ -38,7 +42,7 @@ export default function ClientSideMenu() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Modificar',
 			text: 'Esta seguro que desea  cambiar la imagen de perfil?',
 			icon: 'warning',
 			buttons: ['No', 'Si']
@@ -97,6 +101,7 @@ export default function ClientSideMenu() {
 						</div>
 						<div className="client-side-img">
 							<img src={dataLocal?.img} alt="" />
+
 							<button className="cambiarimg-btn" onClick={handleOpenInput}>
 								Cambiar imagen
 							</button>

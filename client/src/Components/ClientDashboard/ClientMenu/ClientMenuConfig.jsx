@@ -23,7 +23,6 @@ export default function ClientMenuConfig() {
 		dispatch(getProducts(email));
 	}, []);
 	const products = useSelector((state) => state.localProducts);
-	console.log(products);
 
 	const categories = useSelector((state) => state.menuCategories.categorias);
 
@@ -38,7 +37,7 @@ export default function ClientMenuConfig() {
 	const handleDeleteProduct = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Eliminar',
 			text: 'Desea eliminar este producto?',
 			icon: 'warning',
 			buttons: ['No', 'Si']
@@ -60,46 +59,48 @@ export default function ClientMenuConfig() {
 
 	const handleEditPopUp = (product) => {
 		setSelectedProductForEdit(product);
+		console.log(product);
+
+		setInput({
+			nombre: product.nombre || '', // Agrega el valor del nombre del producto
+			precio: product.precio || 0, // Agrega el valor del precio del producto
+			img: product.img || null
+		});
 	};
 
-	const [nombre, setNombre] = useState('');
-	const [precio, setPrecio] = useState(0);
-	const [image, setImage] = useState(null);
+	const [input, setInput] = useState({
+		nombre: '',
+		precio: 0,
+		img: null // Use null initially
+	});
 
-	const handleChangeNombre = (e) => {
-		setNombre(e.target.value);
+	const handleChangeImg = (e) => {
+		setInput({ ...input, img: e.target.files[0] });
 	};
 
-	const handleChangePrecio = (e) => {
-		setPrecio(e.target.value);
-	};
-
-	const handleImg = (e) => {
-		// Handle the file input change and store the selected file
-		setImage(e.target.files[0]);
+	const handleChangeProduct = (e) => {
+		setInput((prevInput) => ({
+			...prevInput,
+			[e.target.name]: e.target.value
+		}));
 	};
 
 	const handleSubmitChanges = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Modificar',
 			text: 'Desea modificar este producto?',
 			icon: 'warning',
 			buttons: ['No', 'Si']
 		}).then((respuesta) => {
 			if (respuesta) {
-				// Create a FormData object to send the image
 				const formData = new FormData();
+				formData.append('nombre', input.nombre);
+				formData.append('precio', input.precio);
+				formData.append('img', input.img); // You can append the image to the FormData
+				console.log(formData);
 
-				formData.append('img', image);
-
-				dispatch(
-					modifyProduct(selectedProductForEdit.id, {
-						nombre: nombre,
-						precio: precio,
-						img: formData
-					})
-				);
+				dispatch(modifyProduct(selectedProductForEdit.id, formData));
 				swal({
 					text: `Se ha modificado el producto`,
 					icon: 'success'
@@ -192,29 +193,30 @@ export default function ClientMenuConfig() {
 															</div>
 															{selectedProductForEdit === producto ? (
 																<div className="product-edit-popup">
-																	<form action="">
+																	<form
+																		action=""
+																		onChange={handleChangeProduct}
+																	>
 																		<label htmlFor="">Nombre:</label>
 																		<input
 																			type="text"
 																			name="nombre"
 																			id=""
-																			value={nombre}
-																			onChange={handleChangeNombre}
+																			value={input.nombre}
 																		/>
 																		<label htmlFor="">Precio:</label>
 																		<input
 																			type="number"
 																			name="precio"
 																			id=""
-																			value={precio}
-																			onChange={handleChangePrecio}
+																			value={input.precio}
 																		/>
 																		<label htmlFor="">Imagen:</label>
 																		<input
 																			type="file"
 																			id="newImg"
-																			accept="image/*"
-																			onChange={handleImg}
+																			accept="img/*"
+																			onChange={handleChangeImg}
 																		/>
 																		<button
 																			type="submit"

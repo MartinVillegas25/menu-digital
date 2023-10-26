@@ -2,17 +2,19 @@
 /* eslint-disable react/prop-types */
 import './SubscribeModal.css';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createUser } from '../../../redux/actions';
 import img from '../../../assets/restaurant.jpg';
 
 // eslint-disable-next-line react/prop-types
 export default function SubscribeModal({ handleCloseSubscribe }) {
 	const dispatch = useDispatch();
+	const newUser = useSelector((state) => state.newUser);
+	console.log(newUser);
 
 	// Inicio de los datos a cargar para la subscripción
 	const [input, setInput] = useState({
-		img: '',
+		img: null,
 		name: '',
 		storeName: '',
 		email: '',

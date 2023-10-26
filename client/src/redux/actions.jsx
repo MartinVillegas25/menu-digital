@@ -40,6 +40,8 @@ export const GET_CLIENTS_TO_CONFIRM_PLAN = 'GET_CLIENTS_TO_CONFIRM_PLAN';
 export const CONFIRM_USER_NEW_PLAN = 'CONFIRM_USER_NEW_PLAN';
 export const SET_PRICE = 'SET_PRICE';
 export const GET_PLAN_TO_MENU = 'GET_PLAN_TO_MENU';
+
+//https://menu-didactico.up.railway.app
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
 
 // Funcion para el registro del usuario, en el cual, detalla sus datos y elige el tipo de plan a adquirir.
@@ -426,7 +428,6 @@ export function getLocalData(email) {
 
 export function changeLocalImg(payload) {
 	return async function (dispatch) {
-		console.log('entro');
 		try {
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
 
@@ -438,7 +439,6 @@ export function changeLocalImg(payload) {
 					headers
 				})
 				.then((response) => {
-					console.log(payload);
 					return dispatch({
 						type: CHANGE_LOCAL_IMG,
 						payload: response.data

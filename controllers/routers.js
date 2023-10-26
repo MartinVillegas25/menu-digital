@@ -46,9 +46,7 @@ const postCrearAdmin = async (req, res = response) => {
 	const result = await pool.query(searchEmail, [email]);
 
 	if (result[0][0].count > 0) {
-		return res.status(404).json({
-			message: `El usuario con el email: ${email} ya esta registrado`
-		});
+		return res.status(200).json({ msg: `email existente` });
 	}
 
 	if (req.files) {
@@ -101,8 +99,8 @@ const loginUsuario = async (req, res = response) => {
 	if (resultEmailRegistrado[0].length > 0) {
 		const emailReg = resultEmailRegistrado[0][0];
 		if (resultEmailRegistrado[0].length > 0 && emailReg.pagoConfirmado == 0) {
-			return res.status(404).json({
-				msg: `el mail ${email} ya esta registrado, por favor realiza el pago de la suscripcion para poder acceder al dashboard, contactase al siguiente mail contacto@simesero.com`
+			return res.status(200).json({
+				msg: `pago`
 			});
 		}
 	}
@@ -115,7 +113,7 @@ const loginUsuario = async (req, res = response) => {
 		const resultAdminLength = resultAdmin[0].length;
 
 		if ((resultGeneralLength === 0) & (resultAdminLength === 0)) {
-			return res.status(404).json({ message: 'Usuario no encontrado' });
+			return res.status(200).json({ msg: 'email' });
 		}
 
 		//validad si es admin o usuario
@@ -154,7 +152,7 @@ const loginUsuario = async (req, res = response) => {
 			};
 			res.status(200).json(response);
 		} else {
-			return res.status(401).json({ message: 'Contraseña incorrecta' });
+			return res.status(200).json({ msg: 'password' });
 		}
 	} catch (error) {
 		console.error('Error al ejecutar la consulta: ', error);

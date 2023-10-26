@@ -2,6 +2,8 @@
 import {
 	LOG_USER,
 	GET_ALL_CLIENTS,
+	CREATE_USER,
+	CREATE_ADMIN,
 	GET_SUSPENDED_CLIENTS,
 	VALIDATE_ADMIN,
 	VALIDATE_USER,
@@ -21,6 +23,8 @@ import {
 
 let initialState = {
 	token: {},
+	newUser: '',
+	newAdmin: '',
 	allUsers: [],
 	validation: '',
 	validationLocal: '',
@@ -47,6 +51,15 @@ function rootReducer(state = initialState, action) {
 				token: action.payload.token,
 				userType: action.payload.msg,
 				actualUser: action.payload.usuario
+			};
+
+		case CREATE_USER:
+			return {
+				newUser: action.payload
+			};
+		case CREATE_ADMIN:
+			return {
+				newAdmin: action.payload
 			};
 		case GET_PLANS:
 			return {

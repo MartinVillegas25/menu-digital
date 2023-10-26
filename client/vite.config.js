@@ -8,8 +8,11 @@ export default defineConfig({
 		proxy: {
 			'/socket.io': {
 				target: 'http://127.0.0.1:3000',
+				changeOrigin: true,
 				ws: true
 			}
 		}
 	}
 });
+
+// target: 'https://menu-didactico.up.railway.app',

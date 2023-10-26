@@ -93,31 +93,53 @@ export default function ClientMenu() {
 		categoria: '',
 		subcategoria: '',
 		precio: 0,
-		img: ''
+		img: null
 	});
-	const handleChange = (e) => {
-		setInput({
-			...input,
-			[e.target.name]: e.target.value
-		});
-	};
-	const handleCreateProdcut = (e) => {
-		dispatch(createProduct(input));
 
-		setInput({
-			nombre: '',
-			categoria: '',
-			subcategoria: '',
-			precio: 0,
-			img: ''
+	const handleChangeImg = (e) => {
+		setInput({ ...input, img: e.target.files[0] });
+	};
+
+	const handleChange = (e) => {
+		setInput((prevInput) => ({
+			...prevInput,
+			[e.target.name]: e.target.value
+		}));
+	};
+
+	const handleCreateProdcut = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Nuevo producto',
+			text: 'Desea crear este producto?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				const formData = new FormData();
+				formData.append('nombre', input.nombre);
+				formData.append('precio', input.precio);
+				formData.append('img', input.img);
+				formData.append('categoria', input.categoria);
+				formData.append('subcategoria', input.subcategoria);
+				dispatch(createProduct(formData));
+				swal({
+					text: `Se ha creado el producto`,
+					icon: 'success'
+				});
+				setTimeout(function () {
+					window.location.reload(true);
+				}, 2000);
+			} else {
+				swal({ text: 'No se ha creado el producto', icon: 'info' });
+			}
 		});
-		window.location.reload(true);
 	};
 
 	const handleDeleteCategory = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Eliminar',
 			text: `Esta seguro que desea eliminar la categoria ${categorySelected} ?`,
 			icon: 'warning',
 			buttons: ['No', 'Si']
@@ -141,7 +163,7 @@ export default function ClientMenu() {
 	const handleDeleteSubCategory = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Eliminar',
 			text: `Esta seguro que desea eliminar la subcategoria ${categorySelected} - ${subCategorySelected} ?`,
 			icon: 'warning',
 			buttons: ['No', 'Si']
@@ -325,9 +347,9 @@ export default function ClientMenu() {
 						<label htmlFor="">Imagen:</label>
 						<input
 							type="file"
-							value={input.img}
-							name="img"
-							onChange={handleChange}
+							id="newImg"
+							accept="img/*"
+							onChange={handleChangeImg}
 						/>
 					</div>
 					<div className="btn-add-product">

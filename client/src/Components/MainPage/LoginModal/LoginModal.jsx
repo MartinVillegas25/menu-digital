@@ -9,6 +9,7 @@ export default function LoginModal({ handleCloseLogin }) {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const userType = useSelector((state) => state.userType);
+	console.log(userType);
 
 	const [input, setInput] = useState({
 		email: '',
@@ -65,7 +66,9 @@ export default function LoginModal({ handleCloseLogin }) {
 		}
 
 		await dispatch(logUser(input));
-		dispatch(handleCloseLogin());
+		if (userType === 'admin' || userType === 'local') {
+			dispatch(handleCloseLogin());
+		}
 	};
 	//Validaciones de tipo de usuario, para renderizado condicional de botones de acceso a los diferentes dashboard
 	useEffect(() => {
@@ -93,6 +96,14 @@ export default function LoginModal({ handleCloseLogin }) {
 					<h4>Bienvenido/a de vuelta</h4>
 
 					<p>Ingresá con tu email y contraseña</p>
+					{userType === 'pago' ? (
+						<p>
+							Error en el pago de la suscripcion, contactese con el
+							administrador
+						</p>
+					) : (
+						<div></div>
+					)}
 					<div>
 						<p>Correo electrónico</p>
 						<input
@@ -102,6 +113,7 @@ export default function LoginModal({ handleCloseLogin }) {
 							onChange={handleChange}
 						/>
 					</div>
+					{userType === 'email' ? <p>Email Incorrecto</p> : <div></div>}
 					<div>
 						<p>Contraseña</p>
 						<input
@@ -110,6 +122,11 @@ export default function LoginModal({ handleCloseLogin }) {
 							value={input.password}
 							onChange={handleChange}
 						/>
+						{userType === 'password' ? (
+							<p>Contraseña incorrecta</p>
+						) : (
+							<div></div>
+						)}
 					</div>
 					<div className="remember">
 						<div>
@@ -123,9 +140,14 @@ export default function LoginModal({ handleCloseLogin }) {
 						</div>
 						<a href="">Olvidaste la contraseña?</a>
 					</div>
-					<button className="login-btn" onClick={handleSubmit}>
-						Iniciar sesión
-					</button>
+					{userType === 'admin' || userType === 'local' ? (
+						<p>Sesion iniciada correctamente</p>
+					) : (
+						<button className="login-btn" onClick={handleSubmit}>
+							Iniciar sesión
+						</button>
+					)}
+
 					<div className="login-to-register">
 						<p>No tienes una cuenta?</p>
 						<a href="">Registrate</a>

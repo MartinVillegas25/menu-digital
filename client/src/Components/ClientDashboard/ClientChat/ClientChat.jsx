@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import { getLocalData } from '../../../redux/actions';
 const socket = io();
+//const socket = io('https://menu-didactico.up.railway.app/');
 
 export default function ClientChat() {
 	const location = useLocation();

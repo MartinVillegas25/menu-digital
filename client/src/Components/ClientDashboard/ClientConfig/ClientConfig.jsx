@@ -68,7 +68,7 @@ export default function ClientConfig() {
 	const handleSubmitData = (e) => {
 		e.preventDefault();
 		swal({
-			title: 'Activar',
+			title: 'Modificar',
 			text: 'Esta seguro que desea modificar los datos?',
 			icon: 'warning',
 			buttons: ['No', 'Si']

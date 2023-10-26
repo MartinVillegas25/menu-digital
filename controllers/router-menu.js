@@ -377,19 +377,19 @@ const actualizarMenu = async (req, res) => {
 		}
 
 		// //BORRAR LA IMAGEN DE CLOUDINARY Y REEMPLEZARLA CON LA NUEVA
-		let { img } = dataActualizada;
-
-		if (img) {
+		if (req.files) {
 			const urlImagenVIeja = itemRows[0][0].img;
 
 			const [public_id] = urlImagenVIeja.split('.');
 			cloudinary.uploader.destroy(public_id);
-
-			//agregar imagen a cloudinary para obterner url
 			const { tempFilePath } = req.files.img;
+
 			const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
 
-			img = secure_url;
+			img_url = secure_url;
+		} else {
+			img_url =
+				'https://res.cloudinary.com/dj3akdhb9/image/upload/v1695261911/samples/default-product-image_gqztb6.png';
 		}
 
 		let sql = `UPDATE items SET`;
@@ -403,7 +403,7 @@ const actualizarMenu = async (req, res) => {
 			}
 		}
 		sql = sql.slice(0, -2);
-		sql += ` WHERE id_producto = ?`;
+		sql += `, img = '${img_url}' WHERE id_producto = ?`;
 		values.push(id);
 
 		const result = await pool.query(sql, values);

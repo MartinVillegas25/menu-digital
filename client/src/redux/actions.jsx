@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 export const CREATE_USER = 'CREATE_USER';
+export const VALIDATE_USER_EMAIL = 'VALIDATE_USER_EMAIL';
 export const LOG_USER = 'LOG_USER';
 export const GET_ALL_CLIENTS = 'GET_ALL_CLIENTS';
 export const SUSPEND_USER = 'SUSPEND_USER';
@@ -40,6 +41,7 @@ export const GET_CLIENTS_TO_CONFIRM_PLAN = 'GET_CLIENTS_TO_CONFIRM_PLAN';
 export const CONFIRM_USER_NEW_PLAN = 'CONFIRM_USER_NEW_PLAN';
 export const SET_PRICE = 'SET_PRICE';
 export const GET_PLAN_TO_MENU = 'GET_PLAN_TO_MENU';
+export const CANCEL_SUSCRIPTION = 'CANCEL_SUSCRIPTION';
 
 //https://menu-didactico.up.railway.app
 //FUNCIONALIDADES DE LA PAGINA PRINCIPAL
@@ -52,9 +54,35 @@ export function createUser(payload) {
 				'http://localhost:3000/subscription',
 				payload
 			);
-			console.log('entro en create');
+
+			if (info.data.msg === 'existente') {
+				alert('ya existe desde action');
+				return;
+			}
+			if (info.data === 'usuario creado') {
+				alert('Usuario creado con exito desde action');
+				return dispatch({
+					type: CREATE_USER,
+					payload: info.data
+				});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+// Funcion para validar si el email del usuario ya existe
+export function validateUserEmail(payload) {
+	return async function (dispatch) {
+		try {
+			const info = await axios.post(
+				'http://localhost:3000/validar-email-local',
+				payload
+			);
+			console.log(info.data);
 			return dispatch({
-				type: CREATE_USER,
+				type: VALIDATE_USER_EMAIL,
 				payload: info.data
 			});
 		} catch (error) {
@@ -67,7 +95,6 @@ export function createUser(payload) {
 
 export function createAdmin(payload) {
 	return async function (dispatch) {
-		console.log('creando admin');
 		try {
 			const info = await axios.post(
 				'http://localhost:3000/admin-boss',
@@ -348,7 +375,7 @@ export function planPrice(payload) {
 
 // Funcion para modificar los datos del usuario
 
-export function modifData(payload) {
+export function modifData() {
 	return async function (dispatch) {
 		try {
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
@@ -357,7 +384,7 @@ export function modifData(payload) {
 				'x-token': token
 			};
 			axios
-				.put('http://localhost:3000/actualizar', payload, {
+				.put('http://localhost:3000/actualizar', {
 					headers
 				})
 				.then((response) => {
@@ -514,8 +541,6 @@ export function changePlan(payload) {
 					headers
 				})
 				.then((response) => {
-					console.log(response.data);
-					console.log(payload);
 					return dispatch({
 						type: CHANGE_PLAN,
 						payload: response.data
@@ -526,6 +551,32 @@ export function changePlan(payload) {
 		}
 	};
 }
+
+// Funcion para cancelar el plan
+export function cancelSuscription(payload) {
+	return async function (dispatch) {
+		try {
+			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
+
+			const headers = {
+				'x-token': token
+			};
+			axios
+				.get('http://localhost:3000/dashboard/cancelar', payload, {
+					headers
+				})
+				.then((response) => {
+					return dispatch({
+						type: CANCEL_SUSCRIPTION,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
 // funcion para mostrar todas las categorias del local
 export function getCategories() {
 	return async function (dispatch) {
@@ -568,8 +619,6 @@ export function getSubCategories(payload) {
 					}
 				)
 				.then((response) => {
-					console.log(response.data);
-					console.log('entro');
 					return dispatch({
 						type: GET_SUBCATEGORIES,
 						payload: response.data
@@ -587,7 +636,7 @@ export function createProduct(payload) {
 	return async function (dispatch) {
 		try {
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
-			console.log('entrando1');
+
 			const headers = {
 				'x-token': token
 			};
@@ -639,7 +688,6 @@ export function deleteSubCategory(subcategoria, categoria, email) {
 					`http://localhost:3000/dashboard/items/borrar-subcategoria?email=${email}&categoria=${categoria}&subcategoria=${subcategoria}`
 				)
 				.then((response) => {
-					console.log('aca');
 					return dispatch({
 						type: DELETE_SUBCATEGORY,
 						payload: response.data
@@ -666,7 +714,6 @@ export function deleteProduct(payload) {
 				})
 
 				.then((response) => {
-					console.log('entra');
 					return dispatch({
 						type: DELETE_PRODUCT,
 						payload: response.data
@@ -693,8 +740,6 @@ export function modifyProduct(id, payload) {
 					headers
 				})
 				.then((response) => {
-					console.log(response.data);
-					console.log(payload);
 					return dispatch({
 						type: MODIFY_PRODUCT,
 						payload: response.data
@@ -785,7 +830,6 @@ export function removeFromMinicart(payload) {
 
 export function ordering(email, mesa, payload) {
 	return async function (dispatch) {
-		console.log(payload);
 		try {
 			axios
 				.post(

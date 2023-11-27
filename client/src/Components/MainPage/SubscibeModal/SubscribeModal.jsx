@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import './SubscribeModal.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUser } from '../../../redux/actions';
 import img from '../../../assets/restaurant.jpg';
@@ -10,7 +10,7 @@ import img from '../../../assets/restaurant.jpg';
 export default function SubscribeModal({ handleCloseSubscribe }) {
 	const dispatch = useDispatch();
 	const newUser = useSelector((state) => state.newUser);
-	console.log(newUser);
+	const [userPost, setUserPost] = useState(false);
 
 	// Inicio de los datos a cargar para la subscripción
 	const [input, setInput] = useState({
@@ -87,7 +87,6 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 
 		// Si no hay errores, despachar la acción de registrar el usuario
 		dispatch(createUser(input));
-		console.log(input, 'input');
 
 		// Limpiar los input después de ejecutar la función
 		setInput({
@@ -108,6 +107,75 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 		setRepeatPass('');
 		dispatch(handleCloseSubscribe);
 	};
+
+	const handleSubmitBasicUser = (e) => {
+		e.preventDefault();
+
+		// Regular expression para validación de el email
+		const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+		// Chequeo de errores
+
+		if (input.name.trim() === '') {
+			alert('Por favor complete su nombre');
+			return;
+		} else if (input.address.trim() === '') {
+			alert('Por favor complete su dirección');
+			return;
+		} else if (input.storeName.trim() === '') {
+			alert('Por favor indique el nombre de su local');
+			return;
+		} else if (input.email.trim() === '') {
+			alert('Por favor ingrese su email');
+			return;
+		} else if (!emailRegex.test(input.email)) {
+			alert('Email no válido');
+			return;
+		} else if (input.cp.trim() === '') {
+			alert('Ingrese su código postal');
+			return;
+		} else if (input.password.trim() === '') {
+			alert('Ingrese una contraseña');
+			return;
+		} else if (input.password.trim() !== repeatPass) {
+			alert('Las contraseñas no coinciden');
+			return;
+		} else if (input.telefono.trim() === '') {
+			alert('Ingrese su teléfono');
+			return;
+		} else if (input.pais.trim() === '') {
+			alert('Ingrese su país');
+		} else if (input.localidad.trim() === '') {
+			alert('Ingrese su localidad');
+		}
+
+		// Si no hay errores, despachar la acción de registrar el usuario
+		console.log('2 veces');
+		dispatch(createUser(input));
+	};
+
+	useEffect(() => {
+		// Limpiar los input después de ejecutar la función
+		if (newUser === 'usuario creado') {
+			setInput({
+				img: '',
+				name: '',
+				storeName: '',
+				email: '',
+				password: '',
+				address: '',
+				cp: '',
+				plan: '',
+				telefono: '',
+				pais: '',
+				localidad: '',
+				tipo: '',
+				comentario: ''
+			});
+			setRepeatPass('');
+			window.location.reload();
+		}
+	}, [newUser]);
 
 	return (
 		<div className="subscribe">
@@ -292,7 +360,7 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 							</div>
 						) : input.plan === 'basic' ? (
 							<div>
-								<button className="subs-btn" onClick={handleSubmit}>
+								<button className="subs-btn" onClick={handleSubmitBasicUser}>
 									Básico
 								</button>
 							</div>

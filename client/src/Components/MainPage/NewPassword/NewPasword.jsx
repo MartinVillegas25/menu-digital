@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { createAdmin } from '../../../redux/actions';
 import swal from 'sweetalert';
 
-export default function LoginAdmin() {
+export default function NewPassword() {
 	const dispatch = useDispatch();
 	//Estado para verificar si el administrador tiene acceso
 	const newAdmin = useSelector((state) => state.newAdmin);
@@ -83,22 +83,6 @@ export default function LoginAdmin() {
 					) : (
 						<div></div>
 					)}
-					<label htmlFor="">Nombre</label>
-					<input
-						type="text"
-						name="name"
-						id=""
-						value={input.name}
-						onChange={handleChange}
-					/>
-					<label htmlFor="">Email</label>
-					<input
-						type="email"
-						name="email"
-						id=""
-						value={input.email}
-						onChange={handleChange}
-					/>
 					<label htmlFor="">Password</label>
 					<input
 						type="password"

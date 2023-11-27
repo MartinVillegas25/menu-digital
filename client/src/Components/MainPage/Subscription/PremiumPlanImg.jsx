@@ -14,7 +14,7 @@ export default function PremiumPlanImg({ handleOpenSubscribe }) {
 	return (
 		<div className="subscription-img">
 			<IoRestaurantSharp className="icon" />
-			<h3>$ {plans.premium} </h3>
+			<h3>$ {plans?.premium} </h3>
 			<p>Por mes</p>
 			<ul className="subs-list">
 				<li>1. Menú digital interactivo</li>

@@ -21,7 +21,6 @@ export default function Cart() {
 	);
 	// Quitar un producto del carrito
 	const handleQuit = (e) => {
-		console.log('quit');
 		dispatch(removeFromMinicart(e.target.value));
 	};
 	// Poner el nombre de usuario

@@ -59,7 +59,6 @@ export default function ClientMenuConfig() {
 
 	const handleEditPopUp = (product) => {
 		setSelectedProductForEdit(product);
-		console.log(product);
 
 		setInput({
 			nombre: product.nombre || '', // Agrega el valor del nombre del producto
@@ -98,7 +97,6 @@ export default function ClientMenuConfig() {
 				formData.append('nombre', input.nombre);
 				formData.append('precio', input.precio);
 				formData.append('img', input.img); // You can append the image to the FormData
-				console.log(formData);
 
 				dispatch(modifyProduct(selectedProductForEdit.id, formData));
 				swal({

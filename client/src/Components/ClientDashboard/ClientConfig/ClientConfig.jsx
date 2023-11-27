@@ -4,7 +4,8 @@ import {
 	changePlan,
 	getLocalData,
 	getPlans,
-	modifData
+	modifData,
+	cancelSuscription
 } from '../../../redux/actions';
 import './ClientConfig.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -98,13 +99,44 @@ export default function ClientConfig() {
 		}).then((respuesta) => {
 			if (respuesta) {
 				dispatch(changePlan({ plan: newPlan }));
+				if (newPlan === 'standard') {
+					window.location.assign(
+						'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848ae746f0018af1220de80617'
+					);
+				} else if (newPlan === 'premium') {
+					window.location.assign(
+						'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af994d0018b02039da906a5'
+					);
+				}
+
 				swal({
 					text: `Se han modificadao su plan, continue al pago`,
 					icon: 'success'
 				});
 			} else {
-				console.log(newPlan);
 				swal({ text: 'no se han modificado su plan', icon: 'info' });
+			}
+		});
+	};
+
+	const handleCancelSuscription = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Eliminar suscripcion',
+			text: 'Esta seguro que desea cancelar su sucripcion?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				dispatch(cancelSuscription());
+				window.location.assign('127.0.0.1:5173/');
+
+				swal({
+					text: `Se ha enviado un mail al administrador solicitando la baja`,
+					icon: 'success'
+				});
+			} else {
+				swal({ text: 'no se ha cancelado su suscripcion', icon: 'info' });
 			}
 		});
 	};
@@ -174,6 +206,11 @@ export default function ClientConfig() {
 						<button className="client-config-btn" onClick={handlePlanPopUp}>
 							Actualizar plan
 						</button>
+						<div>
+							<button onClick={handleCancelSuscription}>
+								Cancelar Suscripcion
+							</button>
+						</div>
 					</div>
 				</div>
 				<div className="client-config-qr-container">
@@ -212,7 +249,8 @@ export default function ClientConfig() {
 									Actualizar plan
 								</button>
 							</div>
-							<div>
+
+							{/* <div>
 								<a
 									// eslint-disable-next-line react/no-unknown-property
 									mp-mode="dftl"
@@ -222,7 +260,7 @@ export default function ClientConfig() {
 								>
 									Continuar a pago
 								</a>
-							</div>
+							</div> */}
 
 							<script type="text/javascript">
 								{(function () {
@@ -267,10 +305,11 @@ export default function ClientConfig() {
 							<button
 								onClick={handleSubmitNewPlan}
 								className="subs-btn-newPlan"
+								href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af994d0018b02039da906a5"
 							>
 								Actualizar plan
 							</button>
-							<a
+							{/* <a
 								// eslint-disable-next-line react/no-unknown-property
 								mp-mode="dftl"
 								href="https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=2c9380848af994d0018b02039da906a5"
@@ -278,7 +317,7 @@ export default function ClientConfig() {
 								className="subs-btn-newPlan"
 							>
 								Continuar a pago
-							</a>
+							</a> */}
 							<script type="text/javascript">
 								{(function () {
 									function $MPC_load() {
@@ -317,6 +356,7 @@ export default function ClientConfig() {
 					)}
 				</div>
 			</div>
+
 			<div className="precios-planes">
 				<p>Basico: Gratuito</p>
 				<p>Estandar: ${plans.standard}</p>

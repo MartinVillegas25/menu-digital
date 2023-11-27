@@ -2,6 +2,7 @@
 import {
 	LOG_USER,
 	GET_ALL_CLIENTS,
+	VALIDATE_USER_EMAIL,
 	CREATE_USER,
 	CREATE_ADMIN,
 	GET_SUSPENDED_CLIENTS,
@@ -23,6 +24,7 @@ import {
 
 let initialState = {
 	token: {},
+	userEmailValidation: '',
 	newUser: '',
 	newAdmin: '',
 	allUsers: [],
@@ -51,6 +53,11 @@ function rootReducer(state = initialState, action) {
 				token: action.payload.token,
 				userType: action.payload.msg,
 				actualUser: action.payload.usuario
+			};
+		case VALIDATE_USER_EMAIL:
+			return {
+				...state,
+				userEmailValidation: action.payload
 			};
 
 		case CREATE_USER:
@@ -142,7 +149,6 @@ function rootReducer(state = initialState, action) {
 			const filteredProducts = state.productsAdeedToMinicart.filter(
 				(product) => product.id !== action.payload
 			);
-			console.log(filteredProducts, 'filtrados');
 
 			return {
 				...state,

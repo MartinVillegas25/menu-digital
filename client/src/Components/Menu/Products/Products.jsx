@@ -12,6 +12,8 @@ import queryString from 'query-string';
 export default function Products() {
 	const dispatch = useDispatch();
 	const [selectedCategory, setSelectedCategory] = useState(null);
+	const [showConfirmation, setShowConfirmation] = useState(false);
+	const [addedProductId, setAddedProductId] = useState(null);
 
 	useEffect(() => {
 		const url = window.location.href;
@@ -32,10 +34,15 @@ export default function Products() {
 		setSelectedCategory(null);
 	};
 
-	const handleAddToMinicart = (e) => {
+	const handleAddToMinicart = (e, prodId) => {
 		const producto = JSON.parse(e.target.value); // Convierte la cadena JSON en un objeto
-
 		dispatch(addToMinicart(producto));
+		setAddedProductId(prodId);
+		setShowConfirmation(true);
+		setTimeout(() => {
+			setShowConfirmation(false);
+			setAddedProductId(null);
+		}, 1000);
 	};
 
 	return (
@@ -61,6 +68,7 @@ export default function Products() {
 					</button>
 				))}
 			</div>
+
 			<div>
 				{products.map((categoria, index) => (
 					<div key={categoria.categoria + index}>
@@ -77,7 +85,11 @@ export default function Products() {
 											{subcategoria.productos.map((producto, prodIndex) => (
 												<li
 													key={producto.nombre + prodIndex}
-													className="product-container"
+													className={`product-container ${
+														showConfirmation && addedProductId === producto.id
+															? 'confirmation-symbol'
+															: ''
+													}`}
 												>
 													<div>
 														<img
@@ -95,7 +107,9 @@ export default function Products() {
 													<div className="product-add">
 														<button
 															value={JSON.stringify(producto)}
-															onClick={handleAddToMinicart}
+															onClick={(e) =>
+																handleAddToMinicart(e, producto.id)
+															}
 														>
 															+
 														</button>

@@ -113,7 +113,6 @@ export default function ClientChat() {
 		socket.on('connect', () => {
 			console.log('conectado a la sala' + usuario.email);
 			socket.emit('entrarChat', usuario, (resp) => {
-				// console.log('Usuarios conectados', resp);
 				renderizarUsuarios(resp);
 			});
 
@@ -121,7 +120,6 @@ export default function ClientChat() {
 			socket.emit('join-room', { room: usuario.email });
 		});
 		socket.on('crearMensaje', (mensaje) => {
-			// console.log('Servidor:', mensaje);
 			renderizarMensajes(mensaje, false);
 			scrollBottom();
 		});

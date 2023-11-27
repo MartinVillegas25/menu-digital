@@ -141,7 +141,10 @@ export default function NavBar() {
 				}
 			>
 				<div className="modal-container">
-					<LoginModal handleCloseLogin={handleCloseLogin} />
+					<LoginModal
+						handleCloseLogin={handleCloseLogin}
+						handleOpenSuscribe={handleOpenSubscribe}
+					/>
 				</div>
 			</article>
 			<article

@@ -10,7 +10,7 @@ import ClientDashboardConfig from './Components/ClientDashboard/ClientDashboardC
 import Menu from './Components/Menu/Menu';
 import QrGenerator from './Components/ClientDashboard/ClientConfig/QrGenerator';
 import Gracias from './Components/MainPage/Gracias/gracias';
-import LoginAdmin from './Components/MainPage/LoginAdmin/loginAdmin';
+import LoginAdmin from './Components/MainPage/LoginAdmin/LoginAdmin';
 import AlertChart from './Components/Menu/AlertChart/AlertChart';
 import ClientChat from './Components/ClientDashboard/ClientChat/ClientChat';
 function App() {

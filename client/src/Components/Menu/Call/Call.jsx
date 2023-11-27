@@ -8,7 +8,6 @@ const socket = io();
 export default function Call() {
 	const location = useLocation();
 	const searchParams = new URLSearchParams(location.search);
-	console.log('searchParams:', searchParams.toString()); // Verifica qué parámetros de consulta se están pasando
 
 	const userEmail = searchParams.get('email');
 	const mesa = searchParams.get('mesa');

@@ -1,14 +1,14 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useDispatch, useSelector } from 'react-redux';
 import './LoginAdmin.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createAdmin } from '../../../redux/actions';
-import swal from 'sweetalert';
 
 export default function LoginAdmin() {
 	const dispatch = useDispatch();
 	//Estado para verificar si el administrador tiene acceso
 	const newAdmin = useSelector((state) => state.newAdmin);
+	console.log(newAdmin);
 
 	const [input, setInput] = useState({
 		name: '',
@@ -50,27 +50,31 @@ export default function LoginAdmin() {
 			return;
 		}
 
-		swal({
-			title: 'Crear admin',
-			text: '¿Está seguro de que desea crear este administrador?',
-			icon: 'warning',
-			buttons: ['No', 'Sí']
-		}).then((respuesta) => {
-			if (respuesta) {
-				dispatch(createAdmin(input));
-				swal({
-					text: 'Se ha creado un nuevo admin',
-					icon: 'success'
-				}).then(() => {
-					// Mover history.push('/') aquí para que se ejecute después de swal
-					window.location.assign('/');
-					console.log('push');
-				});
-			} else {
-				swal({ text: 'No se ha creado el admin', icon: 'info' });
-			}
-		});
+		dispatch(createAdmin(input));
 	};
+
+	useEffect(() => {
+		// Limpiar los input después de ejecutar la función
+		if (newAdmin.message === 'Administrador creado correctamente') {
+			setInput({
+				img: '',
+				name: '',
+				storeName: '',
+				email: '',
+				password: '',
+				address: '',
+				cp: '',
+				plan: '',
+				telefono: '',
+				pais: '',
+				localidad: '',
+				tipo: '',
+				comentario: ''
+			});
+			setRepeatPass('');
+			window.location.assign('/');
+		}
+	}, [newAdmin]);
 
 	return (
 		<div className="loginAdmin">

@@ -10,7 +10,6 @@ import img from '../../../assets/restaurant.jpg';
 export default function SubscribeModal({ handleCloseSubscribe }) {
 	const dispatch = useDispatch();
 	const newUser = useSelector((state) => state.newUser);
-	const [userPost, setUserPost] = useState(false);
 
 	// Inicio de los datos a cargar para la subscripción
 	const [input, setInput] = useState({
@@ -150,7 +149,7 @@ export default function SubscribeModal({ handleCloseSubscribe }) {
 		}
 
 		// Si no hay errores, despachar la acción de registrar el usuario
-		console.log('2 veces');
+
 		dispatch(createUser(input));
 	};
 

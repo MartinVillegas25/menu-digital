@@ -100,11 +100,18 @@ export function createAdmin(payload) {
 				'http://localhost:3000/admin-boss',
 				payload
 			);
-
-			return dispatch({
-				type: CREATE_ADMIN,
-				payload: info.data
-			});
+			console.log(info.data);
+			if (info.data.msg === 'email existente') {
+				alert('ya existe desde action');
+				return;
+			}
+			if (info.data.message === 'Administrador creado correctamente') {
+				alert('Administrador creado con exito desde action');
+				return dispatch({
+					type: CREATE_ADMIN,
+					payload: info.data
+				});
+			}
 		} catch (error) {
 			console.log(error);
 		}

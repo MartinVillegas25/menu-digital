@@ -154,6 +154,7 @@ export default function ClientMenu() {
 				formData.append('img', input.img);
 				formData.append('categoria', input.categoria);
 				formData.append('subcategoria', input.subcategoria);
+
 				dispatch(createProduct(formData));
 				swal({
 					text: `Se ha creado el producto`,

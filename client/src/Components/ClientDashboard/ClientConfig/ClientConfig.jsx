@@ -129,7 +129,9 @@ export default function ClientConfig() {
 		}).then((respuesta) => {
 			if (respuesta) {
 				dispatch(cancelSuscription());
-				window.location.assign('127.0.0.1:5173/');
+				setTimeout(function () {
+					window.location.assign('/');
+				}, 3000);
 
 				swal({
 					text: `Se ha enviado un mail al administrador solicitando la baja`,

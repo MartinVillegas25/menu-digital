@@ -13,6 +13,7 @@ import Gracias from './Components/MainPage/Gracias/gracias';
 import LoginAdmin from './Components/MainPage/LoginAdmin/LoginAdmin';
 import AlertChart from './Components/Menu/AlertChart/AlertChart';
 import ClientChat from './Components/ClientDashboard/ClientChat/ClientChat';
+import NewPasword from './Components/MainPage/NewPassword/NewPasword';
 function App() {
 	return (
 		<BrowserRouter>
@@ -23,6 +24,7 @@ function App() {
 					<Route path="/home" element={<MainPage />} />
 					<Route path="/gracias" element={<Gracias />} />
 					<Route path="/admin-boss" element={<LoginAdmin />} />
+					<Route path="/newpassword" element={<NewPasword />} />
 					{/* Rutas del panel de administrador */}
 					<Route path="/admin" element={<AdminDashboardHome />} />
 					<Route path="/admin/clientes" element={<AdminDashboardClients />} />

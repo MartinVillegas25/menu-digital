@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useDispatch, useSelector } from 'react-redux';
-import './LoginAdmin.css';
 import { useState } from 'react';
 import { createAdmin } from '../../../redux/actions';
 import swal from 'sweetalert';

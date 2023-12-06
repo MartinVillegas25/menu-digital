@@ -4,6 +4,8 @@ import axios from 'axios';
 export const CREATE_USER = 'CREATE_USER';
 export const VALIDATE_USER_EMAIL = 'VALIDATE_USER_EMAIL';
 export const LOG_USER = 'LOG_USER';
+export const PASSWORD_EMAIL = 'PASSWORD_EMAIL';
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const GET_ALL_CLIENTS = 'GET_ALL_CLIENTS';
 export const SUSPEND_USER = 'SUSPEND_USER';
 export const ACTIVATE_USER = 'ACTIVATE_USER';
@@ -100,7 +102,7 @@ export function createAdmin(payload) {
 				'http://localhost:3000/admin-boss',
 				payload
 			);
-			console.log(info.data);
+
 			if (info.data.msg === 'email existente') {
 				alert('ya existe desde action');
 				return;
@@ -151,6 +153,47 @@ export function logOutUser() {
 				.then((response) => {
 					return dispatch({
 						type: LOG_OUT,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+// Funcion para enviar el mail de cambio de contraseña
+export function passwordEmail(payload) {
+	return async function (dispatch) {
+		console.log(payload);
+		try {
+			axios
+				.post('http://localhost:3000/save-password', payload)
+				.then((response) => {
+					console.log(response);
+					return dispatch({
+						type: PASSWORD_EMAIL,
+						payload: response.data
+					});
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+}
+
+// funcion para cambiar la contraseña
+// el token llega por query con el nombre token
+// funcion(password, token)
+export function changePassword(payload) {
+	return async function (dispatch) {
+		try {
+			axios
+				.put('http://localhost:3000/admin/confirmar-plan', payload)
+				.then((response) => {
+					console.log(payload);
+					return dispatch({
+						type: CHANGE_PASSWORD,
 						payload: response.data
 					});
 				});

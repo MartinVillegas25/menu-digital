@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPlanToMenu } from '../../../redux/actions';
+import swal from 'sweetalert';
 
 const socket = io();
 //const socket = io('https://menu-didactico.up.railway.app/');
@@ -39,13 +40,30 @@ export default function Pay() {
 		mesa: mesa
 	};
 	// Enviar el pedido de cuenta al dashboard del cliente
-	const handleSubmit = () => {
-		socket.emit(
-			'pedir-cuenta',
-			usuario,
-			{ nombre: nombre, metodo: payMethod },
-			payload
-		);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		swal({
+			title: 'Pedir la cuenta',
+			text: 'Desea pedir la cuenta?',
+			icon: 'warning',
+			buttons: ['No', 'Si']
+		}).then((respuesta) => {
+			if (respuesta) {
+				socket.emit(
+					'pedir-cuenta',
+					usuario,
+					{ nombre: nombre, metodo: payMethod },
+					payload
+				);
+				swal({
+					text: `En breve le traeran su cuenta`,
+					icon: 'success'
+				});
+			} else {
+				swal({ text: 'No se ha pedido la cuenta', icon: 'info' });
+			}
+		});
 	};
 
 	useEffect(() => {

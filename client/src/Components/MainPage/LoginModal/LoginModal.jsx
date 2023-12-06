@@ -3,7 +3,12 @@ import './LoginModal.css';
 import img from '../../../assets/CAMARERA.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { logUser, validateAdmin, validateUser } from '../../../redux/actions';
+import {
+	logUser,
+	validateAdmin,
+	validateUser,
+	passwordEmail
+} from '../../../redux/actions';
 import { Link } from 'react-router-dom';
 
 export default function LoginModal({ handleCloseLogin, handleOpenSuscribe }) {
@@ -88,6 +93,14 @@ export default function LoginModal({ handleCloseLogin, handleOpenSuscribe }) {
 		}
 	}, [token]);
 
+	const handleEmailPassword = () => {
+		if (input.email === '') {
+			alert('debe ingresar el email');
+			return;
+		}
+		dispatch(passwordEmail({ email: input.email }));
+	};
+
 	return (
 		<div className="login">
 			<button className="login-close-btn" onClick={handleCloseLogin}>
@@ -149,7 +162,9 @@ export default function LoginModal({ handleCloseLogin, handleOpenSuscribe }) {
 							/>{' '}
 							<p>Recordarme</p>
 						</div>
-						<a href="">Olvidaste la contraseña?</a>
+						<button onClick={handleEmailPassword}>
+							Olvidaste la contraseña?
+						</button>
 					</div>
 					{userType === 'local' ? (
 						<Link to={`/dashboard?email=${actualUser.email}`}>

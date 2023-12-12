@@ -170,7 +170,9 @@ export function passwordEmail(payload) {
 			axios
 				.post('http://localhost:3000/save-password', payload)
 				.then((response) => {
-					console.log(response);
+					alert(
+						`Se ha enviado un email a ${payload.email} con los pasos a seguir `
+					);
 					return dispatch({
 						type: PASSWORD_EMAIL,
 						payload: response.data
@@ -184,14 +186,13 @@ export function passwordEmail(payload) {
 
 // funcion para cambiar la contraseña
 // el token llega por query con el nombre token
-// funcion(password, token)
-export function changePassword(payload) {
+
+export function changePassword(token, payload) {
 	return async function (dispatch) {
 		try {
 			axios
-				.put('http://localhost:3000/admin/confirmar-plan', payload)
+				.put(`http://localhost:3000/new-password?token=${token}`, payload)
 				.then((response) => {
-					console.log(payload);
 					return dispatch({
 						type: CHANGE_PASSWORD,
 						payload: response.data
@@ -385,7 +386,7 @@ export function validateAdmin() {
 }
 
 //funcion para validar el ingreso de un usuario no admin
-export function validateUser() {
+export function validateUser(email) {
 	return async function (dispatch) {
 		try {
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
@@ -394,7 +395,7 @@ export function validateUser() {
 				'x-token': token
 			};
 			axios
-				.get('http://localhost:3000/dashboard', { headers })
+				.get(`http://localhost:3000/dashboard?email=${email}`, { headers })
 				.then((response) => {
 					return dispatch({
 						type: VALIDATE_USER,
@@ -603,7 +604,7 @@ export function changePlan(payload) {
 }
 
 // Funcion para cancelar el plan
-export function cancelSuscription(payload) {
+export function cancelSuscription() {
 	return async function (dispatch) {
 		try {
 			const token = localStorage.getItem('token'); // Obtén el token almacenado en localStorage
@@ -612,7 +613,7 @@ export function cancelSuscription(payload) {
 				'x-token': token
 			};
 			axios
-				.get('http://localhost:3000/dashboard/cancelar', payload, {
+				.get('http://localhost:3000/dashboard/cancelar', {
 					headers
 				})
 				.then((response) => {

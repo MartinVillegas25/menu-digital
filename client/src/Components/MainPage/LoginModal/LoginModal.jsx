@@ -88,7 +88,7 @@ export default function LoginModal({ handleCloseLogin, handleOpenSuscribe }) {
 				dispatch(validateAdmin());
 			} else if (userType === 'local') {
 				localStorage.setItem('token', token);
-				dispatch(validateUser());
+				dispatch(validateUser(actualUser.email));
 			}
 		}
 	}, [token]);

@@ -89,7 +89,6 @@ export default function ClientHome() {
 	}, []);
 
 	const pedidos = useSelector((state) => state.pedidos.pedidos);
-	console.log(pedidos);
 
 	const handleDelete = (e) => {
 		e.preventDefault();

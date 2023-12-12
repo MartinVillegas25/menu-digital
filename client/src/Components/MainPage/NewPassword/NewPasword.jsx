@@ -1,19 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { createAdmin } from '../../../redux/actions';
+import { changePassword } from '../../../redux/actions';
 import swal from 'sweetalert';
+import { useLocation } from 'react-router-dom';
 
 export default function NewPassword() {
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const token = searchParams.get('token');
+
 	//Estado para verificar si el administrador tiene acceso
-	const newAdmin = useSelector((state) => state.newAdmin);
 
 	const [input, setInput] = useState({
-		name: '',
-		email: '',
-		password: '',
-		img: ''
+		password: ''
 	});
 
 	const [repeatPass, setRepeatPass] = useState('');
@@ -30,43 +31,30 @@ export default function NewPassword() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-		if (input.name.trim() === '') {
-			alert('Por favor complete su nombre');
-			return;
-		} else if (input.email.trim() === '') {
-			alert('Por favor ingrese su email');
-			return;
-		} else if (!emailRegex.test(input.email)) {
-			alert('Email no válido');
-			return;
-		} else if (input.password.trim() === '') {
+		if (input.password.trim() === '') {
 			alert('Ingrese una contraseña');
 			return;
 		} else if (input.password.trim() !== repeatPass) {
 			alert('Las contraseñas no coinciden');
 			return;
 		}
-
 		swal({
-			title: 'Crear admin',
-			text: '¿Está seguro de que desea crear este administrador?',
+			title: 'Cambio de contraseña',
+			text: '¿Está seguro de que cambiar la contraseña?',
 			icon: 'warning',
 			buttons: ['No', 'Sí']
 		}).then((respuesta) => {
 			if (respuesta) {
-				dispatch(createAdmin(input));
+				dispatch(changePassword(token, { password: input.password }));
 				swal({
-					text: 'Se ha creado un nuevo admin',
+					text: 'Se ha cambiado la contraseña',
 					icon: 'success'
 				}).then(() => {
-					// Mover history.push('/') aquí para que se ejecute después de swal
 					window.location.assign('/');
-					console.log('push');
 				});
 			} else {
-				swal({ text: 'No se ha creado el admin', icon: 'info' });
+				swal({ text: 'No se ha cambiado la contraseña', icon: 'info' });
 			}
 		});
 	};
@@ -76,12 +64,8 @@ export default function NewPassword() {
 			<div className="login-img-container"></div>
 			<div className="form-loginadmin">
 				<form action="">
-					<h2 className="h2-login">Crea un Administrador</h2>
-					{newAdmin?.msg === 'email existente' ? (
-						<h3>Usuario ya existente</h3>
-					) : (
-						<div></div>
-					)}
+					<h2 className="h2-login">Cambio de contraseña</h2>
+
 					<label htmlFor="">Password</label>
 					<input
 						type="password"
